@@ -1,0 +1,2 @@
+# Sakepedia-Nuxt3
+みんなでつくる日本酒オープンデータSakepediaのNuxt3版
