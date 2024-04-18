@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.2",
+    "firebase": "^10.10.0",
     "nuxt": "^3.11.1",
     "nuxt3-leaflet": "^1.0.12",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
   }
 }
