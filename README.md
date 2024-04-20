@@ -43,7 +43,7 @@ NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 
 ```bash
 docker-compose up -d
-docker compose run --rm firebase firebase login --no-localhost
+docker-compose run --rm firebase firebase login --no-localhost
 ```
 - エラーレポートの収集は任意
 - 出てきたURLにアクセス
