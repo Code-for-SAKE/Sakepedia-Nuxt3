@@ -11,7 +11,7 @@ yarn
 ## Firebase
 
 - new Project
-  - プロジェクト名:sakepedia-nuxt3
+  - プロジェクト名:任意 sakepedia-nuxt3
   - Spark
   - Firestore Database
     - default
@@ -32,6 +32,17 @@ NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NUXT_PUBLIC_FIREBASE_MESSAGEING_SENDER_ID=
 NUXT_PUBLIC_FIREBASE_APP_ID=
 NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
+```
+
+## .firebaserc
+
+.firebaserc
+```json
+{
+  "projects": {
+    "default": "<FirebaseのプロジェクトID>"
+  }
+}
 ```
 
 # build
