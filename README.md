@@ -23,6 +23,7 @@ yarn
 
 Firebaseのウェブアプリの`SDK の設定と構成`を参照
 
+front/.env
 ```.env
 NUXT_PUBLIC_FIREBASE_API_KEY=
 NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
@@ -59,6 +60,7 @@ docker-compose exec nuxt bash
 
 ### nuxtコンテナ
 ```bash
+yarn install
 yarn dev
 ```
 ### ブラウザ
