@@ -5,7 +5,7 @@ services:
     container_name: nuxt
     build: docker/nuxt
     volumes:
-      - ./front:/app:cached
+      - ./app:/app:cached
       - nuxt_node_modules:/app/node_modules
     ports:
       - "3000:3000"
