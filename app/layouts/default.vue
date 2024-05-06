@@ -2,7 +2,16 @@
 const route = useRoute();
 
 const navLinks = [
-  [],
+  [
+    {
+      label: "- みんなで作る日本酒オープンデータ",
+      avatar: {
+        src: '~/assets/image/sakepedia-yoko.png',
+        size: 'lg',
+      },
+      to: "/",
+    },
+  ],
   [
     {
       label: "日本酒",
@@ -20,8 +29,6 @@ const navLinks = [
       label: "投稿",
       to: "/comments",
     },
-  ],
-  [
     {
       label: "Profile",
       to: "/login",
@@ -54,21 +61,50 @@ const footerLinks = [
   ],
   [],
 ];
+
+const colorMode = useColorMode()
+colorMode.preference = 'light'
+
 </script>
 
 <template>
-  <div>
-    <UHorizontalNavigation :links="navLinks">
-      <template #default="{ link }">
-        <span class="group-hover:text-primary relative">{{ link.label }}</span>
-      </template>
-    </UHorizontalNavigation>
-    <slot />
-    <UHorizontalNavigation :links="footerLinks">
-      <template #default="{ link }">
-        <span class="group-hover:text-primary relative">{{ link.label }}</span>
-      </template>
-    </UHorizontalNavigation>
+  <div id="wrap">
+    <header id="header" class="">
+
+      <UHorizontalNavigation :links="navLinks">
+        <template #default="{ link }">
+          <span class="group-hover:text-primary relative">{{ link.label }}</span>
+        </template>
+      </UHorizontalNavigation>
+    </header>
+    <div id="container">
+      <slot></slot>
+    </div>
+    <footer id="footer" class="align-items-end text-center">
+      <UHorizontalNavigation :links="footerLinks">
+        <template #default="{ link }">
+          <span class="group-hover:text-primary relative">{{ link.label }}</span>
+        </template>
+      </UHorizontalNavigation>
+    </footer>
   </div>
 </template>
 
+<style scoped>
+#footer {
+  padding-top: 100px;
+  background-image: url('~/assets/image/sake-footer_bg.png');
+  background-repeat: repeat-x;
+  background-position: top;
+}
+
+#footer-content {
+  width: 100%;
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+#footer-content>* {
+  display: inline-block;
+}
+</style>
