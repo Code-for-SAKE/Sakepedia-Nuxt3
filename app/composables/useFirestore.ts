@@ -11,7 +11,7 @@ import {
     startAfter,
     limit,
 } from 'firebase/firestore'
-
+import { useFirebaseApp } from "~/composables/useFirebase";
 type Params = {
     searchText: string,
     limit: number,
@@ -22,14 +22,16 @@ type Results = {
     listCount: number,
 }
 
-const db = getFirestore();
 
 /**
  * Firestore へのアクセス
  */
 export const useFirestore = () => {
-
+    const app = useFirebaseApp()
     const getList = async (collectionName: string, params: Params) => {
+        console.log('collectionName', collectionName)
+        console.log('test')
+        const db = getFirestore(app);
         console.log('params.limit', params.limit)
         console.log('params.page', params.page)
         let ope: string = '>'
@@ -46,7 +48,11 @@ export const useFirestore = () => {
         console.log('lastVisible', lastVisible)
 
         const coll = collection(db, collectionName);
+        console.log('coll')
         const snapshot = await getCountFromServer(query(coll, where("name", ope, params.searchText)));
+
+        console.log('snapshot', snapshot)
+
         const listCount = snapshot.data().count
 
         const q = query(coll,
