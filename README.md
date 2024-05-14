@@ -80,3 +80,11 @@ http://localhost:3000/
 
 #### Firebaseエミュレータ
 http://localhost:4000/
+
+
+# deploy　
+### nuxtコンテナ
+```bash
+yarn build --preset=firebase
+npx firebase-tools deploy --project sakepedia-nuxt3
+```

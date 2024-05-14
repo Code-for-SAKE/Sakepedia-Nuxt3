@@ -18,6 +18,9 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7"
+    "@types/node": "^20.12.7",
+    "firebase-admin": "^12.1.0",
+    "firebase-functions": "^5.0.1",
+    "firebase-functions-test": "^3.2.0"
   }
 }

@@ -1,9 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
+  nitro: {
+    firebase: {
+      gen: 2
+    }
+  },
   typescript: {
     strict: true
   },
   runtimeConfig: {
+    isEmulating: true,
     public: {
       firebaseApiKey: '',
       firebaseAuthDomain: '',

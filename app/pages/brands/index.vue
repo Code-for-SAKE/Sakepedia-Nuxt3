@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useFirestore } from '~/composables/useFirestore'
-const { getList } = useFirestore()
 const route = useRoute();
+
+const { getList } = useFirestore()
 
 const searchText = route.query.name != null ? route.query.name : '';
 const limit = route.query.limit != null ? route.query.limit : 2;
