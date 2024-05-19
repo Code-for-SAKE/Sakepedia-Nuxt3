@@ -3,14 +3,6 @@ const route = useRoute();
 
 const navLinks = [
   [
-    {
-      label: "- みんなで作る日本酒オープンデータ",
-      avatar: {
-        src: '~/assets/image/sakepedia-yoko.png',
-        size: 'lg',
-      },
-      to: "/",
-    },
   ],
   [
     {
@@ -52,7 +44,7 @@ const footerLinks = [
     },
     {
       label: "API仕様",
-      to: "/api/api-docs/",
+      to: "/",
     },
     {
       label: "Sakepediaについて",
@@ -70,12 +62,27 @@ colorMode.preference = 'light'
 <template>
   <div id="wrap">
     <header id="header" class="">
-
-      <UHorizontalNavigation :links="navLinks">
+      <div class="flex">
+        <div class="flex-none w-40">
+          <NuxtLink to="/">
+            <img
+            height="50"
+            src="~/assets/image/sakepedia-yoko.png"
+            alt="Sakepedia"
+          />
+          </NuxtLink>
+        </div>
+        <div class="flex items-center">
+          - みんなで作る日本酒オープンデータ
+        </div>
+        <div class="flex-auto">
+          <UHorizontalNavigation :links="navLinks">
         <template #default="{ link }">
           <span class="group-hover:text-primary relative">{{ link.label }}</span>
         </template>
       </UHorizontalNavigation>
+        </div>
+      </div>
     </header>
     <div id="container">
       <slot></slot>
@@ -90,7 +97,7 @@ colorMode.preference = 'light'
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #footer {
   padding-top: 100px;
   background-image: url('~/assets/image/sake-footer_bg.png');

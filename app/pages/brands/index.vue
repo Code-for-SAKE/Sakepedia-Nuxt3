@@ -29,7 +29,7 @@ const columns = [{
   <div>
     <div class="flex justify-between">
       <h1>銘柄一覧</h1>
-      <UButton to="/brands/add">追加</UButton>
+      <UButton class="success" to="/brands/add">追加</UButton>
     </div>
     <hr />
     <div class="grid grid-cols-3">

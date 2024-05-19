@@ -17,14 +17,36 @@ const tabItems = [{
 <template>
   <div>
     <!-- <h1 class="text-3xl font-bold underline">Sakepedia Nuxt版</h1> -->
-    <UCard>
+    <UCard :ui="{
+      base: '',
+      background: 'bg-gray-100 dark:bg-gray-900',
+      divide: 'divide-y divide-gray-200 dark:divide-gray-800',
+      ring: 'ring-1 ring-gray-200 dark:ring-gray-800',
+      rounded: 'rounded-lg',
+      shadow: 'shadow',
+      body: {
+        base: '',
+        background: '',
+        padding: 'px-4 py-5 sm:p-6',
+      },
+      header: {
+        base: 'text-gray-50',
+        background: 'bg-primary-600',
+        padding: 'px-2 py-2 sm:px-6',
+      },
+      footer: {
+        base: '',
+        background: '',
+        padding: 'px-4 py-4 sm:px-6',
+      },
+    }">
       <template #header>
         酒蔵マップ
       </template>
 
       <UTabs :items="tabItems" orientation="vertical" :ui="{ wrapper: 'flex gap-4' }">
         <template #item="{ item }">
-          <div v-if="item.key === 'breweries-map'" class="space-y-3">
+          <div v-if="item.key === 'breweries-map'" class="primary">
             <div class="map-wrap">
               <BreweriesMap />
             </div>
@@ -36,25 +58,24 @@ const tabItems = [{
           </div>
         </template>
       </UTabs>
-      <template #footer>
-        <Placeholder class="h-8" />
-      </template>
     </UCard>
     <h2>登録状況</h2>
     <div class="grid grid-cols-3 gap-4">
-      <UCard>
+      <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           酒蔵数
         </template>
-        summary.brewery
+        <p id="summary-brewery" class="summary text-center">
+          summary.brewery
+        </p>
       </UCard>
-      <UCard>
-        <template #header>
+      <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
+        <template #header class="card-header">
           銘柄数
         </template>
         summary.brand
       </UCard>
-      <UCard>
+      <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           日本酒数
         </template>
@@ -62,13 +83,13 @@ const tabItems = [{
       </UCard>
     </div>
     <div class="grid grid-cols-2 gap-4">
-      <UCard>
+      <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           ユーザー数
         </template>
         summary.user
       </UCard>
-      <UCard>
+      <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           投稿数
         </template>
