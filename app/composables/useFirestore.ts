@@ -15,7 +15,7 @@ import { useFirebaseApp } from "~/composables/useFirebase";
 type Params = {
     searchText: string,
     limit: number,
-    page: number,
+    before: any,
 }
 type Results = {
     list: any,
@@ -33,32 +33,21 @@ export const useFirestore = () => {
         console.log('test')
         const db = getFirestore(app);
         console.log('params.limit', params.limit)
-        console.log('params.page', params.page)
-        let ope: string = '>'
-        if (params.searchText) {
-            ope = 'in'
-          }
+        console.log('params.before', params.before)
         if (typeof params.limit !== 'number' || params.limit < 0)
             throw new Error('express-paginate: `limit` is not a number >= 0');
 
-        if (Number.isNaN(params.page) || params.page < 0)
-            throw new Error('express-paginate: `page` is not a number >= 0');
-
-        const lastVisible: number = (params.page - 1) * params.limit
-        console.log('lastVisible', lastVisible)
-
         const coll = collection(db, collectionName);
         console.log('coll')
-        const snapshot = await getCountFromServer(query(coll, where("name", ope, params.searchText)));
+        const snapshot = await getCountFromServer(query(coll));
 
         console.log('snapshot', snapshot)
 
         const listCount = snapshot.data().count
 
         const q = query(coll,
-            where("name", ope, params.searchText),
             orderBy("name"),
-            startAfter(lastVisible),
+            startAfter(params.before),
             limit(params.limit))
 
         const querySnapshot = await getDocs(q)
