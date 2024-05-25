@@ -4,6 +4,7 @@ import {
     getDoc,
     setDoc,
     addDoc,
+    deleteDoc,
     doc,
     collection,
     query,
@@ -32,16 +33,11 @@ type Results = {
 export const useFirestore = () => {
     const app = useFirebaseApp()
     const getList = async (collectionName: string, params: Params) => {
-        console.log('collectionName', collectionName)
-        console.log('test')
         const db = getFirestore(app);
-        console.log('params.limit', params.limit)
-        console.log('params.before', params.before)
         if (typeof params.limit !== 'number' || params.limit < 0)
             throw new Error('express-paginate: `limit` is not a number >= 0');
 
         const coll = collection(db, collectionName);
-        console.log('coll')
         let snapshot;
         let q;
         if(params.searchText != "") {
@@ -59,14 +55,11 @@ export const useFirestore = () => {
                 limit(params.limit))
         }
 
-
-        console.log('snapshot', snapshot)
-
         const listCount = snapshot.data().count
 
         const querySnapshot = await getDocs(q)
         const list = querySnapshot.docs.map((doc: any) => {
-            return doc.data()
+            return doc
         })
         if (list.length) {
             return {
@@ -82,12 +75,13 @@ export const useFirestore = () => {
 
     const getItem = async (collectionName : string,id: string) => {
         const db = getFirestore(app);
-        return (await getDoc(doc(db, collectionName, id))).data();
+        const ref = await getDoc(doc(db, collectionName, id));
+        return ref;
     }
 
     const getReference = async (ref: DocumentReference) => {
         const doc = await getDoc(ref)
-        return doc.data()
+        return doc
     }
 
     const addItem = async (collectionName : string, params: any) => {
@@ -96,10 +90,22 @@ export const useFirestore = () => {
         return await addDoc(coll, params);
     }
 
+    const setItem = async (collectionName : string, id : string, params: any) => {
+        const db = getFirestore(app);
+        return await setDoc(doc(db, collectionName, id), params);
+    }
+
+    const deleteItem = async (collectionName : string, id : string) => {
+        const db = getFirestore(app);
+        return await deleteDoc(doc(db, collectionName, id));
+    }
+
     return {
         getList,
         getItem,
         getReference,
         addItem,
+        setItem,
+        deleteItem
     }
 }

@@ -15,7 +15,7 @@ const res = await getList('brands', {
   limit: limit,
 },
 );
-const brands : Ref<Brand[]> = ref<Brand[]>(res.list)
+const brands : Ref = ref(res.list)
 const cnt = computed(() => brands.value.length)
 const count : Ref<number> = ref<number>(res.listCount)
 
@@ -29,7 +29,7 @@ const getMoreData = async () => {
 
   const res = await getList('brands', {
     searchText: searchText,
-    before: brands.value[brands.value.length - 1].name,
+    before: brands.value[brands.value.length - 1].data().name,
     limit: limit,
   });
 
@@ -61,8 +61,8 @@ const getMoreData = async () => {
     </div>
     <UTable :rows="brands" :columns="columns" @select="">
       <template #name-data="{ row }">
-        <NuxtLink :to="'/brands/' + row._id">
-          <div class="w-full">{{ row.name }}</div>
+        <NuxtLink :to="'/brands/' + row.id">
+          <div class="w-full">{{ row.data().name }}</div>
         </NuxtLink>
       </template>
     </UTable>
