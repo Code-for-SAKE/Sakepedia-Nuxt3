@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { Brand } from '~/components/Brand';
+
 const route = useRoute();
 const { getList } = useFirestore();
 
-const searchText = route.query.name != null ? route.query.name : '';
-const limit = route.query.limit != null ? route.query.limit : 10;
+const searchText: string = route.query.name != null ? route.query.name : '';
+const limit = route.query.limit != null ? route.query.limit : 3;
+console.log('searchText', searchText)
 console.log('limit', limit)
 
 const res = await getList('brands', {
@@ -12,9 +15,9 @@ const res = await getList('brands', {
   limit: limit,
 },
 );
-const brands = ref(res.list)
+const brands : Ref<Brand[]> = ref<Brand[]>(res.list)
 const cnt = computed(() => brands.value.length)
-const count = ref(res.listCount)
+const count : Ref<number> = ref<number>(res.listCount)
 
 const columns = [{
   key: 'name',

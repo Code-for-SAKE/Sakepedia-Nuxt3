@@ -2,6 +2,7 @@ import {
     getFirestore,
     getCountFromServer,
     getDoc,
+    setDoc,
     doc,
     collection,
     query,
@@ -10,6 +11,7 @@ import {
     orderBy,
     startAfter,
     limit,
+    DocumentReference,
 } from 'firebase/firestore'
 import { useFirebaseApp } from "~/composables/useFirebase";
 type Params = {
@@ -39,16 +41,27 @@ export const useFirestore = () => {
 
         const coll = collection(db, collectionName);
         console.log('coll')
-        const snapshot = await getCountFromServer(query(coll));
+        let snapshot;
+        let q;
+        if(params.searchText != "") {
+            snapshot = await getCountFromServer(query(coll, where("name", "==", params.searchText)));
+            q = query(coll,
+                orderBy("name"),
+                where("name", "==", params.searchText),
+                startAfter(params.before),
+                limit(params.limit))
+        }else{
+            snapshot = await getCountFromServer(query(coll));
+            q = query(coll,
+                orderBy("name"),
+                startAfter(params.before),
+                limit(params.limit))
+        }
+
 
         console.log('snapshot', snapshot)
 
         const listCount = snapshot.data().count
-
-        const q = query(coll,
-            orderBy("name"),
-            startAfter(params.before),
-            limit(params.limit))
 
         const querySnapshot = await getDocs(q)
         const list = querySnapshot.docs.map((doc: any) => {
@@ -66,7 +79,25 @@ export const useFirestore = () => {
         } as Results
     }
 
+    const getItem = async (collectionName : string,id: string) => {
+        const db = getFirestore(app);
+        return (await getDoc(doc(db, collectionName, id))).data();
+    }
+
+    const getReference = async (ref: DocumentReference) => {
+        const doc = await getDoc(ref)
+        return doc.data()
+    }
+
+    const addItem = async (collectionName : string,id: string, params: any) => {
+        const db = getFirestore(app);
+        setDoc(doc(db, collectionName, id), params);
+    }
+
     return {
         getList,
+        getItem,
+        getReference,
+        addItem,
     }
 }
