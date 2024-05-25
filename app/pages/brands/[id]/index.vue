@@ -5,7 +5,9 @@ const route = useRoute();
 const { getItem, getReference } = useFirestore();
 
 const brand:Brand = await getItem("brands", route.params.id)
-const brewery = await getReference(brand.brewery)
+if (brand.brewery) {
+    const brewery = await getReference(brand.brewery)
+}
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const brewery = await getReference(brand.brewery)
             <dt>ID</dt><dd>{{ route.params.id }}</dd>
             <dt>名前</dt><dd>{{ brand.name }}</dd>
             <dt>酒蔵</dt><dd>
-                <NuxtLink :to="'/breweries/' + brewery._id">
+                <NuxtLink v-if="brand.brewery" :to="'/breweries/' + brewery._id">
                     <div class="w-full">{{ brewery.name }}</div>
                 </NuxtLink>
             </dd>

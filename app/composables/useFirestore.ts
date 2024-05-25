@@ -3,6 +3,7 @@ import {
     getCountFromServer,
     getDoc,
     setDoc,
+    addDoc,
     doc,
     collection,
     query,
@@ -89,9 +90,10 @@ export const useFirestore = () => {
         return doc.data()
     }
 
-    const addItem = async (collectionName : string,id: string, params: any) => {
+    const addItem = async (collectionName : string, params: any) => {
         const db = getFirestore(app);
-        setDoc(doc(db, collectionName, id), params);
+        const coll = collection(db, collectionName);
+        return await addDoc(coll, params);
     }
 
     return {
