@@ -2,13 +2,19 @@
 import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
-const { getItem, getFromReference } = useFirestore();
+const { getItem, getFromReference, deleteItem } = useFirestore();
 
 const item = await getItem("brands", route.params.id)
 const brand = item.data()
 let brewery = {}
 if (brand.brewery) {
     brewery = await getFromReference(brand.brewery)
+}
+
+const confirmDelete = ref(false)
+const deleteBrand = async function(){
+    await deleteItem("brands", item.id)
+    await navigateTo("/brands")
 }
 </script>
 
@@ -26,6 +32,15 @@ if (brand.brewery) {
             <dt>説明</dt><dd>{{ brand.description }}</dd>
         </dl>
         <UButton class="info" :to="'/brands/' + route.params.id + '/update'">編集</UButton>
-        <UButton class="danger" @click="">削除</UButton>
+        <UButton class="danger" @click="confirmDelete = true">削除</UButton>
+        <UModal v-model="confirmDelete">
+            <UCard>
+                <Alert>本当に削除しますか？</Alert>
+                <template #footer>
+                    <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
+                    <UButton class="danger" @click="deleteBrand">はい</UButton>
+                </template>
+            </UCard>
+        </UModal>
     </div>
 </template>
