@@ -17,7 +17,8 @@
     "nuxt3-leaflet": "^1.0.12",
     "sass": "^1.77.1",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
