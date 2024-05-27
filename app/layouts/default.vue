@@ -1,12 +1,13 @@
 <script setup lang="ts">
 const route = useRoute();
+const { t } = useI18n()
 
 const navLinks = [
   [
   ],
   [
     {
-      label: "日本酒",
+      label: t("sake"),
       to: "/sakes",
     },
     {
