@@ -2,13 +2,13 @@
 import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
-const { getItem, getReference } = useFirestore();
+const { getItem, getFromReference } = useFirestore();
 
 const item = await getItem("brands", route.params.id)
 const brand = item.data()
 let brewery = {}
 if (brand.brewery) {
-    brewery = await getReference(brand.brewery)
+    brewery = await getFromReference(brand.brewery)
 }
 </script>
 
