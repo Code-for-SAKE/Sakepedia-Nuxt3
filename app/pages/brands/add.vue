@@ -2,7 +2,8 @@
 import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
 
-const { addItem, getList, getReference } = useFirestore();
+const route = useRoute();
+const { addItem, getList, getReference, getItem } = useFirestore();
 
 const schema = object({
     name: string().required('名前は必須です'),
@@ -27,8 +28,16 @@ async function onChange() {
     state.brewery = await getReference("breweries", selected.value.id)
 }
 
+let searchText = ""
+if(route.query.brewery){
+    const brewery = await getItem("breweries", route.query.brewery)
+    state.brewery = await getReference("breweries", brewery.id)
+    searchText = brewery.data().name
+}
+
+
 const loading = ref(false)
-const selected = ref("")
+const selected = ref(searchText)
 
 async function search(q: string) {
     loading.value = true

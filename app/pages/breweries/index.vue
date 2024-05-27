@@ -1,5 +1,38 @@
+<script setup lang="ts">
+
+const route = useRoute();
+const { getList } = useFirestore()
+
+const searchText = route.query.name != null ? route.query.name : '';
+const limit = route.query.limit != null ? route.query.limit : 2;
+console.log('limit', limit)
+
+const res = await getList('breweries', {
+    searchText: searchText,
+    before: null,
+    limit: limit,
+});
+const breweries = res.list
+const count = res.listCount
+
+const columns = [{
+    key: 'name',
+    label: '',
+    sortable: false
+}]
+</script>
+
 <template>
     <div>
         <h1>酒蔵一覧</h1>
     </div>
+    <UButton @click="searchVector">検索</UButton>
+    <UTable :rows="breweries" :columns="columns" @select="">
+        <template #name-data="{ row }">
+            <NuxtLink :to="'/breweries/' + row.id">
+                <div class="w-full">{{ row.data().name }}</div>
+            </NuxtLink>
+        </template>
+    </UTable>
+
 </template>
