@@ -13,6 +13,7 @@
     "@nuxt/ui": "^2.14.2",
     "@nuxtjs/i18n": "^8.3.1",
     "firebase": "^10.10.0",
+    "leaflet.markercluster": "^1.5.3",
     "nuxt": "^3.11.1",
     "nuxt3-leaflet": "^1.0.12",
     "sass": "^1.77.1",
@@ -21,6 +22,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/leaflet.markercluster": "^1.5.4",
     "@types/node": "^20.12.7",
     "firebase-admin": "^12.1.0",
     "firebase-functions": "^5.0.1",
