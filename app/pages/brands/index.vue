@@ -4,20 +4,25 @@ import type { Brand } from '~/components/Brand';
 const route = useRoute();
 const { getList } = useFirestore();
 
-const searchText: string = route.query.name != null ? route.query.name : '';
+const searchText = ref<string>(route.query.name != null ? route.query.name : '')
 const limit = route.query.limit != null ? route.query.limit : 3;
-console.log('searchText', searchText)
-console.log('limit', limit)
-
-const res = await getList('brands', {
-  searchText: searchText,
-  before: null,
-  limit: limit,
-},
-);
-const brands : Ref = ref(res.list)
+const brands : Ref = ref([])
+const count : Ref<number> = ref<number>(0)
 const cnt = computed(() => brands.value.length)
-const count : Ref<number> = ref<number>(res.listCount)
+
+const search = async () => {
+  console.log(searchText)
+  const res = await getList('brands', {
+    searchText: searchText.value,
+    before: null,
+    limit: limit,
+  });
+  brands.value = res.list
+  count.value = res.listCount
+  return res
+}
+
+search()
 
 const columns = [{
   key: 'name',
@@ -26,15 +31,12 @@ const columns = [{
 }]
 
 const getMoreData = async () => {
-
   const res = await getList('brands', {
-    searchText: searchText,
+    searchText: searchText.value,
     before: brands.value[brands.value.length - 1].data().name,
     limit: limit,
   });
-
   brands.value.splice(brands.value.length, 0, ...res.list);
-
 }
 </script>
 
@@ -50,10 +52,11 @@ const getMoreData = async () => {
         <UInput v-model="searchText" name="q" placeholder="Search..." icon="i-heroicons-magnifying-glass-20-solid"
           autocomplete="off" :ui="{ icon: { trailing: { pointer: '' } } }">
           <template #trailing>
-            <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
-            @click="searchText = ''" /> -->
+            <UButton color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
+            @click="searchText = ''" />
           </template>
         </UInput>
+        <UButton @click="search">検索</UButton>
       </div>
     </div>
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
