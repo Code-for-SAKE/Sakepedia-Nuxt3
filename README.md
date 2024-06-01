@@ -88,3 +88,27 @@ http://localhost:4000/
 yarn build --preset=firebase
 npx firebase-tools deploy --project sakepedia-nuxt3
 ```
+
+# Linter
+
+ESLint を使用しています
+
+## VSCode の設定
+
+1. ESLint 用の拡張機能を追加します
+1. `.vscode/settings.json` に以下の項目を追記します
+
+```json
+"eslint.experimental.useFlatConfig": true,
+"eslint.workingDirectories": [
+    "./app"
+]
+```
+
+# Formatter
+
+Prettier を使用しています
+
+## VSCode の設定
+
+1. Prettier 用の拡張機能を追加します
