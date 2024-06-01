@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', 'nuxt3-leaflet', "@nuxtjs/i18n"],
+  modules: ['@nuxt/ui', 'nuxt3-leaflet', "@nuxtjs/i18n", "@nuxt/eslint"],
   /*
     ** nuxt-tailwindcss config
     */
@@ -45,5 +45,5 @@ export default defineNuxtConfig({
     defaultLocale: 'ja',
     strategy: "prefix_and_default",
     vueI18n: './i18n.config.ts',
-  }
+  },
 })

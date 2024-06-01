@@ -133,3 +133,5 @@ dist
 # Firebase
 docker/firebase/bin/*
 docker/firebase/config/*
+
+.vscode/settings.json
