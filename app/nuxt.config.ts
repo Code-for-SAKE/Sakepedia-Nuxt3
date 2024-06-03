@@ -46,4 +46,6 @@ export default defineNuxtConfig({
     strategy: "prefix_and_default",
     vueI18n: "./i18n.config.ts",
   },
+  site: { indexable: false }, // 本番公開時には設定を変更する
+  ogImage: { enabled: false },
 })
