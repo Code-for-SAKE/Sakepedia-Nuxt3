@@ -20,17 +20,24 @@ const columns = [{
     label: '',
     sortable: false
 }]
+
+const selectedPrefecture = ref(prefectures[0])
+
 </script>
 
 <template>
     <div>
         <h1>酒蔵一覧</h1>
     </div>
+    <UInputMenu v-model="selectedPrefecture" :options="prefectures" />
     <UButton @click="searchVector">検索</UButton>
     <UTable :rows="breweries" :columns="columns" @select="">
         <template #name-data="{ row }">
             <NuxtLink :to="'/breweries/' + row.id">
-                <div class="w-full">{{ row.data().name }}</div>
+                <div class="w-full">
+                    <span>{{ row.data().name }}</span>
+                    <span>{{ prefectures[row.data().prefecture] }}</span>
+                </div>
             </NuxtLink>
         </template>
     </UTable>
