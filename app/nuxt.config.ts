@@ -3,31 +3,31 @@ export default defineNuxtConfig({
   ssr: false,
   nitro: {
     firebase: {
-      gen: 2
-    }
+      gen: 2,
+    },
   },
   typescript: {
-    strict: true
+    strict: true,
   },
   runtimeConfig: {
     isEmulating: true,
     public: {
-      firebaseApiKey: '',
-      firebaseAuthDomain: '',
-      firebaseProjectId: '',
-      firebaseStorageBucket: '',
-      firebaseMessagingSenderId: '',
-      firebaseAppId: '',
-      firebaseMeasurementId: '',
-    }
+      firebaseApiKey: "",
+      firebaseAuthDomain: "",
+      firebaseProjectId: "",
+      firebaseStorageBucket: "",
+      firebaseMessagingSenderId: "",
+      firebaseAppId: "",
+      firebaseMeasurementId: "",
+    },
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', 'nuxt3-leaflet', "@nuxtjs/i18n", "@nuxt/eslint"],
+  modules: ["@nuxt/ui", "nuxt3-leaflet", "@nuxtjs/i18n", "@nuxt/eslint", "@nuxtjs/seo"],
   /*
-    ** nuxt-tailwindcss config
-    */
+   ** nuxt-tailwindcss config
+   */
   tailwindcss: {
-    configPath: 'tailwind.config.js',
+    configPath: "tailwind.config.js",
     exposeConfig: false,
     config: {},
   },
@@ -35,15 +35,15 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "~/assets/style/app.scss" as *;'
-        }
-      }
-    }
+          additionalData: '@use "~/assets/style/app.scss" as *;',
+        },
+      },
+    },
   },
   i18n: {
-    locales: ['ja', 'en'],
-    defaultLocale: 'ja',
+    locales: ["ja", "en"],
+    defaultLocale: "ja",
     strategy: "prefix_and_default",
-    vueI18n: './i18n.config.ts',
+    vueI18n: "./i18n.config.ts",
   },
 })
