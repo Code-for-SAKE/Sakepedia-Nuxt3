@@ -47,6 +47,9 @@ export default defineNuxtConfig({
     vueI18n: "./i18n.config.ts",
   },
   site: {
+    // url: "", // 公開URLを記述する
+    name: "Sakepedia Nuxt3",
+    description: "みんなで作る日本酒オープンデータ",
     indexable: false, // 本番公開時には設定を変更する
   },
   ogImage: { enabled: false },
