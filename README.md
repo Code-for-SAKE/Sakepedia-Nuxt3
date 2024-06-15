@@ -112,3 +112,22 @@ Prettier を使用しています
 ## VSCode の設定
 
 1. Prettier 用の拡張機能を追加します
+
+# データ インポート/エクスポート
+
+## ローカルemulatorのエクスポート
+
+```
+rm -rf /opt/data/bkp
+firebase emulators:export /opt/data/bkp
+```
+
+# firestore インポート
+## firestoreでstorageにエクスポート
+## gcloudでローカルにダウンロード
+
+```
+rm -rf /opt/data/bkp
+gcloud storage cp -r "gs://sakepedia-data/2024-06-12T10:56:22_57740" /opt/data
+mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
+```
