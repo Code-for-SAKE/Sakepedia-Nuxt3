@@ -61,9 +61,9 @@ colorMode.preference = 'light'
 </script>
 
 <template>
-  <div id="wrap">
+  <div id="wrap" class="m-4">
     <header id="header" class="">
-      <div class="flex">
+      <div class="flex flex-wrap">
         <div class="flex-none w-40">
           <NuxtLink to="/">
             <img
