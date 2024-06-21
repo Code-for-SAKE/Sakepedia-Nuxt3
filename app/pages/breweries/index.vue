@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 const route = useRoute();
-const { getList } = useFirestore()
+const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? route.query.name : '');
 const prefecture = ref(route.query.prefecture != null ? route.query.prefecture : '');
 const limit = route.query.limit ? route.query.limit : 2;
 
-const res = await getList('breweries', {
+const res = await getList({
         searchText: searchText.value,
         prefecture: prefecture.value,
         before: null,
@@ -24,7 +24,7 @@ const columns = [{
 }]
 
 async function searchVector() {
-    const res = await getList('breweries', {
+    const res = await getList({
         searchText: searchText.value,
         prefecture: prefecture.value,
         before: null,
