@@ -23,7 +23,6 @@ const {
 
 type Params = {
     searchText: string,
-    prefecture: number,
     limit: number,
     before: any,
 }
@@ -32,12 +31,12 @@ type Results = {
     listCount: number,
 }
 
-const collectionName: string = 'breweries'
+const collectionName: string = 'brands'
 
 /**
  * Firestore へのアクセス
  */
-export const useBrewery = () => {
+export const useBrand = () => {
     const app = useFirebaseApp()
 
     const getList = async (params: Params) => {
@@ -57,11 +56,6 @@ export const useBrewery = () => {
             q = query(q, where("name", "==", params.searchText));
             // snapshot = await getCountFromServer(query(coll, q));
         }
-        if(params.prefecture != 0) {
-            q = query(q, where("prefecture", "==", params.prefecture));
-            // snapshot = await getCountFromServer(query(coll, q));
-        }
-
         const { list, listCount } = await getListFirestore(q);
 
         if (list.length) {

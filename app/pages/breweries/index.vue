@@ -4,12 +4,13 @@ const route = useRoute();
 const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? route.query.name : '');
-const prefecture = ref(route.query.prefecture != null ? route.query.prefecture : '');
+const prefecture = ref({});
+const prefectureId = route.query.prefecture != null ? route.query.prefecture : '';
 const limit = route.query.limit ? route.query.limit : 2;
 
 const res = await getList({
         searchText: searchText.value,
-        prefecture: prefecture.value,
+        prefecture: prefectureId,
         before: null,
         limit: parseInt(limit),
     });
@@ -26,7 +27,7 @@ const columns = [{
 async function searchVector() {
     const res = await getList({
         searchText: searchText.value,
-        prefecture: prefecture.value,
+        prefecture: prefecture.value.id,
         before: null,
         limit: parseInt(limit),
     });
@@ -34,7 +35,9 @@ async function searchVector() {
 }
 function setHistories() {
     const url = window.location.href.replace(/\?.*$/, '');
-    const queries = `?name=${searchText.value}&prefecture=${prefecture.value}&limit=${limit}`;
+    console.log('prefecture', prefecture)
+    console.log('prefecture id', prefecture.value.id)
+    const queries = `?name=${searchText.value}&prefecture=${prefecture.value.id}&limit=${limit}`;
     window.history.pushState(null, '', `${url}${queries}`);
 }
 </script>
@@ -52,6 +55,8 @@ function setHistories() {
                         class="flex items-center bg-gray-200 rounded rounded-r-none border border-r-0 px-3 text-sm">都道府県</span>
                 </div>
                 <UInputMenu id="prefecture" v-model="prefecture" :options="prefectures"
+                    by="id"
+                    option-attribute="nameJa"
                     class="rounded-l-none" />
             </div>
             <div class="flex-auto">
@@ -72,7 +77,7 @@ function setHistories() {
                 <NuxtLink :to="'/breweries/' + row.id">
                     <div class="w-full">
                         <span>{{ row.data().name }}</span>
-                        <span>{{ prefectures[row.data().prefecture] }}</span>
+                        <span>{{ row.data().prefecture ? prefectures.find(e => e.id === row.data().prefecture).nameJa : "" }}</span>
                     </div>
                 </NuxtLink>
             </template>
