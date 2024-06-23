@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
 const { getList } = useBrand();
 
-const searchText: string = route.query.name != null ? route.query.name : '';
-const limit = route.query.limit != null ? route.query.limit : 3;
+const searchText: string = route.query.name != null ? String(route.query.name) : '';
+const limit = route.query.limit != null ? Number(route.query.limit) : 3;
 console.log('searchText', searchText)
 console.log('limit', limit)
 
 const res = await getList({
         searchText: searchText,
-        before: null,
-        limit: parseInt(limit),
+        before: undefined,
+        limit: limit,
     });
 
+console.log(res);
 const brands : Ref = ref(res.list)
 const cnt = computed(() => brands.value.length)
 const count : Ref<number> = ref<number>(res.listCount)
@@ -29,9 +29,9 @@ const getMoreData = async () => {
 
   const res = await getList({
     searchText: searchText,
-    before: brands.value[brands.value.length - 1].data().name,
+    before: brands.value[brands.value.length - 1].name,
     limit: limit,
-  }, true);
+  });
 
   brands.value.splice(brands.value.length, 0, ...res.list);
 
@@ -62,7 +62,7 @@ const getMoreData = async () => {
     <UTable :rows="brands" :columns="columns" @select="">
       <template #name-data="{ row }">
         <NuxtLink :to="'/brands/' + row.id">
-          <div class="w-full">{{ row.data().name }}</div>
+          <div class="w-full">{{ row.name }}</div>
         </NuxtLink>
       </template>
     </UTable>

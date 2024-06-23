@@ -1,3 +1,8 @@
+import type {
+    DocumentData,
+    DocumentReference,
+    Query,
+    QueryDocumentSnapshot} from 'firebase/firestore';
 import {
     getFirestore,
     getCountFromServer,
@@ -7,25 +12,24 @@ import {
     deleteDoc,
     doc,
     collection,
-    collectionGroup,
     query,
-    where,
     getDocs,
-    orderBy,
-    startAfter,
     limit,
-    DocumentReference,
+    startAfter,
 } from 'firebase/firestore'
 import { useFirebaseApp } from "~/composables/useFirebase";
-type Params = {
-    searchText: string,
+export type Params<T> = {
+    query: Query,
     limit: number,
-    before: any,
+    before: T | undefined,
+    converter: Converter<T>,
 }
-type Results = {
-    list: any,
+export type Results<T> = {
+    list: T[],
     listCount: number,
 }
+
+export type Converter<T> = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) => T
 
 
 /**
@@ -33,22 +37,36 @@ type Results = {
  */
 export const useFirestore = () => {
     const app = useFirebaseApp()
-    const getList = async (q: query) => {
+    const db = getFirestore(app);
+
+    const getList = async <T>(params:Params<T>) => {
+        let q = params.query;
+        const listSnapshot = await getCountFromServer(q);
+        if(params.before) {
+            q = query(q, startAfter(params.before));
+        }
+        q = query(q, limit(params.limit));
         const querySnapshot = await getDocs(q)
-        const list = []
-        querySnapshot.forEach((doc: any) => {
-            list.push(doc)
+        const listCount = listSnapshot.data().count
+        console.log("listCount", listCount)
+
+        const list: T[] = []
+        querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+            list.push(params.converter(doc))
         })
+        console.log("list.length", list.length)
+
+
         if (list.length) {
             return {
                 list: list,
-                listCount: list.length,
-            } as Results
+                listCount: listCount,
+            } as Results<T>
         }
         return {
             list: [],
-            listCount: 0,
-        } as Results
+            listCount: listCount,
+        } as Results<T>
     }
 
     const getItem = async (collectionName : string,id: string) => {
@@ -80,6 +98,7 @@ export const useFirestore = () => {
 
 
     return {
+        db,
         getList,
         getItem,
         getReference,

@@ -8,10 +8,13 @@ import {
     startAfter,
     limit,
     DocumentReference,
+    QueryDocumentSnapshot,
+    type DocumentData,
 } from 'firebase/firestore'
 import { useFirebaseApp } from "~/composables/useFirebase";
 
 const {
+    db,
     getList: getListFirestore,
     getItem: getItemFirestore,
     getReference: getReferenceFirestore,
@@ -21,37 +24,44 @@ const {
     deleteItem: deleteItemFirestore
 } = useFirestore();
 
-type Params = {
+const collectionName: string = 'breweries'
+
+type Brewery = {
+    id: string,
+    name: string,
+    prefecture: number
+}
+
+export type Params = {
     searchText: string,
     prefecture: number,
     limit: number,
     before: any,
 }
-type Results = {
-    list: any,
-    listCount: number,
-}
 
-const collectionName: string = 'breweries'
 
 /**
  * Firestore へのアクセス
  */
 export const useBrewery = () => {
-    const app = useFirebaseApp()
+
+    const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) : Brewery => {
+        return {
+            id: snapshot.id,
+            name: snapshot.data().name,
+            prefecture: snapshot.data().prefecture
+        }
+    }
 
     const getList = async (params: Params) => {
         console.log('params', params)
-        const db = getFirestore(app);
         if (typeof params.limit !== 'number' || params.limit < 0)
             throw new Error('express-paginate: `limit` is not a number >= 0');
 
         const coll = collection(db, collectionName);
         // let snapshot;
         let q = query(coll,
-                orderBy("name"),
-                startAfter(params.before),
-                limit(params.limit));
+                orderBy("name"));
         // snapshot = await getCountFromServer(query(coll));
         if(params.searchText != "") {
             q = query(q, where("name", "==", params.searchText));
@@ -62,18 +72,7 @@ export const useBrewery = () => {
             // snapshot = await getCountFromServer(query(coll, q));
         }
 
-        const { list, listCount } = await getListFirestore(q);
-
-        if (list.length) {
-            return {
-                list: list,
-                listCount: listCount,
-            } as Results
-        }
-        return {
-            list: ['null'],
-            listCount: 0,
-        } as Results
+        return await getListFirestore<Brewery>({query: q, limit: params.limit, before: params.before, converter});
     }
 
     const getItem = async (id: string) => {
