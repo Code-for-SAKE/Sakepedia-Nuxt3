@@ -13,8 +13,7 @@ const res = await getList('brands', {
   searchText: searchText,
   before: null,
   limit: limit,
-},
-);
+}, true);
 const brands : Ref = ref(res.list)
 const cnt = computed(() => brands.value.length)
 const count : Ref<number> = ref<number>(res.listCount)
@@ -31,7 +30,7 @@ const getMoreData = async () => {
     searchText: searchText,
     before: brands.value[brands.value.length - 1].data().name,
     limit: limit,
-  });
+  }, true);
 
   brands.value.splice(brands.value.length, 0, ...res.list);
 

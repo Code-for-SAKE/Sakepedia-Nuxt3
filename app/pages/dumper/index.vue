@@ -11,7 +11,7 @@
 <script setup>
 import { GeoPoint, getDoc, collection } from 'firebase/firestore';
 
-const { addItem, getReference } = useFirestore()
+const { setItem } = useFirestore()
 
 const BASE_URL = "/data/";
 const HEADERS = {
@@ -34,7 +34,7 @@ const fetch_brewery = async () => {
             b.location = new GeoPoint(b.latitude, b.longitude)
             const id = bre._id["$oid"]
             delete b._id
-            addItem("breweries", b, id);
+            setItem("breweries", b, id);
             await sleep(100);
         }catch(e){
             console.log(text, e)
