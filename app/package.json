@@ -14,27 +14,27 @@
     "prettier:write": "prettier ./**/*.{vue,js,ts} --write"
   },
   "dependencies": {
-    "@nuxt/ui": "^2.14.2",
+    "@nuxt/ui": "^2.17.0",
     "@nuxtjs/i18n": "^8.3.1",
     "@nuxtjs/seo": "^2.0.0-rc.10",
-    "firebase": "^10.10.0",
+    "firebase": "^10.12.2",
     "leaflet.markercluster": "^1.5.3",
-    "nuxt": "^3.11.1",
-    "nuxt3-leaflet": "^1.0.12",
-    "sass": "^1.77.1",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
+    "nuxt": "^3.12.2",
+    "nuxt3-leaflet": "^1.0.13",
+    "sass": "^1.77.5",
+    "vue": "^3.4.29",
+    "vue-router": "^4.3.3",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.3.13",
     "@types/leaflet.markercluster": "^1.5.4",
-    "@types/node": "^20.12.7",
-    "eslint": "^9.3.0",
-    "firebase-admin": "^12.1.0",
+    "@types/node": "^20.14.2",
+    "eslint": "^9.5.0",
+    "firebase-admin": "^12.1.1",
     "firebase-functions": "^5.0.1",
-    "firebase-functions-test": "^3.2.0",
-    "prettier": "3.2.5",
+    "firebase-functions-test": "^3.3.0",
+    "prettier": "3.3.2",
     "typescript": "^5.4.5"
   }
 }

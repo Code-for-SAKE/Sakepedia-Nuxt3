@@ -33,32 +33,7 @@ type Results = {
  */
 export const useFirestore = () => {
     const app = useFirebaseApp()
-    const db = getFirestore(app);
-
-    const getList = async (collectionName: string, params: Params, isSub: boolean = false) => {
-        if (typeof params.limit !== 'number' || params.limit < 0)
-            throw new Error('express-paginate: `limit` is not a number >= 0');
-
-        const coll = isSub ? collectionGroup(db, collectionName) : collection(db, collectionName);
-        let snapshot;
-        let q;
-        if(params.searchText != "") {
-            snapshot = await getCountFromServer(query(coll, where("name", "==", params.searchText)));
-            q = query(coll,
-                orderBy("name"),
-                where("name", "==", params.searchText),
-                startAfter(params.before),
-                limit(params.limit))
-        }else{
-            snapshot = await getCountFromServer(query(coll));
-            q = query(coll,
-                orderBy("name"),
-                startAfter(params.before),
-                limit(params.limit))
-        }
-
-        const listCount = snapshot.data().count
-
+    const getList = async (q: query) => {
         const querySnapshot = await getDocs(q)
         const list = []
         querySnapshot.forEach((doc: any) => {
@@ -67,7 +42,7 @@ export const useFirestore = () => {
         if (list.length) {
             return {
                 list: list,
-                listCount: listCount,
+                listCount: list.length,
             } as Results
         }
         return {
