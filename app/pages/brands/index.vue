@@ -2,19 +2,19 @@
 import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
-const { getList } = useFirestore();
+const { getList } = useBrand();
 
 const searchText: string = route.query.name != null ? route.query.name : '';
 const limit = route.query.limit != null ? route.query.limit : 3;
 console.log('searchText', searchText)
 console.log('limit', limit)
 
-const res = await getList('brands', {
-  searchText: searchText,
-  before: null,
-  limit: limit,
-},
-);
+const res = await getList({
+        searchText: searchText,
+        before: null,
+        limit: parseInt(limit),
+    });
+
 const brands : Ref = ref(res.list)
 const cnt = computed(() => brands.value.length)
 const count : Ref<number> = ref<number>(res.listCount)
@@ -27,7 +27,7 @@ const columns = [{
 
 const getMoreData = async () => {
 
-  const res = await getList('brands', {
+  const res = await getList({
     searchText: searchText,
     before: brands.value[brands.value.length - 1].data().name,
     limit: limit,

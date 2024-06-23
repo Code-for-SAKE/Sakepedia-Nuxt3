@@ -19,7 +19,6 @@ export const useFirebaseApp = (): FirebaseApp => {
     };
     let app: FirebaseApp;
     if (!getApps().length) {
-        console.log("initializeApp")
         app = initializeApp(firebaseConfig);
         const isEmulating = config.isEmulating ?? window.location.hostname == 'localhost';
         if (isEmulating) {
