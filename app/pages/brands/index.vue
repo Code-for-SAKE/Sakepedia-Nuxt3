@@ -31,7 +31,7 @@ const getMoreData = async () => {
     searchText: searchText,
     before: brands.value[brands.value.length - 1].data().name,
     limit: limit,
-  });
+  }, true);
 
   brands.value.splice(brands.value.length, 0, ...res.list);
 

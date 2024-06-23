@@ -27,6 +27,7 @@ services:
       - ./firestore.rules:/opt/firebase/firestore.rules
       - ./docker/firebase/bin/:/root/.cache:cached
       - ./docker/firebase/config/:/root/.config:cached
+      - ./docker/firebase/data/:/opt/data
       - ./functions:/opt/firebase/functions
       - ./extensions:/opt/firebase/extensions
     ports:
@@ -36,6 +37,6 @@ services:
       - 9199:9199 # Cloud Storage
       - 4000:4000 # Emulator Suite UI
     working_dir: /opt/firebase
-    command: firebase emulators:start
+    command: firebase emulators:start --import=/opt/data/bkp
 volumes:
   nuxt_node_modules:
