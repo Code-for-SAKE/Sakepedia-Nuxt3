@@ -29,7 +29,11 @@ const collectionName: string = 'breweries'
 type Brewery = {
     id: string,
     name: string,
-    prefecture: number
+    prefecture: number,
+    location: {
+        latitude: number,
+        longitude: number
+    }
 }
 
 export type Params = {
@@ -49,7 +53,8 @@ export const useBrewery = () => {
         return {
             id: snapshot.id,
             name: snapshot.data().name,
-            prefecture: snapshot.data().prefecture
+            prefecture: snapshot.data().prefecture,
+            location: snapshot.data().location,
         }
     }
 
