@@ -1,3 +1,8 @@
+import type {
+    DocumentData,
+    DocumentReference,
+    Query,
+    QueryDocumentSnapshot} from 'firebase/firestore';
 import {
     getFirestore,
     getCountFromServer,
@@ -8,23 +13,23 @@ import {
     doc,
     collection,
     query,
-    where,
     getDocs,
-    orderBy,
-    startAfter,
     limit,
-    DocumentReference,
+    startAfter,
 } from 'firebase/firestore'
 import { useFirebaseApp } from "~/composables/useFirebase";
-type Params = {
-    searchText: string,
+export type Params<T> = {
+    query: Query,
     limit: number,
-    before: any,
+    before: T | undefined,
+    converter: Converter<T>,
 }
-type Results = {
-    list: any,
+export type Results<T> = {
+    list: T[],
     listCount: number,
 }
+
+export type Converter<T> = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) => T
 
 
 /**
@@ -32,63 +37,74 @@ type Results = {
  */
 export const useFirestore = () => {
     const app = useFirebaseApp()
-    const getList = async (q: query) => {
+    const db = getFirestore(app);
+
+    const getList = async <T>(params:Params<T>) => {
+        let q = params.query;
+        const listSnapshot = await getCountFromServer(q);
+        if(params.before) {
+            q = query(q, startAfter(params.before));
+        }
+        q = query(q, limit(params.limit));
         const querySnapshot = await getDocs(q)
-        const list = querySnapshot.docs.map((doc: any) => {
-            return doc
+        const listCount = listSnapshot.data().count
+        console.log("listCount", listCount)
+
+        const list: T[] = []
+        querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+            list.push(params.converter(doc))
         })
+        console.log("list.length", list.length)
+
+
         if (list.length) {
             return {
                 list: list,
-                listCount: list.length,
-            } as Results
+                listCount: listCount,
+            } as Results<T>
         }
         return {
-            list: ['null'],
-            listCount: 0,
-        } as Results
+            list: [],
+            listCount: listCount,
+        } as Results<T>
     }
 
     const getItem = async (collectionName : string,id: string) => {
-        const db = getFirestore(app);
         const snapshot = await getDoc(doc(db, collectionName, id));
         return snapshot;
     }
 
     const getReference = async (collectionName : string,id: string) => {
-        const db = getFirestore(app);
         const ref = doc(db, collectionName, id);
         return ref;
     }
 
     const getFromReference = async (ref: DocumentReference) => {
-        const doc = await getDoc(ref)
         return doc
     }
 
     const addItem = async (collectionName : string, params: any) => {
-        const db = getFirestore(app);
         const coll = collection(db, collectionName);
         return await addDoc(coll, params);
     }
 
     const setItem = async (collectionName : string, id : string, params: any) => {
-        const db = getFirestore(app);
         return await setDoc(doc(db, collectionName, id), params);
     }
 
     const deleteItem = async (collectionName : string, id : string) => {
-        const db = getFirestore(app);
         return await deleteDoc(doc(db, collectionName, id));
     }
 
+
     return {
+        db,
         getList,
         getItem,
         getReference,
         getFromReference,
         addItem,
         setItem,
-        deleteItem
+        deleteItem,
     }
 }

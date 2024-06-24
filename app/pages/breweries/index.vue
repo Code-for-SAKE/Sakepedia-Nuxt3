@@ -3,20 +3,21 @@
 const route = useRoute();
 const { getList } = useBrewery()
 
-const searchText = ref(route.query.name != null ? route.query.name : '');
+const searchText = ref(route.query.name != null ? String(route.query.name) : '');
 const prefecture = ref({});
-const prefectureId = route.query.prefecture != null ? route.query.prefecture : '';
-const limit = route.query.limit ? route.query.limit : 2;
+const prefectureId = route.query.prefecture != null ? Number(route.query.prefecture) : 0;
+const limit = route.query.limit ? Number(route.query.limit) : 2;
 
 const res = await getList({
         searchText: searchText.value,
         prefecture: prefectureId,
         before: null,
-        limit: parseInt(limit),
+        limit: limit,
     });
 
 const breweries : Ref = ref(res.list)
 const cnt = computed(() => breweries.value.length)
+const count : Ref<number> = ref<number>(res.listCount)
 
 const columns = [{
     key: 'name',
@@ -29,7 +30,7 @@ async function searchVector() {
         searchText: searchText.value,
         prefecture: prefecture.value.id,
         before: null,
-        limit: parseInt(limit),
+        limit: limit,
     });
     breweries.value = res.list;
 }
@@ -71,13 +72,15 @@ function setHistories() {
                 </UInput>
             </div>
         </div>
-        <hr class="mb-4" />
+        <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+            {{ cnt }} / {{ count }}件
+        </div>
         <UTable :rows="breweries" :columns="columns" @select="" class="border border-t-0" :ui="{ thead: 'hidden' }">
             <template #name-data="{ row }">
                 <NuxtLink :to="'/breweries/' + row.id">
                     <div class="w-full">
-                        <span>{{ row.data().name }}</span>
-                        <span>{{ row.data().prefecture ? prefectures.find(e => e.id === row.data().prefecture).nameJa : "" }}</span>
+                        <span>{{ row.name }}</span>
+                        <span>{{ row.prefecture ? prefectures.find(e => e.id === row.prefecture).nameJa : "" }}</span>
                     </div>
                 </NuxtLink>
             </template>

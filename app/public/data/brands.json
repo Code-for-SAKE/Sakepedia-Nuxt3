@@ -1,0 +1,15 @@
+{"_id":{"$oid":"60638ea5a5c0139ca764753e"},"name":"雪の茅舎","brewery":{"$oid":"60638e8e8d83689315fb5d7d"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea6a5c0139ca76476c2"},"name":"残草蓬萊","brewery":{"$oid":"60638e8e8d83689315fb5bac"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647491"},"name":"おのらの酒","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647492"},"name":"北の微笑","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647493"},"name":"きらら397","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647494"},"name":"金滴","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647495"},"name":"雫の浪漫","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647496"},"name":"瑞鳳","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647497"},"name":"杜氏の夢呑","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647498"},"name":"徳富","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca7647499"},"name":"冬凪","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca764749a"},"name":"微笑一献","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca764749b"},"name":"雪だるま","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca764749c"},"name":"夢きらら","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
+{"_id":{"$oid":"60638ea4a5c0139ca764749d"},"name":"夢滴","brewery":{"$oid":"60638e8d8d83689315fb59b4"},"logo":null,"description":null,"author":null}
