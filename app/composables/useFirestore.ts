@@ -16,6 +16,7 @@ import {
     getDocs,
     limit,
     startAfter,
+    collectionGroup,
 } from 'firebase/firestore'
 import { useFirebaseApp } from "~/composables/useFirebase";
 export type Params<T> = {
@@ -38,6 +39,20 @@ export type Converter<T> = (snapshot: QueryDocumentSnapshot<DocumentData, Docume
 export const useFirestore = () => {
     const app = useFirebaseApp()
     const db = getFirestore(app);
+
+    const getSummary = async () => {
+        const brewery = await getCount(query(collection(db, "breweries")));
+        const brand = await getCount(query(collectionGroup(db, "brands")));
+        const sake = await getCount(query(collectionGroup(db, "sakes")));
+        const user = await getCount(query(collection(db, "users")));
+        const comment = await getCount(query(collection(db, "comments")));
+        return {brewery, brand, sake, user, comment}
+    }
+
+    const getCount = async (q: Query) => {
+        const listSnapshot = await getCountFromServer(q);
+        return listSnapshot.data().count
+    }
 
     const getList = async <T>(params:Params<T>) => {
         let q = params.query;
@@ -99,6 +114,8 @@ export const useFirestore = () => {
 
     return {
         db,
+        getSummary,
+        getCount,
         getList,
         getItem,
         getReference,

@@ -12,6 +12,10 @@ const tabItems = [{
   label: '自然の中の酒蔵',
   content: 'Comming Soon...'
 }]
+const { getSummary } = useFirestore();
+
+const summary = await getSummary();
+
 </script>
 
 <template>
@@ -66,20 +70,24 @@ const tabItems = [{
           酒蔵数
         </template>
         <p id="summary-brewery" class="summary text-center">
-          summary.brewery
+          {{summary.brewery}}
         </p>
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
-        <template #header class="card-header">
+        <template #header>
           銘柄数
         </template>
-        summary.brand
+        <p id="summary-brand" class="summary text-center">
+          {{summary.brand}}
+        </p>
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           日本酒数
         </template>
-        summary.sake
+        <p id="summary-sake" class="summary text-center">
+          {{summary.sake}}
+        </p>
       </UCard>
     </div>
     <div class="grid grid-cols-2 gap-4">
@@ -87,13 +95,17 @@ const tabItems = [{
         <template #header>
           ユーザー数
         </template>
-        summary.user
+        <p id="summary-user" class="summary text-center">
+          {{summary.user}}
+        </p>
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' }}">
         <template #header>
           投稿数
         </template>
-        summary.comment
+        <p id="summary-comment" class="summary text-center">
+          {{summary.comment}}
+        </p>
       </UCard>
     </div>
   </div>
