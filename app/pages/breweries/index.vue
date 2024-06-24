@@ -4,16 +4,16 @@ const route = useRoute();
 const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : '');
-const prefecture = ref({});
-const prefectureId = route.query.prefecture != null ? Number(route.query.prefecture) : 0;
+const prefectureId :number = route.query.prefecture != null ? Number(route.query.prefecture) : 0;
+const prefecture = ref(prefectureId ? prefectures.find(e => Number(e.id) === prefectureId) : {});
 const limit = route.query.limit ? Number(route.query.limit) : 2;
 
 const res = await getList({
-        searchText: searchText.value,
-        prefecture: prefectureId,
-        before: null,
-        limit: limit,
-    });
+    searchText: searchText.value,
+    prefecture: prefecture.value.id,
+    before: null,
+    limit: limit,
+});
 
 const breweries : Ref = ref(res.list)
 const cnt = computed(() => breweries.value.length)
@@ -29,10 +29,11 @@ async function searchVector() {
     const res = await getList({
         searchText: searchText.value,
         prefecture: prefecture.value.id,
-        before: null,
+        before: undefined,
         limit: limit,
     });
     breweries.value = res.list;
+    count.value = res.listCount
 }
 function setHistories() {
     const url = window.location.href.replace(/\?.*$/, '');
@@ -41,6 +42,18 @@ function setHistories() {
     const queries = `?name=${searchText.value}&prefecture=${prefecture.value.id}&limit=${limit}`;
     window.history.pushState(null, '', `${url}${queries}`);
 }
+const getMoreData = async () => {
+    const res = await getList({
+        searchText: searchText.value,
+        prefecture: prefecture.value.id,
+        before: breweries.value[breweries.value.length - 1].name,
+        limit: limit,
+    });
+
+    breweries.value.splice(breweries.value.length, 0, ...res.list);
+    count.value = res.listCount
+}
+
 </script>
 
 <template>
@@ -55,10 +68,8 @@ function setHistories() {
                     <span
                         class="flex items-center bg-gray-200 rounded rounded-r-none border border-r-0 px-3 text-sm">都道府県</span>
                 </div>
-                <UInputMenu id="prefecture" v-model="prefecture" :options="prefectures"
-                    by="id"
-                    option-attribute="nameJa"
-                    class="rounded-l-none" />
+                <UInputMenu id="prefecture" v-model="prefecture" :options="prefectures" by="id"
+                    option-attribute="nameJa" class="rounded-l-none" />
             </div>
             <div class="flex-auto">
                 <UInput v-model="searchText" name="q" placeholder="Search..."
@@ -67,7 +78,7 @@ function setHistories() {
                     <template #trailing>
                         <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
             @click="searchText = ''" /> -->
-                        <UButton @click="setHistories();searchVector();">検索</UButton>
+                        <UButton @click="setHistories(); searchVector();">検索</UButton>
                     </template>
                 </UInput>
             </div>
@@ -85,6 +96,7 @@ function setHistories() {
                 </NuxtLink>
             </template>
         </UTable>
+        <UButton v-show="cnt < count" @click="getMoreData">MORE</UButton>
     </div>
 
 </template>
