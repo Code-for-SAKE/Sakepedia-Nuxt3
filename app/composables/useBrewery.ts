@@ -36,7 +36,7 @@ type Brewery = {
     }
 }
 
-export type Params = {
+export type BreweryParams = {
     searchText: string,
     prefecture: number,
     limit: number,
@@ -58,7 +58,7 @@ export const useBrewery = () => {
         }
     }
 
-    const getList = async (params: Params) => {
+    const getList = async (params: BreweryParams) => {
         console.log('params', params)
         if (typeof params.limit !== 'number' || params.limit < 0)
             throw new Error('express-paginate: `limit` is not a number >= 0');

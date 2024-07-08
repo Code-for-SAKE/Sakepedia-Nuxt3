@@ -1,3 +1,4 @@
+import type { CollectionReference } from 'firebase-admin/firestore';
 import type {
     DocumentData,
     DocumentReference,
@@ -8,6 +9,7 @@ import {
     query,
     where,
     orderBy,
+    collection,
 } from 'firebase/firestore'
 
 const {
@@ -23,10 +25,14 @@ const {
 
 export type Brand = {
     id: string,
-    name: string
+    name: string,
+    description: string,
+    path: string,
+    ref: DocumentReference<DocumentData, DocumentData>
 }
 
-export type Params = {
+export type BrandParams = {
+    breweryId?: string,
     searchText: string,
     limit: number,
     before: Brand | undefined,
@@ -41,16 +47,20 @@ export const useBrand = () => {
     const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) : Brand => {
         return {
             id: snapshot.id,
-            name: snapshot.data().name
+            name: snapshot.data().name,
+            description: snapshot.data().description,
+            path: snapshot.ref.path,
+            ref: snapshot.ref
         }
     }
 
-    const getList = async (params: Params) => {
+    const getList = async (params: BrandParams) => {
         console.log('params', params)
         if (typeof params.limit !== 'number' || params.limit < 0)
-            throw new Error('express-paginate: `limit` is not a number >= 0');
-
-        const coll = collectionGroup(db, collectionName);
+            throw new Error('express-paginate: `limit` is not a number >= 0'); 
+        const coll = (params.breweryId)
+            ? collection(db, `breweries/${params.breweryId}/${collectionName}`)
+            : collectionGroup(db, collectionName);
         // let snapshot;
         let q = query(coll,
                 orderBy("name"));

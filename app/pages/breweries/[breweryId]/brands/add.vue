@@ -29,8 +29,8 @@ async function onChange() {
 }
 
 let searchText = ""
-if(route.query.brewery){
-    const brewery = await getItem("breweries", route.query.brewery)
+if(route.query.breweryId){
+    const brewery = await getItem("breweries", route.query.breweryId)
     state.brewery = await getReference("breweries", brewery.id)
     searchText = brewery.data().name
 }

@@ -1,19 +1,19 @@
 <script setup lang="ts">
 const route = useRoute();
-const { getItem } = useFirestore();
+const { getItem } = useBrewery();
 
-const item = await getItem("breweries", route.params.id)
+const item = await getItem(route.params.breweryId)
 const brewery = item.data()
 
 const add = async function () {
-    await navigateTo({ path: "/brands/add", query: { brewery: item.id } })
+    await navigateTo({ path: `${item.id}/brands/add` })
 }
 
 </script>
 
 <template>
     <div>
-        <h1>銘柄 詳細</h1>
+        <h1>酒蔵 詳細</h1>
         <dl>
             <dt>ID</dt>
             <dd>{{ item.id }}</dd>
