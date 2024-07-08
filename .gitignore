@@ -135,3 +135,6 @@ docker/firebase/bin/*
 docker/firebase/config/*
 
 .vscode/settings.json
+
+# Mac
+.DS_Store
