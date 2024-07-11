@@ -1,17 +1,13 @@
+import type {
+    DocumentData,
+    DocumentReference,
+    QueryDocumentSnapshot} from 'firebase/firestore';
 import {
-    getFirestore,
-    addDoc,
     collection,
     query,
     where,
     orderBy,
-    startAfter,
-    limit,
-    DocumentReference,
-    QueryDocumentSnapshot,
-    type DocumentData,
 } from 'firebase/firestore'
-import { useFirebaseApp } from "~/composables/useFirebase";
 
 const {
     db,
@@ -38,7 +34,7 @@ type Brewery = {
 
 export type BreweryParams = {
     searchText: string,
-    prefecture: number,
+    prefecture: string,
     limit: number,
     before: any,
 }
@@ -64,6 +60,7 @@ export const useBrewery = () => {
             throw new Error('express-paginate: `limit` is not a number >= 0');
 
         const coll = collection(db, collectionName);
+
         // let snapshot;
         let q = query(coll,
                 orderBy("name"));
@@ -72,9 +69,10 @@ export const useBrewery = () => {
             q = query(q, where("name", "==", params.searchText));
             // snapshot = await getCountFromServer(query(coll, q));
         }
-        if(params.prefecture != 0) {
+        if(params.prefecture != "0") {
             q = query(q, where("prefecture", "==", params.prefecture));
-            // snapshot = await getCountFromServer(query(coll, q));
+            // const snapshot = await getCountFromServer(q);
+            // console.log(snapshot);
         }
 
         return await getListFirestore<Brewery>({query: q, limit: params.limit, before: params.before, converter});
@@ -97,7 +95,7 @@ export const useBrewery = () => {
 
     const addItem = async (params: any) => {
         const coll = await addItemFirestore(collectionName, params);
-        return await addDoc(coll, params);
+        return await addDocFirestore(coll, params);
     }
 
     const setItem = async (id : string, params: any) => {

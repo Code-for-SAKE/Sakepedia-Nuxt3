@@ -1,4 +1,12 @@
-export const prefectures = [
+export type Prefecture = {
+  id: string,
+  nameJa: string,
+  nameEn: string,
+  regionJa: string,
+  regionEn: string
+}
+
+export const prefectures: Prefecture[] = [
     {"id": "0", "nameJa": "", "nameEn": "", "regionJa": "", "regionEn": ""},
     {"id": "1", "nameJa": "北海道", "nameEn": "hokkaido", "regionJa": "北海道", "regionEn": "hokkaido"},
     {"id": "2", "nameJa": "青森県", "nameEn": "aomori", "regionJa": "東北", "regionEn": "tohoku"},

@@ -88,14 +88,17 @@ export const useFirestore = () => {
         const snapshot = await getDoc(doc(db, collectionName, id));
         return snapshot;
     }
-
+    const getItemFromPath = async (path: string) => {
+        const snapshot = await getDoc(doc(db, path));
+        return snapshot;
+    }
     const getReference = async (collectionName : string,id: string) => {
         const ref = doc(db, collectionName, id);
         return ref;
     }
 
     const getFromReference = async (ref: DocumentReference) => {
-        return doc
+        return getDoc(ref);
     }
 
     const addItem = async (collectionName : string, params: any) => {
@@ -118,6 +121,7 @@ export const useFirestore = () => {
         getCount,
         getList,
         getItem,
+        getItemFromPath,
         getReference,
         getFromReference,
         addItem,

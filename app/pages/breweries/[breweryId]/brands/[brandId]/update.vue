@@ -4,9 +4,9 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
-const { getItem, getFromReference, getReference, setItem, getList } = useFirestore();
+const { getItem } = useBrand();
 
-const item = await getItem("brands", route.params.id)
+const item = await getItem("brands", route.params.brandId)
 const brand: Brand = item.data()
 let searchText: string = "";
 if (brand.brewery) {

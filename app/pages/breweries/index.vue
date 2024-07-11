@@ -4,13 +4,13 @@ const route = useRoute();
 const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : '');
-const prefectureId :number = route.query.prefecture != null ? Number(route.query.prefecture) : 0;
-const prefecture = ref(prefectureId ? prefectures.find(e => Number(e.id) === prefectureId) : {});
+const prefectureId :string = route.query.prefecture != null ? String(route.query.prefecture) : "0";
+const prefecture = ref(prefectureId ? prefectures.find(e => e.id === prefectureId) : prefectures[0]);
 const limit = route.query.limit ? Number(route.query.limit) : 2;
 
 const res = await getList({
     searchText: searchText.value,
-    prefecture: prefecture.value.id,
+    prefecture: prefectureId,
     before: null,
     limit: limit,
 });
@@ -28,7 +28,7 @@ const columns = [{
 async function searchVector() {
     const res = await getList({
         searchText: searchText.value,
-        prefecture: prefecture.value.id,
+        prefecture: prefecture.value?.id ?? 0,
         before: undefined,
         limit: limit,
     });
@@ -38,14 +38,14 @@ async function searchVector() {
 function setHistories() {
     const url = window.location.href.replace(/\?.*$/, '');
     console.log('prefecture', prefecture)
-    console.log('prefecture id', prefecture.value.id)
-    const queries = `?name=${searchText.value}&prefecture=${prefecture.value.id}&limit=${limit}`;
+    console.log('prefecture id', prefecture.value?.id ?? 0)
+    const queries = `?name=${searchText.value}&prefecture=${prefecture.value?.id ?? 0}&limit=${limit}`;
     window.history.pushState(null, '', `${url}${queries}`);
 }
 const getMoreData = async () => {
     const res = await getList({
         searchText: searchText.value,
-        prefecture: prefecture.value.id,
+        prefecture: prefecture.value?.id ?? 0,
         before: breweries.value[breweries.value.length - 1].name,
         limit: limit,
     });
@@ -91,7 +91,7 @@ const getMoreData = async () => {
                 <NuxtLink :to="'/breweries/' + row.id">
                     <div class="w-full">
                         <span>{{ row.name }}</span>
-                        <span>{{ row.prefecture ? prefectures.find(e => e.id === row.prefecture).nameJa : "" }}</span>
+                        <span>{{ row.prefecture ? prefectures.find(e => e.id == row.prefecture)?.nameJa : "" }}</span>
                     </div>
                 </NuxtLink>
             </template>

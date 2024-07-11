@@ -9,9 +9,9 @@
 
 
 <script setup>
-import { GeoPoint, getDoc, collection } from 'firebase/firestore';
+import { GeoPoint } from 'firebase/firestore';
 
-const { setItem } = useFirestore()
+const { setItem, getReference } = useFirestore()
 
 const BASE_URL = "/data/";
 const HEADERS = {
@@ -55,7 +55,9 @@ const fetch_brand = async () => {
             const id = data._id["$oid"]
             delete data._id
 
-            addItem("breweries/"+data.brewery["$oid"]+"/brands", data, id)
+            const breweryId = data.brewery["$oid"]
+            data.brewery = await getReference("breweries", breweryId);
+            setItem("breweries/"+breweryId+"/brands", id, data )
             await sleep(100);
         }catch(e){
             console.log(text, e)
@@ -76,10 +78,16 @@ const fetch_sake = async () => {
             if(text.length==0) break;
             const data = JSON.parse(text)
 
-            const id = data._id["$oid"]
-            delete data._id
+            const id = data._id["$oid"];
+            delete data._id;
 
-            addItem("breweries/"+data.brewery["$oid"]+"/brands/"+data.brand["$oid"]+"/sakes", data, id)
+            const breweryId = data.brewery["$oid"];
+            data.brewery = await getReference("breweries", breweryId);
+            
+            const brandId = data.brand["$oid"];
+            data.brand = await getReference("breweries/"+breweryId+"/brands/", breweryId);
+
+            setItem("breweries/"+breweryId+"/brands/"+brandId+"/sakes", id, data)
             await sleep(100);
         }catch(e){
             console.log(text, e)

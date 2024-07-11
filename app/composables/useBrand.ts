@@ -1,8 +1,7 @@
-import type { CollectionReference } from 'firebase-admin/firestore';
 import type {
     DocumentData,
     DocumentReference,
-    QueryDocumentSnapshot} from 'firebase/firestore';
+    DocumentSnapshot} from 'firebase/firestore';
 import {
     addDoc,
     collectionGroup,
@@ -16,6 +15,7 @@ const {
     db,
     getList: getListFirestore,
     getItem: getItemFirestore,
+    getItemFromPath,
     getReference: getReferenceFirestore,
     getFromReference: getFromReferenceFirestore,
     addItem: addItemFirestore,
@@ -28,7 +28,8 @@ export type Brand = {
     name: string,
     description: string,
     path: string,
-    ref: DocumentReference<DocumentData, DocumentData>
+    ref: DocumentReference<DocumentData, DocumentData>,
+    brewery: DocumentReference<DocumentData, DocumentData> | null
 }
 
 export type BrandParams = {
@@ -44,13 +45,14 @@ const collectionName: string = 'brands'
  * Firestore へのアクセス
  */
 export const useBrand = () => {
-    const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) : Brand => {
+    const converter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) : Brand => {
         return {
             id: snapshot.id,
-            name: snapshot.data().name,
-            description: snapshot.data().description,
+            name: snapshot.data()?.name,
+            description: snapshot.data()?.description,
             path: snapshot.ref.path,
-            ref: snapshot.ref
+            ref: snapshot.ref,
+            brewery: snapshot.ref.parent.parent,
         }
     }
 
@@ -74,7 +76,10 @@ export const useBrand = () => {
 
     const getItem = async (id: string) => {
         const snapshot = await getItemFirestore(collectionName, id);
-        return snapshot;
+        if(snapshot){
+            return converter(snapshot)
+        }
+        return null;
     }
 
     const getReference = async (id: string) => {
@@ -103,6 +108,7 @@ export const useBrand = () => {
     return {
         getList,
         getItem,
+        getItemFromPath,
         getReference,
         getFromReference,
         addItem,
