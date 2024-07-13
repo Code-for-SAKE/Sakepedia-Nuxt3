@@ -34,7 +34,7 @@ function deleteRecord() {
                 <p v-if="brewery">{{ brewery.latitude }}</p>
                 <p v-if="brewery">{{ brewery.longitude }}</p>
                 <div v-if="brewery && brewery.latitude && brewery.longitude" class="map-wrap col-12 col-lg-6 m-3">
-                    <!-- <brewery-map :brewery="brewery" /> -->
+                    <BreweryMap :brewery="brewery" />
                 </div>
                 <p v-else>位置情報がありません</p>
             </dd>
