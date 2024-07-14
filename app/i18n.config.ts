@@ -9,4 +9,4 @@ export default defineI18nConfig(() => ({
       sake: "sake",
     },
   },
-}));
+}))
