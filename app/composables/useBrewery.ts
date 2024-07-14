@@ -1,6 +1,5 @@
 import type {
     DocumentData,
-    DocumentReference,
     QueryDocumentSnapshot} from 'firebase/firestore';
 import {
     collection,
@@ -13,11 +12,11 @@ const {
     db,
     getList: getListFirestore,
     getItem: getItemFirestore,
-    getReference: getReferenceFirestore,
-    getFromReference: getFromReferenceFirestore,
     addItem: addItemFirestore,
     setItem: setItemFirestore,
-    deleteItem: deleteItemFirestore
+    deleteItem: deleteItemFirestore,
+    getReference: getReferenceFirestore,
+    getFromReference,
 } = useFirestore();
 
 const collectionName: string = 'breweries'
@@ -34,7 +33,14 @@ type Brewery = {
 
 export type BreweryParams = {
     searchText: string,
-    prefecture: string,
+    prefecture: number,
+    limit: number,
+    before: any,
+}
+
+export type BrandListParams = {
+    breweryId: string,
+    searchText: string,
     limit: number,
     before: any,
 }
@@ -45,7 +51,7 @@ export type BreweryParams = {
  */
 export const useBrewery = () => {
 
-    const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) : Brewery => {
+    const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>): Brewery => {
         return {
             id: snapshot.id,
             name: snapshot.data().name,
@@ -63,19 +69,19 @@ export const useBrewery = () => {
 
         // let snapshot;
         let q = query(coll,
-                orderBy("name"));
+            orderBy("name"));
         // snapshot = await getCountFromServer(query(coll));
-        if(params.searchText != "") {
+        if (params.searchText != "") {
             q = query(q, where("name", "==", params.searchText));
             // snapshot = await getCountFromServer(query(coll, q));
         }
-        if(params.prefecture != "0") {
+        if (params.prefecture && params.prefecture != 0) {
+            console.log('params.prefecture', params.prefecture)
             q = query(q, where("prefecture", "==", params.prefecture));
             // const snapshot = await getCountFromServer(q);
             // console.log(snapshot);
         }
-
-        return await getListFirestore<Brewery>({query: q, limit: params.limit, before: params.before, converter});
+        return await getListFirestore<Brewery>({ query: q, limit: params.limit, before: params.before, converter });
     }
 
     const getItem = async (id: string) => {
@@ -83,36 +89,43 @@ export const useBrewery = () => {
         return snapshot;
     }
 
-    const getReference = async (id: string) => {
-        const ref = await getReferenceFirestore(collectionName, id);
-        return ref;
+    const getBrandList = async (params: BrandListParams) => {
+        console.log('BrandListParams', params)
+        if (typeof params.limit !== 'number' || params.limit < 0)
+            throw new Error('express-paginate: `limit` is not a number >= 0');
+
+        const coll = collection(db, collectionName, params.breweryId, 'brands');
+        // let snapshot;
+        let q = query(coll,
+            orderBy("name"));
+        // snapshot = await getCountFromServer(query(coll));
+        return await getListFirestore<Brand>({ query: q, limit: params.limit, before: params.before, converter });
     }
 
-    const getFromReference = async (ref: DocumentReference) => {
-        const doc = await getFromReferenceFirestore(ref);
-        return doc
+    const getReference = async (id: string) => {
+        return await getReferenceFirestore(collectionName, id);
     }
 
     const addItem = async (params: any) => {
-        const coll = await addItemFirestore(collectionName, params);
-        return await addDocFirestore(coll, params);
+        return await addItemFirestore(collectionName, params);
     }
 
     const setItem = async (id : string, params: any) => {
         return await setItemFirestore(collectionName, id, params);
     }
 
-    const deleteItem = async (collectionName : string, id : string) => {
+    const deleteItem = async (id : string) => {
         return await deleteItemFirestore(collectionName, id);
     }
 
     return {
         getList,
         getItem,
+        getBrandList,
         getReference,
         getFromReference,
         addItem,
         setItem,
-        deleteItem
+        deleteItem,
     }
 }

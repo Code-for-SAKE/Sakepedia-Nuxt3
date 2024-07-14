@@ -3,7 +3,6 @@ import type {
     DocumentReference,
     DocumentSnapshot} from 'firebase/firestore';
 import {
-    addDoc,
     collectionGroup,
     query,
     where,
@@ -17,7 +16,7 @@ const {
     getItem: getItemFirestore,
     getItemFromPath,
     getReference: getReferenceFirestore,
-    getFromReference: getFromReferenceFirestore,
+    getFromReference,
     addItem: addItemFirestore,
     setItem: setItemFirestore,
     deleteItem: deleteItemFirestore
@@ -83,25 +82,18 @@ export const useBrand = () => {
     }
 
     const getReference = async (id: string) => {
-        const ref = await getReferenceFirestore(collectionName, id);
-        return ref;
-    }
-
-    const getFromReference = async (ref: DocumentReference) => {
-        const doc = await getFromReferenceFirestore(ref);
-        return doc
+        return await getReferenceFirestore(collectionName, id);
     }
 
     const addItem = async (params: any) => {
-        const coll = await addItemFirestore(collectionName, params);
-        return await addDoc(coll, params);
+        return await addItemFirestore(collectionName, params);
     }
 
     const setItem = async (id : string, params: any) => {
         return await setItemFirestore(collectionName, id, params);
     }
 
-    const deleteItem = async (collectionName : string, id : string) => {
+    const deleteItem = async (id : string) => {
         return await deleteItemFirestore(collectionName, id);
     }
 
@@ -113,6 +105,6 @@ export const useBrand = () => {
         getFromReference,
         addItem,
         setItem,
-        deleteItem
+        deleteItem,
     }
 }
