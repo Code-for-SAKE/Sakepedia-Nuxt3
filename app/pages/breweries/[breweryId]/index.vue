@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const route = useRoute();
-const { getItem } = useFirestore();
+const { getItem } = useBrewery();
 
-const item = await getItem("breweries", route.params.id)
+const item = await getItem(route.params.breweryId)
 const brewery = item.data()
 
 const add = async function () {
-    await navigateTo({ path: "/brands/add", query: { brewery: item.id } })
+    await navigateTo({ path: `${item.id}/brands/add` })
 }
 
 function deleteRecord() {
@@ -22,7 +22,6 @@ function deleteRecord() {
         <small v-if="brewery">{{ brewery.breweryId }}</small>
         <h2 v-if="brewery">{{ brewery.name }}</h2>
         <h6 v-if="brewery">{{ brewery.kana }}</h6>
-
         <dl>
             <dt>都道府県</dt>
             <dd>
@@ -120,7 +119,7 @@ function deleteRecord() {
                 <h3>銘柄</h3>
                 <UButton @click="add">銘柄追加</UButton>
             </div>
-            <BreweryBrandList :breweryId="route.params.id" />
+            <BreweryBrandList :breweryId="route.params.breweryId" />
         </div>
         <div class="my-4">
             <div class="d-flex justify-content-between align-items-center">

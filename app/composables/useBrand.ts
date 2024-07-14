@@ -1,21 +1,22 @@
 import type {
     DocumentData,
     DocumentReference,
-    QueryDocumentSnapshot} from 'firebase/firestore';
+    DocumentSnapshot} from 'firebase/firestore';
 import {
-    addDoc,
     collectionGroup,
     query,
     where,
     orderBy,
+    collection,
 } from 'firebase/firestore'
 
 const {
     db,
     getList: getListFirestore,
     getItem: getItemFirestore,
+    getItemFromPath,
     getReference: getReferenceFirestore,
-    getFromReference: getFromReferenceFirestore,
+    getFromReference,
     addItem: addItemFirestore,
     setItem: setItemFirestore,
     deleteItem: deleteItemFirestore
@@ -23,10 +24,15 @@ const {
 
 export type Brand = {
     id: string,
-    name: string
+    name: string,
+    description: string,
+    path: string,
+    ref: DocumentReference<DocumentData, DocumentData>,
+    brewery: DocumentReference<DocumentData, DocumentData> | null
 }
 
-export type Params = {
+export type BrandParams = {
+    breweryId?: string,
     searchText: string,
     limit: number,
     before: Brand | undefined,
@@ -38,19 +44,24 @@ const collectionName: string = 'brands'
  * Firestore へのアクセス
  */
 export const useBrand = () => {
-    const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) : Brand => {
+    const converter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) : Brand => {
         return {
             id: snapshot.id,
-            name: snapshot.data().name
+            name: snapshot.data()?.name,
+            description: snapshot.data()?.description,
+            path: snapshot.ref.path,
+            ref: snapshot.ref,
+            brewery: snapshot.ref.parent.parent,
         }
     }
 
-    const getList = async (params: Params) => {
+    const getList = async (params: BrandParams) => {
         console.log('params', params)
         if (typeof params.limit !== 'number' || params.limit < 0)
-            throw new Error('express-paginate: `limit` is not a number >= 0');
-
-        const coll = collectionGroup(db, collectionName);
+            throw new Error('express-paginate: `limit` is not a number >= 0'); 
+        const coll = (params.breweryId)
+            ? collection(db, `breweries/${params.breweryId}/${collectionName}`)
+            : collectionGroup(db, collectionName);
         // let snapshot;
         let q = query(coll,
                 orderBy("name"));
@@ -64,39 +75,36 @@ export const useBrand = () => {
 
     const getItem = async (id: string) => {
         const snapshot = await getItemFirestore(collectionName, id);
-        return snapshot;
+        if(snapshot){
+            return converter(snapshot)
+        }
+        return null;
     }
 
     const getReference = async (id: string) => {
-        const ref = await getReferenceFirestore(collectionName, id);
-        return ref;
-    }
-
-    const getFromReference = async (ref: DocumentReference) => {
-        const doc = await getFromReferenceFirestore(ref);
-        return doc
+        return await getReferenceFirestore(collectionName, id);
     }
 
     const addItem = async (params: any) => {
-        const coll = await addItemFirestore(collectionName, params);
-        return await addDoc(coll, params);
+        return await addItemFirestore(collectionName, params);
     }
 
     const setItem = async (id : string, params: any) => {
         return await setItemFirestore(collectionName, id, params);
     }
 
-    const deleteItem = async (collectionName : string, id : string) => {
+    const deleteItem = async (id : string) => {
         return await deleteItemFirestore(collectionName, id);
     }
 
     return {
         getList,
         getItem,
+        getItemFromPath,
         getReference,
         getFromReference,
         addItem,
         setItem,
-        deleteItem
+        deleteItem,
     }
 }

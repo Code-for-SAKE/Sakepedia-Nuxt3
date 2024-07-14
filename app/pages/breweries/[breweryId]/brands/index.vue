@@ -3,12 +3,14 @@
 const route = useRoute();
 const { getList } = useBrand();
 
-const searchText: string = route.query.name != null ? String(route.query.name) : '';
+const searchText = route.query.name != null ? String(route.query.name) : '';
 const limit = route.query.limit != null ? Number(route.query.limit) : 3;
+const breweryId = route.query.breweryId != null ? String(route.query.breweryId) : undefined;
 console.log('searchText', searchText)
 console.log('limit', limit)
 
 const res = await getList({
+        breweryId: breweryId,
         searchText: searchText,
         before: undefined,
         limit: limit,
@@ -61,7 +63,7 @@ const getMoreData = async () => {
     </div>
     <UTable :rows="brands" :columns="columns" @select="">
       <template #name-data="{ row }">
-        <NuxtLink :to="row.path">
+        <NuxtLink :to="'/brands/' + row.id">
           <div class="w-full">{{ row.name }}</div>
         </NuxtLink>
       </template>

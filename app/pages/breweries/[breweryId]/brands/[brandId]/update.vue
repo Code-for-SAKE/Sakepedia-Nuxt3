@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
+import type { Brand } from '~/components/Brand';
 
 const route = useRoute();
-const { addItem, getList, getReference, getItem } = useFirestore();
+const { getItem } = useBrand();
+
+const item = await getItem("brands", route.params.brandId)
+const brand: Brand = item.data()
+let searchText: string = "";
+if (brand.brewery) {
+    const ref = await getFromReference(brand.brewery)
+    const breweryId = ref.id
+    const brewery = ref.data()
+    searchText = brewery.name;
+}
 
 const schema = object({
     name: string().required('名前は必須です'),
@@ -13,31 +24,19 @@ const schema = object({
 
 type Schema = InferType<typeof schema>
 
-const state = reactive({
-    name: undefined,
-    description: undefined,
-    brewery: undefined
-})
+const state = reactive(brand)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const ref = await addItem("brands", event.data)
-    await navigateTo('/brands/' + ref.id)
+    // Do something with event.data
+    console.log(event.data)
+    event.data.brewery = await getReference("breweries", selected.value.id)
+    const res = await setItem("brands", item.id, event.data)
+    await navigateTo('/brands/' + item.id)
 }
-
-async function onChange() {
-    state.brewery = await getReference("breweries", selected.value.id)
-}
-
-let searchText = ""
-if(route.query.brewery){
-    const brewery = await getItem("breweries", route.query.brewery)
-    state.brewery = await getReference("breweries", brewery.id)
-    searchText = brewery.data().name
-}
-
 
 const loading = ref(false)
 const selected = ref(searchText)
+
 
 async function search(q: string) {
     loading.value = true
@@ -65,7 +64,7 @@ async function search(q: string) {
         </UFormGroup>
         <UFormGroup label="酒蔵" name="brewery">
             <USelectMenu v-model="selected" :loading="loading" :searchable="search" placeholder="酒蔵検索..."
-                option-attribute="name" trailing @change="onChange" by="id" />
+                option-attribute="name" trailing by="id" />
         </UFormGroup>
         <UFormGroup label="説明" name="description">
             <UTextarea v-model="state.description" />
