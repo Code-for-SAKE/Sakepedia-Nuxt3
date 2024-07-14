@@ -5,7 +5,9 @@ const { getItemFromPath, deleteItem }  = useBrand();
 const { getFromReference }  = useBrewery();
 
 const item = await getItemFromPath(route.path)
-const brand = item
+const brand = item.data()
+
+console.log(item)
 let brewery = {}
 if (brand?.brewery) {
     brewery = await getFromReference(brand.brewery)
@@ -31,7 +33,7 @@ const deleteBrand = async function(){
             </dd>
             <dt>説明</dt><dd>{{ brand?.description }}</dd>
         </dl>
-        <UButton class="info" :to="'/brands/' + route.params.id + '/update'">編集</UButton>
+        <UButton class="info" :to="route.path + '/update'">編集</UButton>
         <UButton class="danger" @click="confirmDelete = true">削除</UButton>
         <UModal v-model="confirmDelete">
             <UCard>
