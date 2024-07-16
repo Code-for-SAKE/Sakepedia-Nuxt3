@@ -94,13 +94,7 @@ const getMoreData = async () => {
           <template #trailing>
             <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
             @click="searchText = ''" /> -->
-            <UButton
-              @click="
-                setHistories()
-                searchVector()
-              "
-              >検索</UButton
-            >
+            <UButton @click="setHistories(), searchVector()">検索</UButton>
           </template>
         </UInput>
       </div>
