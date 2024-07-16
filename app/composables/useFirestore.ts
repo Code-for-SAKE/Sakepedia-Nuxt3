@@ -103,6 +103,13 @@ export const useFirestore = () => {
 
     const addItem = async (collectionName : string, params: any) => {
         const coll = collection(db, collectionName);
+
+        const entries = Object.entries(params)
+        for (const [key, value] of entries) {
+            if (params[key] === undefined) {
+                delete params[key]
+            }
+        }
         return await addDoc(coll, params);
     }
 
