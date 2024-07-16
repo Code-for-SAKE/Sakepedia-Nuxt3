@@ -45,7 +45,7 @@ const getMoreData = async () => {
       <h1>銘柄一覧</h1>
       <UButton class="success" to="/brands/add">追加</UButton>
     </div>
-    <hr >
+    <hr />
     <div class="grid grid-cols-3">
       <div class="col-span-2">
         <UInput

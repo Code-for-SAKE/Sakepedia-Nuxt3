@@ -12,9 +12,7 @@ const {
   getFromReference,
 } = useFirestore()
 
-const {
-  converter: converterBrand
-} = useBrand()
+const { converter: converterBrand } = useBrand()
 
 const collectionName: string = "breweries"
 
@@ -134,6 +132,6 @@ export const useBrewery = () => {
     addItem,
     setItem,
     deleteItem,
-    converter
+    converter,
   }
 }

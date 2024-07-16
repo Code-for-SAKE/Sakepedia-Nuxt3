@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Brewery } from '~/composables/useBrewery';
+import type { Brewery } from "~/composables/useBrewery"
 
 const route = useRoute()
 const { getItem, converter } = useBrewery()
 
 const item = await getItem(String(route.params.breweryId))
 
-const brewery:Brewery = converter(item)
+const brewery: Brewery = converter(item)
 
 const add = async function () {
   await navigateTo({ path: `${item.id}/brands/add` })
@@ -18,7 +18,7 @@ function deleteRecord() {}
 <template>
   <div>
     <h1>酒蔵 詳細</h1>
-    <hr >
+    <hr />
     <small v-if="brewery">{{ brewery.breweryId }}</small>
     <h2 v-if="brewery">{{ brewery.name }}</h2>
     <h6 v-if="brewery">{{ brewery.kana }}</h6>
@@ -137,7 +137,7 @@ function deleteRecord() {}
       </div>
       <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
     </div>
-    <hr >
+    <hr />
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>

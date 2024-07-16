@@ -46,12 +46,7 @@ const getMoreData = async () => {
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
       {{ cnt }} / {{ count }}件
     </div>
-    <UTable
-      :rows="brands"
-      :columns="columns"
-      class="border border-t-0"
-      :ui="{ thead: 'hidden' }"
-    >
+    <UTable :rows="brands" :columns="columns" class="border border-t-0" :ui="{ thead: 'hidden' }">
       <template #name-data="{ row }">
         <NuxtLink :to="`/breweries/${props.breweryId}/brands/${row.id}`">
           <div class="w-full">

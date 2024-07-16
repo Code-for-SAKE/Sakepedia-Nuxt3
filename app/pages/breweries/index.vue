@@ -63,7 +63,7 @@ const getMoreData = async () => {
     <div class="mb-4">
       <h1>酒蔵一覧</h1>
     </div>
-    <hr class="mb-4" >
+    <hr class="mb-4" />
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-wrap items-stretch w-fit mb-4 relative">
         <div class="flex">
@@ -96,8 +96,8 @@ const getMoreData = async () => {
             @click="searchText = ''" /> -->
             <UButton
               @click="
-                setHistories();
-                searchVector();
+                setHistories()
+                searchVector()
               "
               >検索</UButton
             >

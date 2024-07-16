@@ -101,12 +101,19 @@ export const useFirestore = () => {
     return getDoc(ref)
   }
 
-  const addItem = async <T extends WithFieldValue<DocumentData>>(collectionName: string, params: T) => {
+  const addItem = async <T extends WithFieldValue<DocumentData>>(
+    collectionName: string,
+    params: T,
+  ) => {
     const coll = collection(db, collectionName)
     return await addDoc(coll, params)
   }
 
-  const setItem = async <T extends WithFieldValue<DocumentData>>(collectionName: string, id: string, params: T) => {
+  const setItem = async <T extends WithFieldValue<DocumentData>>(
+    collectionName: string,
+    id: string,
+    params: T,
+  ) => {
     return await setDoc(doc(db, collectionName, id), params)
   }
 

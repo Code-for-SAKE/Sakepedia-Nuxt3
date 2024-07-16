@@ -43,10 +43,10 @@ async function search(q: string) {
   loading.value = true
 
   const res = await getList({
-      searchText: q,
-      before: null,
-      limit: 10,
-      prefecture: 0
+    searchText: q,
+    before: null,
+    limit: 10,
+    prefecture: 0,
   })
   const list = res.list.map((data) => {
     return data
