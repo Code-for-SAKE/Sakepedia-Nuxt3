@@ -1,22 +1,30 @@
 <template>
-  <div id="map" style="height:100%; width:100%">
-    <LMap ref="map" :zoom="zoom" :max-zoom="18" :center="[props.brewery.latitude, props.brewery.longitude]"
-      @ready="mapInitialized">
-      <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-        layer-type="base" name="OpenStreetMap" />
+  <div id="map" style="height: 100%; width: 100%">
+    <LMap
+      ref="map"
+      :zoom="zoom"
+      :max-zoom="18"
+      :center="[props.brewery.latitude, props.brewery.longitude]"
+      @ready="mapInitialized"
+    >
+      <LTileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&amp;copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        layer-type="base"
+        name="OpenStreetMap"
+      />
     </LMap>
   </div>
 </template>
 
 <script setup lang="ts">
-import * as L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import iconUrl from '~/assets/icons/sake.svg';
-
+import * as L from "leaflet"
+import "leaflet/dist/leaflet.css"
+import iconUrl from "~/assets/icons/sake.svg"
 interface Props {
   brewery: {
-    type: Object,
+    latitude: number
+    longitude: number
   }
 }
 const props = defineProps<Props>()
@@ -26,8 +34,8 @@ const map = ref(null)
 
 const mapInitialized = async () => {
   //アイコンデザイン調整
-  delete L.Icon.Default.prototype._getIconUrl;
-  L.Icon.Default.imagePath = '';
+  delete L.Icon.Default.prototype._getIconUrl
+  L.Icon.Default.imagePath = ""
   L.Icon.Default.mergeOptions({
     iconUrl,
     iconRetinaUrl: iconUrl,
@@ -36,15 +44,15 @@ const mapInitialized = async () => {
     popupAnchor: [-3, -24],
     shadowSize: [30, 20],
     shadowAnchor: [12, 18],
-  });
+  })
 
   const marker = L.marker(
-    L.latLng(props.brewery.location.latitude, props.brewery.location.longitude)
-  );
-  const link = '<a href="/breweries/' + props.brewery.id + '">' + props.brewery.name + '</a>'
+    L.latLng(props.brewery.location.latitude, props.brewery.location.longitude),
+  )
+  const link = '<a href="/breweries/' + props.brewery.id + '">' + props.brewery.name + "</a>"
 
-  marker.bindPopup(link);
-  marker.addTo(map.value.leafletObject);
+  marker.bindPopup(link)
+  marker.addTo(map.value.leafletObject)
 }
 </script>
 

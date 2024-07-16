@@ -1,20 +1,29 @@
 <template>
-  <div id="map" style="height:100%; width:100%">
-    <LMap ref="map" :zoom="zoom" :max-zoom="18" :center="[35.999887, 138.75]" @ready="mapInitialized">
-      <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-        layer-type="base" name="OpenStreetMap" />
+  <div id="map" style="height: 100%; width: 100%">
+    <LMap
+      ref="map"
+      :zoom="zoom"
+      :max-zoom="18"
+      :center="[35.999887, 138.75]"
+      @ready="mapInitialized"
+    >
+      <LTileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&amp;copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        layer-type="base"
+        name="OpenStreetMap"
+      />
     </LMap>
   </div>
 </template>
 
 <script setup>
-import * as L from "leaflet";
-import "leaflet.markercluster/dist/leaflet.markercluster.js";
-import "leaflet/dist/leaflet.css";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import iconUrl from '~/assets/icons/sake.svg';
+import * as L from "leaflet"
+import "leaflet.markercluster/dist/leaflet.markercluster.js"
+import "leaflet/dist/leaflet.css"
+import "leaflet.markercluster/dist/MarkerCluster.css"
+import "leaflet.markercluster/dist/MarkerCluster.Default.css"
+import iconUrl from "~/assets/icons/sake.svg"
 
 const { getList } = useBrewery()
 
@@ -23,8 +32,8 @@ const map = ref(null)
 
 const mapInitialized = async () => {
   //アイコンデザイン調整
-  delete L.Icon.Default.prototype._getIconUrl;
-  L.Icon.Default.imagePath = '';
+  delete L.Icon.Default.prototype._getIconUrl
+  L.Icon.Default.imagePath = ""
   L.Icon.Default.mergeOptions({
     iconUrl,
     iconRetinaUrl: iconUrl,
@@ -33,28 +42,25 @@ const mapInitialized = async () => {
     popupAnchor: [-3, -24],
     shadowSize: [30, 20],
     shadowAnchor: [12, 18],
-  });
+  })
 
   const datas = await getList({
     searchText: "",
     before: undefined,
     prefecture: 0,
     limit: 2000,
-  });
+  })
   // 酒蔵情報から都道府県ごとのマーカーリストを作成
-  const markers = {};
+  const markers = {}
 
   for (const data of datas.list) {
     const brewery = data
-    const marker = L.marker(
-      L.latLng(brewery.location.latitude, brewery.location.longitude)
-    );
-    const link = '<a href="/breweries/' + data.id + '">' + brewery.name + '</a>'
+    const marker = L.marker(L.latLng(brewery.location.latitude, brewery.location.longitude))
+    const link = '<a href="/breweries/' + data.id + '">' + brewery.name + "</a>"
 
-    marker.bindPopup(link);
-    if (!markers[brewery.prefecture])
-      markers[brewery.prefecture] = [];
-    markers[brewery.prefecture].push(marker);
+    marker.bindPopup(link)
+    if (!markers[brewery.prefecture]) markers[brewery.prefecture] = []
+    markers[brewery.prefecture].push(marker)
   }
   // マーカーリストからクラスターグループを作成
   for (const pref in markers) {
@@ -63,27 +69,26 @@ const mapInitialized = async () => {
       chunkedLoading: true,
       maxClusterRadius: 80,
       iconCreateFunction: function (cluster) {
-        const childCount = cluster.getChildCount();
+        const childCount = cluster.getChildCount()
 
-        let c = ' marker-cluster-';
+        let c = " marker-cluster-"
         if (childCount < 20) {
-          c += 'small';
+          c += "small"
         } else if (childCount < 50) {
-          c += 'medium';
+          c += "medium"
         } else {
-          c += 'large';
+          c += "large"
         }
 
         return new L.DivIcon({
-          html: '<div><span>' + childCount + '</span></div>',
-          className: 'marker-cluster' + c,
-        });
+          html: "<div><span>" + childCount + "</span></div>",
+          className: "marker-cluster" + c,
+        })
       },
-    }).addTo(map.value.leafletObject);
+    }).addTo(map.value.leafletObject)
 
-    markerCluster.addLayers(markers[pref]);
+    markerCluster.addLayers(markers[pref])
   }
-
 }
 </script>
 

@@ -1,23 +1,19 @@
 <script setup lang="ts">
 
 const route = useRoute();
-const { getList } = useBrewery()
+const { getList } = useFirestore()
 
-const searchText = ref(route.query.name != null ? String(route.query.name) : '');
-const prefectureId :string = route.query.prefecture != null ? String(route.query.prefecture) : "0";
-const prefecture = ref(prefectureId ? prefectures.find(e => e.id === prefectureId) : prefectures[0]);
-const limit = route.query.limit ? Number(route.query.limit) : 2;
+const searchText = route.query.name != null ? route.query.name : '';
+const limit = route.query.limit != null ? route.query.limit : 2;
+console.log('limit', limit)
 
-const res = await getList({
-    searchText: searchText.value,
-    prefecture: prefectureId,
+const res = await getList('breweries', {
+    searchText: searchText,
     before: null,
     limit: limit,
 });
-
-const breweries : Ref = ref(res.list)
-const cnt = computed(() => breweries.value.length)
-const count : Ref<number> = ref<number>(res.listCount)
+const breweries = res.list
+const count = res.listCount
 
 const columns = [{
     key: 'name',
@@ -25,34 +21,7 @@ const columns = [{
     sortable: false
 }]
 
-async function searchVector() {
-    const res = await getList({
-        searchText: searchText.value,
-        prefecture: prefecture.value?.id ?? 0,
-        before: undefined,
-        limit: limit,
-    });
-    breweries.value = res.list;
-    count.value = res.listCount
-}
-function setHistories() {
-    const url = window.location.href.replace(/\?.*$/, '');
-    console.log('prefecture', prefecture)
-    console.log('prefecture id', prefecture.value?.id ?? 0)
-    const queries = `?name=${searchText.value}&prefecture=${prefecture.value?.id ?? 0}&limit=${limit}`;
-    window.history.pushState(null, '', `${url}${queries}`);
-}
-const getMoreData = async () => {
-    const res = await getList({
-        searchText: searchText.value,
-        prefecture: prefecture.value?.id ?? 0,
-        before: breweries.value[breweries.value.length - 1].name,
-        limit: limit,
-    });
-
-    breweries.value.splice(breweries.value.length, 0, ...res.list);
-    count.value = res.listCount
-}
+const selectedPrefecture = ref(prefectures[0])
 
 </script>
 

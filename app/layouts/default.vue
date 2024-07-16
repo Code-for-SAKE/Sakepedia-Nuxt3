@@ -1,10 +1,8 @@
 <script setup lang="ts">
-const route = useRoute();
 const { t } = useI18n()
 
 const navLinks = [
-  [
-  ],
+  [],
   [
     {
       label: t("sake"),
@@ -30,7 +28,7 @@ const navLinks = [
       },
     },
   ],
-];
+]
 
 const footerLinks = [
   [],
@@ -53,11 +51,10 @@ const footerLinks = [
     },
   ],
   [],
-];
+]
 
 const colorMode = useColorMode()
-colorMode.preference = 'light'
-
+colorMode.preference = "light"
 </script>
 
 <template>
@@ -66,27 +63,21 @@ colorMode.preference = 'light'
       <div class="flex flex-wrap">
         <div class="flex-none w-40">
           <NuxtLink to="/">
-            <img
-            height="50"
-            src="~/assets/image/sakepedia-yoko.png"
-            alt="Sakepedia"
-          />
+            <img height="50" src="~/assets/image/sakepedia-yoko.png" alt="Sakepedia" />
           </NuxtLink>
         </div>
-        <div class="flex items-center">
-          - みんなで作る日本酒オープンデータ
-        </div>
+        <div class="flex items-center">- みんなで作る日本酒オープンデータ</div>
         <div class="flex-auto">
           <UHorizontalNavigation :links="navLinks">
-        <template #default="{ link }">
-          <span class="group-hover:text-primary relative">{{ link.label }}</span>
-        </template>
-      </UHorizontalNavigation>
+            <template #default="{ link }">
+              <span class="group-hover:text-primary relative">{{ link.label }}</span>
+            </template>
+          </UHorizontalNavigation>
         </div>
       </div>
     </header>
     <div id="container">
-      <slot></slot>
+      <slot />
     </div>
     <footer id="footer" class="align-items-end text-center">
       <UHorizontalNavigation :links="footerLinks">
@@ -101,7 +92,7 @@ colorMode.preference = 'light'
 <style lang="scss" scoped>
 #footer {
   padding-top: 100px;
-  background-image: url('~/assets/image/sake-footer_bg.png');
+  background-image: url("~/assets/image/sake-footer_bg.png");
   background-repeat: repeat-x;
   background-position: top;
 }
@@ -112,7 +103,7 @@ colorMode.preference = 'light'
   background-color: var(--primary);
 }
 
-#footer-content>* {
+#footer-content > * {
   display: inline-block;
 }
 </style>
