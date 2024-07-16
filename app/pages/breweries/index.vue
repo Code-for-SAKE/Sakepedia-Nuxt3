@@ -3,7 +3,7 @@ const route = useRoute()
 const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : "")
-const prefectureId: string = route.query.prefecture != null ? String(route.query.prefecture) : "0"
+const prefectureId: number = route.query.prefecture != null ? Number(route.query.prefecture) : 0
 const prefecture = ref(
   prefectureId ? prefectures.find((e) => e.id === prefectureId) : prefectures[0],
 )
@@ -63,7 +63,7 @@ const getMoreData = async () => {
     <div class="mb-4">
       <h1>酒蔵一覧</h1>
     </div>
-    <hr class="mb-4" />
+    <hr class="mb-4" >
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-wrap items-stretch w-fit mb-4 relative">
         <div class="flex">
@@ -96,8 +96,8 @@ const getMoreData = async () => {
             @click="searchText = ''" /> -->
             <UButton
               @click="
-                setHistories()
-                searchVector()
+                setHistories();
+                searchVector();
               "
               >検索</UButton
             >
@@ -111,7 +111,6 @@ const getMoreData = async () => {
     <UTable
       :rows="breweries"
       :columns="columns"
-      @select=""
       class="border border-t-0"
       :ui="{ thead: 'hidden' }"
     >

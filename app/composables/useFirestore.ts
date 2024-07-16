@@ -3,6 +3,7 @@ import type {
   DocumentReference,
   Query,
   QueryDocumentSnapshot,
+  WithFieldValue,
 } from "firebase/firestore"
 import {
   getFirestore,
@@ -100,12 +101,12 @@ export const useFirestore = () => {
     return getDoc(ref)
   }
 
-  const addItem = async (collectionName: string, params: any) => {
+  const addItem = async <T extends WithFieldValue<DocumentData>>(collectionName: string, params: T) => {
     const coll = collection(db, collectionName)
     return await addDoc(coll, params)
   }
 
-  const setItem = async (collectionName: string, id: string, params: any) => {
+  const setItem = async <T extends WithFieldValue<DocumentData>>(collectionName: string, id: string, params: T) => {
     return await setDoc(doc(db, collectionName, id), params)
   }
 

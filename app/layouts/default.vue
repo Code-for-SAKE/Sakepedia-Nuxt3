@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const route = useRoute()
 const { t } = useI18n()
 
 const navLinks = [
@@ -64,7 +63,7 @@ colorMode.preference = "light"
       <div class="flex flex-wrap">
         <div class="flex-none w-40">
           <NuxtLink to="/">
-            <img height="50" src="~/assets/image/sakepedia-yoko.png" alt="Sakepedia" />
+            <img height="50" src="~/assets/image/sakepedia-yoko.png" alt="Sakepedia" >
           </NuxtLink>
         </div>
         <div class="flex items-center">- みんなで作る日本酒オープンデータ</div>
@@ -78,7 +77,7 @@ colorMode.preference = "light"
       </div>
     </header>
     <div id="container">
-      <slot></slot>
+      <slot/>
     </div>
     <footer id="footer" class="align-items-end text-center">
       <UHorizontalNavigation :links="footerLinks">

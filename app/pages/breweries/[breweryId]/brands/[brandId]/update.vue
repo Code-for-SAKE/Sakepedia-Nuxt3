@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { object, string, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
-import type { Brand } from "~/components/Brand"
 
 const route = useRoute()
-const { getItem } = useBrand()
+const { getList, getFromReference, getReference } = useBrewery()
+const { getItem, setItem } = useBrand()
 
-const item = await getItem("brands", route.params.brandId)
-const brand: Brand = item.data()
+const item = await getItem(route.path)
+const brand: Brand = item!
 let searchText: string = ""
 if (brand.brewery) {
   const ref = await getFromReference(brand.brewery)
-  const breweryId = ref.id
   const brewery = ref.data()
-  searchText = brewery.name
+  searchText = brewery?.name
 }
 
 const schema = object({
@@ -29,8 +28,8 @@ const state = reactive(brand)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
-  event.data.brewery = await getReference("breweries", selected.value.id)
-  const res = await setItem("brands", item.id, event.data)
+  event.data.brewery = await getReference(selected.value.id)
+  await setItem(item.id, event.data)
   await navigateTo("/brands/" + item.id)
 }
 
@@ -40,13 +39,13 @@ const selected = ref(searchText)
 async function search(q: string) {
   loading.value = true
 
-  const res = await getList("breweries", {
+  const res = await getList({
     searchText: q,
     before: null,
     limit: 10,
   })
-  const list = res.list.map((doc: any) => {
-    let data = doc.data()
+  const list = res.list.map((doc: Brewery) => {
+    const data = doc.data()
     data["id"] = doc.id
     return data
   })

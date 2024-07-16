@@ -3,7 +3,8 @@ import { object, string, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
-const { addItem, getList, getReference, getItem } = useFirestore()
+const { getList } = useBrewery()
+const { addItem, getReference, getItem } = useBrand()
 
 const schema = object({
   name: string().required("名前は必須です"),
@@ -20,18 +21,18 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const ref = await addItem("brands", event.data)
-  await navigateTo("/brands/" + ref.id)
+  const ref = await addItem(event.data)
+  await navigateTo(ref.path)
 }
 
 async function onChange() {
-  state.brewery = await getReference("breweries", selected.value.id)
+  state.brewery = await getReference("/breweries/" + selected.value.id)
 }
 
 let searchText = ""
 if (route.query.breweryId) {
-  const brewery = await getItem("breweries", route.query.breweryId)
-  state.brewery = await getReference("breweries", brewery.id)
+  const brewery = await getItem(String(route.query.breweryId))
+  state.brewery = await getReference(brewery.id)
   searchText = brewery.data().name
 }
 
@@ -41,14 +42,13 @@ const selected = ref(searchText)
 async function search(q: string) {
   loading.value = true
 
-  const res = await getList("breweries", {
-    searchText: q,
-    before: null,
-    limit: 10,
+  const res = await getList({
+      searchText: q,
+      before: null,
+      limit: 10,
+      prefecture: 0
   })
-  const list = res.list.map((doc: any) => {
-    let data = doc.data()
-    data["id"] = doc.id
+  const list = res.list.map((data) => {
     return data
   })
   loading.value = false
@@ -70,8 +70,8 @@ async function search(q: string) {
         placeholder="酒蔵検索..."
         option-attribute="name"
         trailing
-        @change="onChange"
         by="id"
+        @change="onChange"
       />
     </UFormGroup>
     <UFormGroup label="説明" name="description">

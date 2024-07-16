@@ -49,7 +49,6 @@ const getMoreData = async () => {
     <UTable
       :rows="brands"
       :columns="columns"
-      @select=""
       class="border border-t-0"
       :ui="{ thead: 'hidden' }"
     >

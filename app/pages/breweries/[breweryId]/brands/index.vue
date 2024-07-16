@@ -45,7 +45,7 @@ const getMoreData = async () => {
       <h1>銘柄一覧</h1>
       <UButton class="success" to="/brands/add">追加</UButton>
     </div>
-    <hr />
+    <hr >
     <div class="grid grid-cols-3">
       <div class="col-span-2">
         <UInput
@@ -66,7 +66,7 @@ const getMoreData = async () => {
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
       {{ cnt }} / {{ count }}件
     </div>
-    <UTable :rows="brands" :columns="columns" @select="">
+    <UTable :rows="brands" :columns="columns">
       <template #name-data="{ row }">
         <NuxtLink :to="'/brands/' + row.id">
           <div class="w-full">{{ row.name }}</div>

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     signIn() {
-      var provider = new GoogleAuthProvider()
+      const provider = new GoogleAuthProvider()
       signInWithPopup(getAuth(), provider)
         .then((auth) => {
           console.log("login", auth.user)

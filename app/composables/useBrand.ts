@@ -80,11 +80,11 @@ export const useBrand = () => {
     return await getReferenceFirestore(collectionName, id)
   }
 
-  const addItem = async (params: any) => {
+  const addItem = async (params: Brand) => {
     return await addItemFirestore(collectionName, params)
   }
 
-  const setItem = async (id: string, params: any) => {
+  const setItem = async (id: string, params: Brand) => {
     return await setItemFirestore(collectionName, id, params)
   }
 
@@ -101,5 +101,6 @@ export const useBrand = () => {
     addItem,
     setItem,
     deleteItem,
+    converter,
   }
 }

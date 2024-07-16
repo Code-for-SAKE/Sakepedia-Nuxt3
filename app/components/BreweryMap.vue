@@ -21,13 +21,13 @@
 import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import iconUrl from "~/assets/icons/sake.svg"
-
 interface Props {
   brewery: {
-    type: Object
+    latitude: number,
+    longitude: number
   }
 }
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const zoom = ref(10)
 const map = ref(null)

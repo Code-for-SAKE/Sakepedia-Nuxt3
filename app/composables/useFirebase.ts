@@ -1,8 +1,7 @@
 import { initializeApp, getApps } from "firebase/app"
 import type { FirebaseApp } from "firebase/app"
-import { getAnalytics } from "firebase/analytics"
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions"
-import { getFirestore, connectFirestoreEmulator, setDoc, doc } from "firebase/firestore"
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore"
 import { getAuth, connectAuthEmulator } from "firebase/auth"
 
 export const useFirebaseApp = (): FirebaseApp => {

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const route = useRoute()
-const { getItem } = useBrewery()
+import type { Brewery } from '~/composables/useBrewery';
 
-const item = await getItem(route.params.breweryId)
-const brewery = item.data()
+const route = useRoute()
+const { getItem, converter } = useBrewery()
+
+const item = await getItem(String(route.params.breweryId))
+
+const brewery:Brewery = converter(item)
 
 const add = async function () {
   await navigateTo({ path: `${item.id}/brands/add` })
@@ -15,7 +18,7 @@ function deleteRecord() {}
 <template>
   <div>
     <h1>酒蔵 詳細</h1>
-    <hr />
+    <hr >
     <small v-if="brewery">{{ brewery.breweryId }}</small>
     <h2 v-if="brewery">{{ brewery.name }}</h2>
     <h6 v-if="brewery">{{ brewery.kana }}</h6>
@@ -24,7 +27,7 @@ function deleteRecord() {}
       <dd>
         <p v-if="brewery">
           {{
-            brewery.prefecture ? prefectures.find((e) => e.id === brewery.prefecture).nameJa : ""
+            brewery.prefecture ? prefectures.find((e) => e.id === brewery?.prefecture)?.nameJa : ""
           }}
         </p>
       </dd>
@@ -44,7 +47,7 @@ function deleteRecord() {}
       <dt>Eメール</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="'mailto:' + brewery.email" target="_blank">{{
+          <a v-if="brewery" :href="'mailto:' + brewery.email" target="_blank">{{
             brewery.email
           }}</a>
         </p>
@@ -60,37 +63,37 @@ function deleteRecord() {}
       <dt>URL</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.url">{{ brewery.url }}</a>
+          <a v-if="brewery" :href="brewery.url">{{ brewery.url }}</a>
         </p>
       </dd>
       <dt>購入URL</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.ecurl">{{ brewery.ecurl }}</a>
+          <a v-if="brewery" :href="brewery.ecurl">{{ brewery.ecurl }}</a>
         </p>
       </dd>
       <dt>Facebook</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.facebook">{{ brewery.facebook }}</a>
+          <a v-if="brewery" :href="brewery.facebook">{{ brewery.facebook }}</a>
         </p>
       </dd>
       <dt>Twitter</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.twitter">{{ brewery.twitter }}</a>
+          <a v-if="brewery" :href="brewery.twitter">{{ brewery.twitter }}</a>
         </p>
       </dd>
       <dt>Instagram</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.instagram">{{ brewery.instagram }}</a>
+          <a v-if="brewery" :href="brewery.instagram">{{ brewery.instagram }}</a>
         </p>
       </dd>
       <dt>その他SNS</dt>
       <dd>
         <p>
-          <a v-if="brewery" v-bind:href="brewery.othersns">{{ brewery.othersns }}</a>
+          <a v-if="brewery" :href="brewery.othersns">{{ brewery.othersns }}</a>
         </p>
       </dd>
       <dt>見学</dt>
@@ -122,7 +125,7 @@ function deleteRecord() {}
         <p v-if="brewery.endYear">{{ brewery.endYear }}年</p>
       </dd>
       <dt>更新日</dt>
-      <dd>{{ brewery.updatedAt | datetime }}</dd>
+      <dd>{{ datetime(brewery.updatedAt) }}</dd>
     </dl>
 
     <div class="d-flex justify-content-between">
@@ -134,13 +137,13 @@ function deleteRecord() {}
       </div>
       <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
     </div>
-    <hr />
+    <hr >
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>
         <UButton @click="add">銘柄追加</UButton>
       </div>
-      <BreweryBrandList :breweryId="route.params.breweryId" />
+      <BreweryBrandList :brewery-id="route.params.breweryId" />
     </div>
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
