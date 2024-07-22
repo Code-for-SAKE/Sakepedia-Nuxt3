@@ -7,9 +7,9 @@ const {
   getList: getListFirestore,
   getItem: getItemFirestore,
   addItem: addItemFirestore,
-  setItem: setItemFirestore,
-  deleteItem: deleteItemFirestore,
-  getReference: getReferenceFirestore,
+  setItem,
+  deleteItem,
+  getReference,
   getFromReference,
 } = useFirestore()
 
@@ -94,8 +94,7 @@ export const useBrewery = () => {
   }
 
   const getItem = async (path: string) => {
-    const snapshot = await getItemFirestore(path)
-    return converter(snapshot)
+    return await getItemFirestore(path, converter)
   }
 
   const getBrandList = async (params: BrandListParams) => {
@@ -115,20 +114,8 @@ export const useBrewery = () => {
     })
   }
 
-  const getReference = async (path: string) => {
-    return await getReferenceFirestore(path)
-  }
-
   const addItem = async (params: Brewery) => {
     return await addItemFirestore(`breweries`, params)
-  }
-
-  const setItem = async (path: string, params: Brewery) => {
-    return await setItemFirestore(path, params)
-  }
-
-  const deleteItem = async (path: string) => {
-    return await deleteItemFirestore(path)
   }
 
   return {

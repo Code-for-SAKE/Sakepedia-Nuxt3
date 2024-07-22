@@ -1,6 +1,7 @@
 import type {
   DocumentData,
   DocumentReference,
+  DocumentSnapshot,
   Query,
   QueryDocumentSnapshot,
   WithFieldValue,
@@ -40,7 +41,7 @@ export type Results<T> = {
   listCount: number
 }
 
-export type Converter<T> = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) => Data<T>
+export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) => Data<T>
 
 /**
  * Firestore へのアクセス
@@ -92,9 +93,9 @@ export const useFirestore = () => {
     } as Results<T>
   }
 
-  const getItem = async (path: string) => {
+  const getItem = async <T>(path: string, converter: Converter<T>) => {
     const snapshot = await getDoc(doc(db, path))
-    return snapshot
+    return converter(snapshot)
   }
 
   const getReference = async (path: string) => {
