@@ -12,7 +12,7 @@ const {
   setItem: setItemFirestore,
   deleteItem: deleteItemFirestore,
 } = useFirestore()
-  
+
 export type Brand = {
   name: string
   description: string
@@ -40,8 +40,8 @@ export const useBrand = () => {
       data: {
         name: snapshot.data()?.name,
         description: snapshot.data()?.description,
-        brewery: snapshot.ref.parent.parent,  
-      }
+        brewery: snapshot.ref.parent.parent,
+      },
     }
   }
 

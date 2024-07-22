@@ -23,10 +23,10 @@ import {
 import { useFirebaseApp } from "~/composables/useFirebase"
 
 export type Data<T> = {
-    id: string
-    path: string
-    ref: DocumentReference
-    data: T
+  id: string
+  path: string
+  ref: DocumentReference
+  data: T
 }
 
 export type Params<T> = {
@@ -106,18 +106,12 @@ export const useFirestore = () => {
     return getDoc(ref)
   }
 
-  const addItem = async <T extends WithFieldValue<DocumentData>>(
-    path: string,
-    params: T,
-  ) => {
+  const addItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
     const coll = collection(db, path)
     return await addDoc(coll, params)
   }
 
-  const setItem = async <T extends WithFieldValue<DocumentData>>(
-    path: string,
-    params: T,
-  ) => {
+  const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
     return await setDoc(doc(db, path), params)
   }
 

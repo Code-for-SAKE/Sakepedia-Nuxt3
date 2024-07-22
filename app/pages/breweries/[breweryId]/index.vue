@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Brewery } from "~/composables/useBrewery"
-import type { Data } from "~/composables/useFirestore";
+import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getItem } = useBrewery()
@@ -26,7 +26,9 @@ function deleteRecord() {}
       <dd>
         <p v-if="brewery">
           {{
-            brewery.data.prefecture ? prefectures.find((e) => e.id === brewery?.data.prefecture)?.nameJa : ""
+            brewery.data.prefecture
+              ? prefectures.find((e) => e.id === brewery?.data.prefecture)?.nameJa
+              : ""
           }}
         </p>
       </dd>

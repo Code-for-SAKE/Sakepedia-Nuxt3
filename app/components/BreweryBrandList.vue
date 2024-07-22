@@ -34,7 +34,7 @@ const getMoreData = async () => {
     breweryId: props.breweryId,
     before: brands.value[brands.value.length - 1].name,
     limit: limit,
-    searchText: ""
+    searchText: "",
   })
 
   brands.value.splice(brands.value.length, 0, ...res.list)

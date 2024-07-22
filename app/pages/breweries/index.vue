@@ -113,7 +113,9 @@ const getMoreData = async () => {
           <div class="w-full">
             <span>{{ row.data.name }}</span>
             <span>{{
-              row.data.prefecture ? prefectures.find((e) => e.id == row.data.prefecture)?.nameJa : ""
+              row.data.prefecture
+                ? prefectures.find((e) => e.id == row.data.prefecture)?.nameJa
+                : ""
             }}</span>
           </div>
         </NuxtLink>

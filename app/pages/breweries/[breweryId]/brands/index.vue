@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Data } from '~/composables/useFirestore';
+import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getList } = useBrand()

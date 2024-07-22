@@ -60,8 +60,8 @@ export const useBrewery = () => {
         prefecture: snapshot.data()?.prefecture,
         location: snapshot.data()?.location,
         createdAt: snapshot.data()?.createdAt?.toDate(),
-        updatedAt: snapshot.data()?.updatedAt?.toDate(),  
-      }
+        updatedAt: snapshot.data()?.updatedAt?.toDate(),
+      },
     }
   }
 

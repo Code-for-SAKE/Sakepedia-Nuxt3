@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { object, string, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
-import type { Data } from "~/composables/useFirestore";
+import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
-const { getList, getItem:getBrewery, getReference } = useBrewery()
+const { getList, getItem: getBrewery, getReference } = useBrewery()
 const { getItem, setItem } = useBrand()
 
 const item = await getItem(`breweries/${route.params.breweryId}/brands/${route.params.brandId}`)
 const brand: Data<Brand> = item!
 let searchText: string = ""
 if (brand.data.brewery) {
-    console.log(brand.data.brewery)
+  console.log(brand.data.brewery)
   const brewery = await getBrewery(brand.data.brewery.path)
   searchText = brewery?.data.name
 }
@@ -42,10 +42,10 @@ async function search(q: string) {
   loading.value = true
 
   const res = await getList({
-      searchText: q,
-      before: undefined,
-      limit: 10,
-      prefecture: undefined
+    searchText: q,
+    before: undefined,
+    limit: 10,
+    prefecture: undefined,
   })
   loading.value = false
   console.log(res.list)

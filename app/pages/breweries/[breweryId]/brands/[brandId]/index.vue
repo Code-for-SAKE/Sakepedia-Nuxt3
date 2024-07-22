@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Data } from '~/composables/useFirestore';
+import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getItem, deleteItem } = useBrand()
-const { getItem:getBrewery } = useBrewery()
+const { getItem: getBrewery } = useBrewery()
 
 const item = await getItem(route.path)
-const brand:Data<Brand> = item!
+const brand: Data<Brand> = item!
 
 console.log(item)
-let brewery:Data<Brewery>|undefined = undefined
+let brewery: Data<Brewery> | undefined = undefined
 if (brand?.data.brewery) {
   brewery = await getBrewery(brand.data.brewery.path)
 }
