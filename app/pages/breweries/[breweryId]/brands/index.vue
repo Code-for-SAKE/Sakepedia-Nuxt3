@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Data } from '~/composables/useFirestore';
+
 const route = useRoute()
 const { getList } = useBrand()
 
@@ -16,7 +18,7 @@ const res = await getList({
 })
 
 console.log(res)
-const brands: Ref = ref(res.list)
+const brands: Ref<Data<Brand>[]> = ref(res.list)
 const cnt = computed(() => brands.value.length)
 const count: Ref<number> = ref<number>(res.listCount)
 
@@ -31,7 +33,7 @@ const columns = [
 const getMoreData = async () => {
   const res = await getList({
     searchText: searchText,
-    before: brands.value[brands.value.length - 1].name,
+    before: brands.value[brands.value.length - 1].data,
     limit: limit,
   })
 

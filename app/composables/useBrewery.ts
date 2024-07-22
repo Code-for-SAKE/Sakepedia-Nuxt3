@@ -1,5 +1,6 @@
-import type { DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
+import type { DocumentData, DocumentSnapshot } from "firebase/firestore"
 import { collection, query, where, orderBy } from "firebase/firestore"
+import type { Data } from "./useFirestore"
 
 const {
   db,
@@ -17,9 +18,10 @@ const { converter: converterBrand } = useBrand()
 const collectionName: string = "breweries"
 
 export type Brewery = {
-  id: string
   name: string
+  kana: string
   prefecture: string
+  address: string
   location: {
     latitude: number
     longitude: number
@@ -30,30 +32,36 @@ export type Brewery = {
 
 export type BreweryParams = {
   searchText: string
-  prefecture: string
+  prefecture: string | undefined
   limit: number
-  before: Brewery
+  before: Brewery | undefined
 }
 
 export type BrandListParams = {
   breweryId: string
   searchText: string
   limit: number
-  before: Brand
+  before: Brand | undefined
 }
 
 /**
  * Firestore へのアクセス
  */
 export const useBrewery = () => {
-  const converter = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>): Brewery => {
+  const converter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>): Data<Brewery> => {
     return {
+      path: snapshot.ref.path,
       id: snapshot.id,
-      name: snapshot.data().name,
-      prefecture: snapshot.data().prefecture,
-      location: snapshot.data().location,
-      createdAt: snapshot.data().createdAt?.toDate(),
-      updatedAt: snapshot.data().updatedAt?.toDate(),
+      ref: snapshot.ref,
+      data: {
+        name: snapshot.data()?.name,
+        kana: snapshot.data()?.kana,
+        address: snapshot.data()?.address,
+        prefecture: snapshot.data()?.prefecture,
+        location: snapshot.data()?.location,
+        createdAt: snapshot.data()?.createdAt?.toDate(),
+        updatedAt: snapshot.data()?.updatedAt?.toDate(),  
+      }
     }
   }
 
@@ -85,9 +93,9 @@ export const useBrewery = () => {
     })
   }
 
-  const getItem = async (id: string) => {
-    const snapshot = await getItemFirestore(collectionName, id)
-    return snapshot
+  const getItem = async (path: string) => {
+    const snapshot = await getItemFirestore(path)
+    return converter(snapshot)
   }
 
   const getBrandList = async (params: BrandListParams) => {
@@ -107,20 +115,20 @@ export const useBrewery = () => {
     })
   }
 
-  const getReference = async (id: string) => {
-    return await getReferenceFirestore(collectionName, id)
+  const getReference = async (path: string) => {
+    return await getReferenceFirestore(path)
   }
 
   const addItem = async (params: Brewery) => {
-    return await addItemFirestore(collectionName, params)
+    return await addItemFirestore(`breweries`, params)
   }
 
-  const setItem = async (id: string, params: Brewery) => {
-    return await setItemFirestore(collectionName, id, params)
+  const setItem = async (path: string, params: Brewery) => {
+    return await setItemFirestore(path, params)
   }
 
-  const deleteItem = async (id: string) => {
-    return await deleteItemFirestore(collectionName, id)
+  const deleteItem = async (path: string) => {
+    return await deleteItemFirestore(path)
   }
 
   return {

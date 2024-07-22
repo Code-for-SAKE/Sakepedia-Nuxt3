@@ -26,14 +26,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 async function onChange() {
-  state.brewery = await getReference("/breweries/" + selected.value.id)
+  state.brewery = selected.value
 }
 
 let searchText = ""
 if (route.query.breweryId) {
-  const brewery = await getItem(String(route.query.breweryId))
-  state.brewery = await getReference(brewery.id)
-  searchText = brewery.data().name
+  const brewery = await getItem(`breweries/${route.query.breweryId}`)
+  state.brewery = await getReference(brewery!.path)
+  searchText = brewery!.name
 }
 
 const loading = ref(false)
@@ -44,9 +44,9 @@ async function search(q: string) {
 
   const res = await getList({
     searchText: q,
-    before: null,
+    before: undefined,
     limit: 10,
-    prefecture: 0,
+    prefecture: "0",
   })
   const list = res.list.map((data) => {
     return data
@@ -70,7 +70,7 @@ async function search(q: string) {
         placeholder="酒蔵検索..."
         option-attribute="name"
         trailing
-        by="id"
+        by="path"
         @change="onChange"
       />
     </UFormGroup>

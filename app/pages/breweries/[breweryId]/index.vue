@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import type { Brewery } from "~/composables/useBrewery"
+import type { Data } from "~/composables/useFirestore";
 
 const route = useRoute()
-const { getItem, converter } = useBrewery()
+const { getItem } = useBrewery()
 
-const item = await getItem(String(route.params.breweryId))
-
-const brewery: Brewery = converter(item)
+const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
 const add = async function () {
-  await navigateTo({ path: `${item.id}/brands/add` })
+  await navigateTo({ path: `${brewery.id}/brands/add` })
 }
 
 function deleteRecord() {}
@@ -19,118 +18,118 @@ function deleteRecord() {}
   <div>
     <h1>酒蔵 詳細</h1>
     <hr />
-    <small v-if="brewery">{{ brewery.breweryId }}</small>
-    <h2 v-if="brewery">{{ brewery.name }}</h2>
-    <h6 v-if="brewery">{{ brewery.kana }}</h6>
+    <small v-if="brewery">{{ brewery.id }}</small>
+    <h2 v-if="brewery">{{ brewery.data.name }}</h2>
+    <h6 v-if="brewery">{{ brewery.data.kana }}</h6>
     <dl>
       <dt>都道府県</dt>
       <dd>
         <p v-if="brewery">
           {{
-            brewery.prefecture ? prefectures.find((e) => e.id === brewery?.prefecture)?.nameJa : ""
+            brewery.data.prefecture ? prefectures.find((e) => e.id === brewery?.data.prefecture)?.nameJa : ""
           }}
         </p>
       </dd>
       <dt>住所</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.address }}</p>
-        <p v-if="brewery">{{ brewery.latitude }}</p>
-        <p v-if="brewery">{{ brewery.longitude }}</p>
+        <p v-if="brewery">{{ brewery.data.address }}</p>
+        <p v-if="brewery">{{ brewery.data.location.latitude }}</p>
+        <p v-if="brewery">{{ brewery.data.location.longitude }}</p>
         <div
-          v-if="brewery && brewery.latitude && brewery.longitude"
+          v-if="brewery && brewery.data.location.latitude && brewery.data.location.longitude"
           class="map-wrap col-12 col-lg-6 m-3"
         >
-          <BreweryMap :brewery="brewery" />
+          <BreweryMap :brewery="brewery.data" />
         </div>
         <p v-else>位置情報がありません</p>
       </dd>
       <dt>Eメール</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="'mailto:' + brewery.email" target="_blank">{{
-            brewery.email
+          <a v-if="brewery" :href="'mailto:' + brewery.data.email" target="_blank">{{
+            brewery.data.email
           }}</a>
         </p>
       </dd>
       <dt>電話番号</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.tel }}</p>
+        <p v-if="brewery">{{ brewery.data.tel }}</p>
       </dd>
       <dt>FAX番号</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.fax }}</p>
+        <p v-if="brewery">{{ brewery.data.fax }}</p>
       </dd>
       <dt>URL</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.url">{{ brewery.url }}</a>
+          <a v-if="brewery" :href="brewery.data.url">{{ brewery.data.url }}</a>
         </p>
       </dd>
       <dt>購入URL</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.ecurl">{{ brewery.ecurl }}</a>
+          <a v-if="brewery" :href="brewery.data.ecurl">{{ brewery.data.ecurl }}</a>
         </p>
       </dd>
       <dt>Facebook</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.facebook">{{ brewery.facebook }}</a>
+          <a v-if="brewery" :href="brewery.data.facebook">{{ brewery.data.facebook }}</a>
         </p>
       </dd>
       <dt>Twitter</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.twitter">{{ brewery.twitter }}</a>
+          <a v-if="brewery" :href="brewery.data.twitter">{{ brewery.data.twitter }}</a>
         </p>
       </dd>
       <dt>Instagram</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.instagram">{{ brewery.instagram }}</a>
+          <a v-if="brewery" :href="brewery.data.instagram">{{ brewery.data.instagram }}</a>
         </p>
       </dd>
       <dt>その他SNS</dt>
       <dd>
         <p>
-          <a v-if="brewery" :href="brewery.othersns">{{ brewery.othersns }}</a>
+          <a v-if="brewery" :href="brewery.data.othersns">{{ brewery.data.othersns }}</a>
         </p>
       </dd>
       <dt>見学</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.visit }}</p>
+        <p v-if="brewery">{{ brewery.data.visit }}</p>
       </dd>
       <dt>試飲</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.tasting }}</p>
+        <p v-if="brewery">{{ brewery.data.tasting }}</p>
       </dd>
       <dt>併設カフェ</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.cafe }}</p>
+        <p v-if="brewery">{{ brewery.data.cafe }}</p>
       </dd>
       <dt>併設ショップ</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.shop }}</p>
+        <p v-if="brewery">{{ brewery.data.shop }}</p>
       </dd>
       <dt>日本酒以外の醸造・蒸留</dt>
       <dd>
-        <p v-if="brewery">{{ brewery.otherBrewing }}</p>
+        <p v-if="brewery">{{ brewery.data.otherBrewing }}</p>
       </dd>
       <dt>創業年</dt>
       <dd>
-        <p v-if="brewery.startYear">{{ brewery.startYear }}年</p>
+        <p v-if="brewery.data.startYear">{{ brewery.data.startYear }}年</p>
       </dd>
-      <dt v-if="brewery.endYear">廃業年</dt>
+      <dt v-if="brewery.data.endYear">廃業年</dt>
       <dd>
-        <p v-if="brewery.endYear">{{ brewery.endYear }}年</p>
+        <p v-if="brewery.data.endYear">{{ brewery.data.endYear }}年</p>
       </dd>
       <dt>更新日</dt>
-      <dd>{{ datetime(brewery.updatedAt) }}</dd>
+      <dd>{{ datetime(brewery.data.updatedAt) }}</dd>
     </dl>
 
     <div class="d-flex justify-content-between">
       <div>
-        <UButton variant="light" :to="'/breweries/' + brewery._id + '/update'" class="mr-3"
+        <UButton variant="light" :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
           >編集</UButton
         >
         <UButton variant="danger" @click="deleteRecord()">削除</UButton>
@@ -143,7 +142,7 @@ function deleteRecord() {}
         <h3>銘柄</h3>
         <UButton @click="add">銘柄追加</UButton>
       </div>
-      <BreweryBrandList :brewery-id="route.params.breweryId" />
+      <BreweryBrandList :brewery-id="String(route.params.breweryId)" />
     </div>
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">

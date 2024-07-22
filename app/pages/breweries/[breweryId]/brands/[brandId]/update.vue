@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { object, string, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
+import type { Data } from "~/composables/useFirestore";
 
 const route = useRoute()
-const { getList, getFromReference, getReference } = useBrewery()
+const { getList, getItem:getBrewery, getReference } = useBrewery()
 const { getItem, setItem } = useBrand()
 
-const item = await getItem(route.path)
-const brand: Brand = item!
+const item = await getItem(`breweries/${route.params.breweryId}/brands/${route.params.brandId}`)
+const brand: Data<Brand> = item!
 let searchText: string = ""
-if (brand.brewery) {
-  const ref = await getFromReference(brand.brewery)
-  const brewery = ref.data()
-  searchText = brewery?.name
+if (brand.data.brewery) {
+    console.log(brand.data.brewery)
+  const brewery = await getBrewery(brand.data.brewery.path)
+  searchText = brewery?.data.name
 }
+console.log(brand)
 
 const schema = object({
   name: string().required("名前は必須です"),
@@ -28,9 +30,9 @@ const state = reactive(brand)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
-  event.data.brewery = await getReference(selected.value.id)
-  await setItem(item.id, event.data)
-  await navigateTo("/brands/" + item.id)
+  event.data.brewery = await getReference(selected.value)
+  await setItem(brand.path, event.data)
+  await navigateTo(brand.path)
 }
 
 const loading = ref(false)
@@ -40,25 +42,21 @@ async function search(q: string) {
   loading.value = true
 
   const res = await getList({
-    searchText: q,
-    before: null,
-    limit: 10,
-  })
-  const list = res.list.map((doc: Brewery) => {
-    const data = doc.data()
-    data["id"] = doc.id
-    return data
+      searchText: q,
+      before: undefined,
+      limit: 10,
+      prefecture: undefined
   })
   loading.value = false
-  console.log(list)
-  return list
+  console.log(res.list)
+  return res.list
 }
 </script>
 
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
     <UFormGroup label="名前" name="name">
-      <UInput v-model="state.name" />
+      <UInput v-model="state.data.name" />
     </UFormGroup>
     <UFormGroup label="酒蔵" name="brewery">
       <USelectMenu
@@ -68,11 +66,11 @@ async function search(q: string) {
         placeholder="酒蔵検索..."
         option-attribute="name"
         trailing
-        by="id"
+        by="path"
       />
     </UFormGroup>
     <UFormGroup label="説明" name="description">
-      <UTextarea v-model="state.description" />
+      <UTextarea v-model="state.data.description" />
     </UFormGroup>
 
     <UButton type="submit"> Submit </UButton>
