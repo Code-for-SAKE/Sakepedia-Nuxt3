@@ -1,6 +1,7 @@
 import type {
   DocumentData,
   DocumentReference,
+  DocumentSnapshot,
   Query,
   QueryDocumentSnapshot,
   WithFieldValue,
@@ -21,6 +22,14 @@ import {
   collectionGroup,
 } from "firebase/firestore"
 import { useFirebaseApp } from "~/composables/useFirebase"
+
+export type Data<T> = {
+  id: string
+  path: string
+  ref: DocumentReference
+  data: T
+}
+
 export type Params<T> = {
   query: Query
   limit: number
@@ -28,11 +37,11 @@ export type Params<T> = {
   converter: Converter<T>
 }
 export type Results<T> = {
-  list: T[]
+  list: Data<T>[]
   listCount: number
 }
 
-export type Converter<T> = (snapshot: QueryDocumentSnapshot<DocumentData, DocumentData>) => T
+export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) => Data<T>
 
 /**
  * Firestore へのアクセス
@@ -66,7 +75,7 @@ export const useFirestore = () => {
     const listCount = listSnapshot.data().count
     console.log("listCount", listCount)
 
-    const list: T[] = []
+    const list: Data<T>[] = []
     querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
       list.push(params.converter(doc))
     })
@@ -84,16 +93,13 @@ export const useFirestore = () => {
     } as Results<T>
   }
 
-  const getItem = async (collectionName: string, id: string) => {
-    const snapshot = await getDoc(doc(db, collectionName, id))
-    return snapshot
-  }
-  const getItemFromPath = async (path: string) => {
+  const getItem = async <T>(path: string, converter: Converter<T>) => {
     const snapshot = await getDoc(doc(db, path))
-    return snapshot
+    return converter(snapshot)
   }
-  const getReference = async (collectionName: string, id: string) => {
-    const ref = doc(db, collectionName, id)
+
+  const getReference = async (path: string) => {
+    const ref = doc(db, path)
     return ref
   }
 
@@ -101,24 +107,17 @@ export const useFirestore = () => {
     return getDoc(ref)
   }
 
-  const addItem = async <T extends WithFieldValue<DocumentData>>(
-    collectionName: string,
-    params: T,
-  ) => {
-    const coll = collection(db, collectionName)
+  const addItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+    const coll = collection(db, path)
     return await addDoc(coll, params)
   }
 
-  const setItem = async <T extends WithFieldValue<DocumentData>>(
-    collectionName: string,
-    id: string,
-    params: T,
-  ) => {
-    return await setDoc(doc(db, collectionName, id), params)
+  const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+    return await setDoc(doc(db, path), params)
   }
 
-  const deleteItem = async (collectionName: string, id: string) => {
-    return await deleteDoc(doc(db, collectionName, id))
+  const deleteItem = async (path: string) => {
+    return await deleteDoc(doc(db, path))
   }
 
   return {
@@ -127,7 +126,6 @@ export const useFirestore = () => {
     getCount,
     getList,
     getItem,
-    getItemFromPath,
     getReference,
     getFromReference,
     addItem,

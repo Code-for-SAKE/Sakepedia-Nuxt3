@@ -3,7 +3,7 @@ const route = useRoute()
 const { getList } = useBrewery()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : "")
-const prefectureId: number = route.query.prefecture != null ? Number(route.query.prefecture) : 0
+const prefectureId: string = route.query.prefecture != null ? String(route.query.prefecture) : "0"
 const prefecture = ref(
   prefectureId ? prefectures.find((e) => e.id === prefectureId) : prefectures[0],
 )
@@ -12,11 +12,11 @@ const limit = route.query.limit ? Number(route.query.limit) : 2
 const res = await getList({
   searchText: searchText.value,
   prefecture: prefectureId,
-  before: null,
+  before: undefined,
   limit: limit,
 })
 
-const breweries: Ref = ref(res.list)
+const breweries: Ref<Data<Brewery>[]> = ref(res.list)
 const cnt = computed(() => breweries.value.length)
 const count: Ref<number> = ref<number>(res.listCount)
 
@@ -31,7 +31,7 @@ const columns = [
 async function searchVector() {
   const res = await getList({
     searchText: searchText.value,
-    prefecture: prefecture.value?.id ?? 0,
+    prefecture: prefecture.value?.id ?? "0",
     before: undefined,
     limit: limit,
   })
@@ -48,8 +48,8 @@ function setHistories() {
 const getMoreData = async () => {
   const res = await getList({
     searchText: searchText.value,
-    prefecture: prefecture.value?.id ?? 0,
-    before: breweries.value[breweries.value.length - 1].name,
+    prefecture: prefecture.value?.id ?? "0",
+    before: breweries.value[breweries.value.length - 1].data.name,
     limit: limit,
   })
 
@@ -111,9 +111,11 @@ const getMoreData = async () => {
       <template #name-data="{ row }">
         <NuxtLink :to="'/breweries/' + row.id">
           <div class="w-full">
-            <span>{{ row.name }}</span>
+            <span>{{ row.data.name }}</span>
             <span>{{
-              row.prefecture ? prefectures.find((e) => e.id == row.prefecture)?.nameJa : ""
+              row.data.prefecture
+                ? prefectures.find((e) => e.id == row.data.prefecture)?.nameJa
+                : ""
             }}</span>
           </div>
         </NuxtLink>

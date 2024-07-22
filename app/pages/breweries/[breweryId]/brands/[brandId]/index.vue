@@ -1,20 +1,22 @@
 <script setup lang="ts">
-const route = useRoute()
-const { getItemFromPath, deleteItem } = useBrand()
-const { getFromReference } = useBrewery()
+import type { Data } from "~/composables/useFirestore"
 
-const item = await getItemFromPath(route.path)
-const brand = item.data()
+const route = useRoute()
+const { getItem, deleteItem } = useBrand()
+const { getItem: getBrewery } = useBrewery()
+
+const item = await getItem(route.path)
+const brand: Data<Brand> = item!
 
 console.log(item)
-let brewery = {}
-if (brand?.brewery) {
-  brewery = await getFromReference(brand.brewery)
+let brewery: Data<Brewery> | undefined = undefined
+if (brand?.data.brewery) {
+  brewery = await getBrewery(brand.data.brewery.path)
 }
 
 const confirmDelete = ref(false)
 const deleteBrand = async function () {
-  await deleteItem("brands", item.id)
+  await deleteItem(brand.path)
   await navigateTo("/brands")
 }
 </script>
@@ -24,17 +26,17 @@ const deleteBrand = async function () {
     <h1>銘柄 詳細</h1>
     <dl>
       <dt>ID</dt>
-      <dd>{{ item.id }}</dd>
+      <dd>{{ brand.id }}</dd>
       <dt>名前</dt>
-      <dd>{{ brand?.name }}</dd>
+      <dd>{{ brand?.data.name }}</dd>
       <dt>酒蔵</dt>
       <dd>
-        <NuxtLink v-if="brand?.brewery" :to="'/breweries/' + brewery?.id">
-          <div class="w-full">{{ brewery?.data().name }}</div>
+        <NuxtLink v-if="brand?.data.brewery" :to="brewery?.path">
+          <div class="w-full">{{ brewery?.data.name }}</div>
         </NuxtLink>
       </dd>
       <dt>説明</dt>
-      <dd>{{ brand?.description }}</dd>
+      <dd>{{ brand?.data.description }}</dd>
     </dl>
     <UButton class="info" :to="route.path + '/update'">編集</UButton>
     <UButton class="danger" @click="confirmDelete = true">削除</UButton>
