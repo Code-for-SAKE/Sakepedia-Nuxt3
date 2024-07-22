@@ -4,7 +4,7 @@
       ref="map"
       :zoom="zoom"
       :max-zoom="18"
-      :center="[props.brewery.latitude, props.brewery.longitude]"
+      :center="[props.brewery.location.latitude, props.brewery.location.longitude]"
       @ready="mapInitialized"
     >
       <LTileLayer
@@ -22,10 +22,7 @@ import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import iconUrl from "~/assets/icons/sake.svg"
 interface Props {
-  brewery: {
-    latitude: number
-    longitude: number
-  }
+  brewery: Brewery
 }
 const props = defineProps<Props>()
 

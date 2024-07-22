@@ -34,6 +34,7 @@ const getMoreData = async () => {
     breweryId: props.breweryId,
     before: brands.value[brands.value.length - 1].name,
     limit: limit,
+    searchText: "",
   })
 
   brands.value.splice(brands.value.length, 0, ...res.list)
@@ -50,7 +51,7 @@ const getMoreData = async () => {
       <template #name-data="{ row }">
         <NuxtLink :to="`/breweries/${props.breweryId}/brands/${row.id}`">
           <div class="w-full">
-            <span>{{ row.name }}</span>
+            <span>{{ row.data.name }}</span>
           </div>
         </NuxtLink>
       </template>

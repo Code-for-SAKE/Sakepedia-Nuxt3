@@ -1,3 +1,11 @@
+import type {
+    DocumentData,
+    DocumentReference,
+    DocumentSnapshot,
+    Query,
+    QueryDocumentSnapshot,
+    WithFieldValue,
+} from "firebase/firestore"
 import {
     getFirestore,
     getCountFromServer,
@@ -7,111 +15,115 @@ import {
     deleteDoc,
     doc,
     collection,
-    collectionGroup,
     query,
-    where,
     getDocs,
-    orderBy,
-    startAfter,
     limit,
-    DocumentReference,
-} from 'firebase/firestore'
-import { useFirebaseApp } from "~/composables/useFirebase";
-type Params = {
-    searchText: string,
-    limit: number,
-    before: any,
-}
-type Results = {
-    list: any,
-    listCount: number,
+    startAfter,
+    collectionGroup,
+} from "firebase/firestore"
+import { useFirebaseApp } from "~/composables/useFirebase"
+
+export type Data<T> = {
+    id: string
+    path: string
+    ref: DocumentReference
+    data: T
 }
 
+export type Params<T> = {
+    query: Query
+    limit: number
+    before: T | undefined
+    converter: Converter<T>
+}
+export type Results<T> = {
+    list: Data<T>[]
+    listCount: number
+}
+
+export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) => Data<T>
 
 /**
  * Firestore へのアクセス
  */
 export const useFirestore = () => {
     const app = useFirebaseApp()
-    const db = getFirestore(app);
+    const db = getFirestore(app)
 
-    const getList = async (collectionName: string, params: Params, isSub: boolean = false) => {
-        if (typeof params.limit !== 'number' || params.limit < 0)
-            throw new Error('express-paginate: `limit` is not a number >= 0');
+    const getSummary = async () => {
+        const brewery = await getCount(query(collection(db, "breweries")))
+        const brand = await getCount(query(collectionGroup(db, "brands")))
+        const sake = await getCount(query(collectionGroup(db, "sakes")))
+        const user = await getCount(query(collection(db, "users")))
+        const comment = await getCount(query(collection(db, "comments")))
+        return { brewery, brand, sake, user, comment }
+    }
 
-        const coll = isSub ? collectionGroup(db, collectionName) : collection(db, collectionName);
-        let snapshot;
-        let q;
-        if(params.searchText != "") {
-            snapshot = await getCountFromServer(query(coll, where("name", "==", params.searchText)));
-            q = query(coll,
-                orderBy("name"),
-                where("name", "==", params.searchText),
-                startAfter(params.before),
-                limit(params.limit))
-        }else{
-            snapshot = await getCountFromServer(query(coll));
-            q = query(coll,
-                orderBy("name"),
-                startAfter(params.before),
-                limit(params.limit))
+    const getCount = async (q: Query) => {
+        const listSnapshot = await getCountFromServer(q)
+        return listSnapshot.data().count
+    }
+
+    const getList = async <T>(params: Params<T>) => {
+        let q = params.query
+        const listSnapshot = await getCountFromServer(q)
+        if (params.before) {
+            q = query(q, startAfter(params.before))
         }
-
-        const listCount = snapshot.data().count
-
+        q = query(q, limit(params.limit))
         const querySnapshot = await getDocs(q)
-        const list = []
-        querySnapshot.forEach((doc: any) => {
-            list.push(doc)
+        const listCount = listSnapshot.data().count
+        console.log("listCount", listCount)
+
+        const list: Data<T>[] = []
+        querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+            list.push(params.converter(doc))
         })
+        console.log("list.length", list.length)
+
         if (list.length) {
             return {
                 list: list,
                 listCount: listCount,
-            } as Results
+            } as Results<T>
         }
         return {
             list: [],
-            listCount: 0,
-        } as Results
+            listCount: listCount,
+        } as Results<T>
     }
 
-    const getItem = async (collectionName : string,id: string) => {
-        const snapshot = await getDoc(doc(db, collectionName, id));
-        return snapshot;
+    const getItem = async <T>(path: string, converter: Converter<T>) => {
+        const snapshot = await getDoc(doc(db, path))
+        return converter(snapshot)
     }
 
-    const getReference = async (collectionName : string,id: string) => {
-        const ref = doc(db, collectionName, id);
-        return ref;
+    const getReference = async (path: string) => {
+        const ref = doc(db, path)
+        return ref
     }
 
     const getFromReference = async (ref: DocumentReference) => {
-        return doc
+        return getDoc(ref)
     }
 
-    const addItem = async (collectionName : string, params: any) => {
-        const coll = collection(db, collectionName);
-
-        const entries = Object.entries(params)
-        for (const [key, value] of entries) {
-            if (params[key] === undefined) {
-                delete params[key]
-            }
-        }
-        return await addDoc(coll, params);
+    const addItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+        const coll = collection(db, path)
+        return await addDoc(coll, params)
     }
 
-    const setItem = async (collectionName : string, id : string, params: any) => {
-        return await setDoc(doc(db, collectionName, id), params);
+    const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+        return await setDoc(doc(db, path), params)
     }
 
-    const deleteItem = async (collectionName : string, id : string) => {
-        return await deleteDoc(doc(db, collectionName, id));
+    const deleteItem = async (path: string) => {
+        return await deleteDoc(doc(db, path))
     }
-
 
     return {
+        db,
+        getSummary,
+        getCount,
         getList,
         getItem,
         getReference,

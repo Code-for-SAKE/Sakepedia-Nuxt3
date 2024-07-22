@@ -1,24 +1,21 @@
 import type { DocumentData, DocumentReference, DocumentSnapshot } from "firebase/firestore"
 import { collectionGroup, query, where, orderBy, collection } from "firebase/firestore"
+import type { Data } from "./useFirestore"
 
 const {
   db,
   getList: getListFirestore,
   getItem: getItemFirestore,
-  getItemFromPath,
-  getReference: getReferenceFirestore,
+  getReference,
   getFromReference,
   addItem: addItemFirestore,
-  setItem: setItemFirestore,
-  deleteItem: deleteItemFirestore,
+  setItem,
+  deleteItem,
 } = useFirestore()
 
 export type Brand = {
-  id: string
   name: string
   description: string
-  path: string
-  ref: DocumentReference<DocumentData, DocumentData>
   brewery: DocumentReference<DocumentData, DocumentData> | null
 }
 
@@ -35,14 +32,16 @@ const collectionName: string = "brands"
  * Firestore へのアクセス
  */
 export const useBrand = () => {
-  const converter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>): Brand => {
+  const converter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>): Data<Brand> => {
     return {
       id: snapshot.id,
-      name: snapshot.data()?.name,
-      description: snapshot.data()?.description,
       path: snapshot.ref.path,
       ref: snapshot.ref,
-      brewery: snapshot.ref.parent.parent,
+      data: {
+        name: snapshot.data()?.name,
+        description: snapshot.data()?.description,
+        brewery: snapshot.ref.parent.parent,
+      },
     }
   }
 
@@ -68,34 +67,17 @@ export const useBrand = () => {
     })
   }
 
-  const getItem = async (id: string) => {
-    const snapshot = await getItemFirestore(collectionName, id)
-    if (snapshot) {
-      return converter(snapshot)
-    }
-    return null
-  }
-
-  const getReference = async (id: string) => {
-    return await getReferenceFirestore(collectionName, id)
+  const getItem = async (path: string) => {
+    return await getItemFirestore(path, converter)
   }
 
   const addItem = async (params: Brand) => {
-    return await addItemFirestore(collectionName, params)
-  }
-
-  const setItem = async (id: string, params: Brand) => {
-    return await setItemFirestore(collectionName, id, params)
-  }
-
-  const deleteItem = async (id: string) => {
-    return await deleteItemFirestore(collectionName, id)
+    return await addItemFirestore(`breweries/${params.brewery!.id}/brands`, params)
   }
 
   return {
     getList,
     getItem,
-    getItemFromPath,
     getReference,
     getFromReference,
     addItem,

@@ -67,7 +67,7 @@ const getMoreData = async () => {
     <UTable :rows="brands" :columns="columns">
       <template #name-data="{ row }">
         <NuxtLink :to="row.path">
-          <div class="w-full">{{ row.name }}</div>
+          <div class="w-full">{{ row.data.name }}</div>
         </NuxtLink>
       </template>
     </UTable>
