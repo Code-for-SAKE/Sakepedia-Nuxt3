@@ -26,6 +26,21 @@ export type Brewery = {
     latitude: number
     longitude: number
   }
+  email: string
+  tel: string
+  url: string
+  ecurl: string
+  facebook: string
+  twitter: string
+  instagram: string
+  othersns: string
+  visit: string
+  tasting: string
+  cafe: string
+  shop: string
+  otherBrewing: string
+  startYear: number
+  endYear: number
   createdAt: Date
   updatedAt: Date
 }

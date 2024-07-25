@@ -35,10 +35,10 @@ function deleteRecord() {}
       <dt>住所</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.address }}</p>
-        <p v-if="brewery">{{ brewery.data.location.latitude }}</p>
-        <p v-if="brewery">{{ brewery.data.location.longitude }}</p>
+        <p v-if="brewery.data.location">{{ brewery.data.location.latitude }}</p>
+        <p v-if="brewery.data.location">{{ brewery.data.location.longitude }}</p>
         <div
-          v-if="brewery && brewery.data.location.latitude && brewery.data.location.longitude"
+          v-if="brewery.data.location && brewery.data.location.latitude && brewery.data.location.longitude"
           class="map-wrap col-12 col-lg-6 m-3"
         >
           <BreweryMap :brewery="brewery.data" />
