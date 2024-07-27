@@ -62,6 +62,7 @@ const getMoreData = async () => {
   <div>
     <div class="mb-4">
       <h1>酒蔵一覧</h1>
+      <UButton class="success" to="/breweries/add">追加</UButton>
     </div>
     <hr class="mb-4" />
     <div class="flex flex-wrap gap-4">
