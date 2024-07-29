@@ -1,9 +1,8 @@
 <script setup>
 definePageMeta({
-  layoutTransition: true
+  layoutTransition: true,
 })
-const {signIn, signOut, currentUser} = useAuth()
-
+const { signIn, signOut, currentUser } = useAuth()
 </script>
 
 <template>
