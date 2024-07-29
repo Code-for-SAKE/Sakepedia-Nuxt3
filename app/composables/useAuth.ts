@@ -20,13 +20,20 @@ import {
   export const useAuth = (): Auth => {
     const currentUser = useUser();
     const app = useFirebaseApp();
+    const route = useRoute()
 
+    const authRedirect = () => {
+      if(route.query.redirect){
+        navigateTo(`${route.query.redirect}`)
+      }
+    }
     const signIn = async () => {
         const provider = new GoogleAuthProvider()
         try {
             const auth_1 = await signInWithPopup(getAuth(app), provider);
             console.log("login", auth_1.user);
             currentUser.value = auth_1.user
+            authRedirect()
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
