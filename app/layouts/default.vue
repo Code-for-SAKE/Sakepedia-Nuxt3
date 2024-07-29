@@ -1,5 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['auth']
+})
 const { t } = useI18n()
+const { currentUser } = useAuth()
 
 const navLinks = [
   [],
@@ -21,11 +25,9 @@ const navLinks = [
       to: "/comments",
     },
     {
-      label: "Profile",
-      to: "/login",
-      avatar: {
-        src: "https://avatars.githubusercontent.com/u/739984?v=4",
-      },
+      isLogin: true,
+      label: t("Login"),
+      to: "/login"
     },
   ],
 ]
@@ -70,7 +72,12 @@ colorMode.preference = "light"
         <div class="flex-auto">
           <UHorizontalNavigation :links="navLinks">
             <template #default="{ link }">
-              <span class="group-hover:text-primary relative">{{ link.label }}</span>
+              <span class="group-hover:text-primary relative">{{ link.isLogin && currentUser ? currentUser.displayName : link.label}}</span>
+            </template>
+            <template #avatar="{ link }">
+              <UAvatar
+                v-if="link.isLogin && currentUser!=null" size="xs" :alt="currentUser?.displayName ?? undefined"
+                :src="currentUser?.photoURL ?? undefined" />
             </template>
           </UHorizontalNavigation>
         </div>

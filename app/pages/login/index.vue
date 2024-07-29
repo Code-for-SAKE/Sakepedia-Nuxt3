@@ -1,3 +1,11 @@
+<script setup>
+definePageMeta({
+  layoutTransition: true
+})
+const {signIn, signOut, currentUser} = useAuth()
+
+</script>
+
 <template>
   <div>
     <h1>Firebase Authentication Example</h1>
@@ -6,7 +14,7 @@
       <UButton type="button" role="button" @click="signIn"> Sign In </UButton>
     </div>
     <div v-else>
-      <UButton type="button" role="button" @click="signOutUser"> Sign Out </UButton>
+      <UButton type="button" role="button" @click="signOut"> Sign Out </UButton>
     </div>
     <section v-if="currentUser">
       <dl>
@@ -18,45 +26,3 @@
     </section>
   </div>
 </template>
-
-<script>
-import {
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth"
-
-export default {
-  data: () => ({
-    currentUser: null,
-  }),
-  mounted() {
-    onAuthStateChanged(getAuth(), (user) => {
-      if (user != null) {
-        this.currentUser = user
-      } else {
-        this.currentUser = null
-      }
-    })
-  },
-  methods: {
-    signIn() {
-      const provider = new GoogleAuthProvider()
-      signInWithPopup(getAuth(), provider)
-        .then((auth) => {
-          console.log("login", auth.user)
-        })
-        .catch((error) => {
-          const errorCode = error.code
-          const errorMessage = error.message
-          console.log("faild to login", errorCode, errorMessage)
-        })
-    },
-    signOutUser() {
-      signOut(getAuth())
-    },
-  },
-}
-</script>
