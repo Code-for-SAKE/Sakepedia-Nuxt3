@@ -18,6 +18,7 @@ const { converter: converterBrand } = useBrand()
 const collectionName: string = "breweries"
 
 export type Brewery = {
+  breweryId: string
   name: string
   kana: string
   prefecture: string
@@ -28,6 +29,7 @@ export type Brewery = {
   }
   email: string
   tel: string
+  fax: string
   url: string
   ecurl: string
   facebook: string
@@ -69,11 +71,27 @@ export const useBrewery = () => {
       id: snapshot.id,
       ref: snapshot.ref,
       data: {
+        breweryId: snapshot.data()?.breweryId,
         name: snapshot.data()?.name,
         kana: snapshot.data()?.kana,
         address: snapshot.data()?.address,
         prefecture: snapshot.data()?.prefecture,
         location: snapshot.data()?.location,
+        email: snapshot.data()?.email,
+        tel: snapshot.data()?.tel,
+        url: snapshot.data()?.url,
+        ecurl: snapshot.data()?.ecurl,
+        facebook: snapshot.data()?.facebook,
+        twitter: snapshot.data()?.twitter,
+        instagram: snapshot.data()?.instagram,
+        othersns: snapshot.data()?.othersns,
+        visit: snapshot.data()?.visit,
+        tasting: snapshot.data()?.tasting,
+        cafe: snapshot.data()?.cafe,
+        shop: snapshot.data()?.shop,
+        otherBrewing: snapshot.data()?.otherBrewing,
+        startYear: snapshot.data()?.startYear,
+        endYear: snapshot.data()?.endYear,
         createdAt: snapshot.data()?.createdAt?.toDate(),
         updatedAt: snapshot.data()?.updatedAt?.toDate(),
       },
