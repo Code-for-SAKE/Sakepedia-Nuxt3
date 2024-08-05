@@ -119,6 +119,12 @@ export const useFirestore = () => {
   }
 
   const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+    const entries = Object.entries(params)
+    for (const [key, value] of entries) {
+      if (params[key] === undefined) {
+        delete params[key]
+      }
+    }
     return await setDoc(doc(db, path), params)
   }
 
