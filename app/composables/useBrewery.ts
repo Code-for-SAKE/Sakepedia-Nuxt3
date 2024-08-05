@@ -79,6 +79,7 @@ export const useBrewery = () => {
         location: snapshot.data()?.location,
         email: snapshot.data()?.email,
         tel: snapshot.data()?.tel,
+        fax: snapshot.data()?.tel,
         url: snapshot.data()?.url,
         ecurl: snapshot.data()?.ecurl,
         facebook: snapshot.data()?.facebook,

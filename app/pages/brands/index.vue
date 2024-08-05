@@ -29,7 +29,7 @@ const columns = [
 const getMoreData = async () => {
   const res = await getList({
     searchText: searchText,
-    before: brands.value[brands.value.length - 1].name,
+    before: brands.value[brands.value.length - 1].data.name,
     limit: limit,
   })
 
