@@ -3,6 +3,7 @@ import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getList } = useBrand()
+const localePath = useLocalePath()
 
 const searchText = route.query.name != null ? String(route.query.name) : ""
 const limit = route.query.limit != null ? Number(route.query.limit) : 3
@@ -44,8 +45,8 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="flex justify-between">
-      <h1>銘柄一覧</h1>
-      <UButton class="success" to="/brands/add">追加</UButton>
+      <h1>{{ $t("brandList") }}</h1>
+      <UButton class="success" :to="localePath('/brands/add')">{{ $t("add") }}</UButton>
     </div>
     <hr />
     <div class="grid grid-cols-3">

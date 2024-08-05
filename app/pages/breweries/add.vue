@@ -87,18 +87,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <hr />
     <div class="grid grid-cols-6 gap-4">
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-        <UFormGroup label="法人番号" name="breweryId" required="true">
-          <UInput placeholder="国税庁が指定する13桁の識別番号" v-model="state.breweryId" />
+        <UFormGroup label="法人番号" name="breweryId">
+          <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
         </UFormGroup>
 
-        <UFormGroup label="名前" name="name" required="true">
+        <UFormGroup label="名前" name="name" required>
           <UInput v-model="state.name" />
         </UFormGroup>
-        <UFormGroup label="ふりがな" name="kana" required="true">
+        <UFormGroup label="ふりがな" name="kana" required>
           <UInput v-model="state.kana" />
         </UFormGroup>
 
-        <UFormGroup label="住所" name="address" required="true">
+        <UFormGroup label="住所" name="address">
           <UInput v-model="state.address" />
           <small
             >都道府県、緯度経度は住所から自動的に登録されます。

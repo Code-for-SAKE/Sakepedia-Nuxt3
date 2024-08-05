@@ -16,7 +16,7 @@ function deleteRecord() {}
 
 <template>
   <div>
-    <h1>酒蔵 詳細</h1>
+    <h1>{{ $t("brewery") }} {{ $t("details") }} </h1>
     <hr />
     <small v-if="brewery">{{ brewery.id }}</small>
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
@@ -38,7 +38,11 @@ function deleteRecord() {}
         <p v-if="brewery.data.location">{{ brewery.data.location.latitude }}</p>
         <p v-if="brewery.data.location">{{ brewery.data.location.longitude }}</p>
         <div
-          v-if="brewery.data.location && brewery.data.location.latitude && brewery.data.location.longitude"
+          v-if="
+            brewery.data.location &&
+            brewery.data.location.latitude &&
+            brewery.data.location.longitude
+          "
           class="map-wrap col-12 col-lg-6 m-3"
         >
           <BreweryMap :brewery="brewery.data" />

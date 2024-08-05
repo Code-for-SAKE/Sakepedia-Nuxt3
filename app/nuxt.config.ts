@@ -41,10 +41,32 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    locales: ["ja", "en"],
+    locales: [
+      {
+        code: 'en',
+        name: 'English'
+      },
+      {
+        code: 'es',
+        name: 'Español'
+      },
+      {
+        code: 'ja',
+        name: '日本語'
+      },
+      {
+        code: 'fr',
+        name: 'Français'
+      }
+    ],
     defaultLocale: "ja",
     strategy: "prefix_and_default",
     vueI18n: "./i18n.config.ts",
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root' // recommended
+    }
   },
   site: {
     // url: "", // 公開URLを記述する
