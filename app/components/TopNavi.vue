@@ -1,37 +1,36 @@
 <script setup>
-
 const { currentUser } = useAuth()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
 const navLinks = computed(() => {
   return [
-  [],
-  [
-    {
-      label: t("sake"),
-      to: localePath("/sakes"),
-    },
-    {
-      label: t("brand"),
-      to: localePath("/brands"),
-    },
-    {
-      label: t("brewery"),
-      to: localePath("/breweries"),
-    },
-    {
-      label: t("post"),
-      to: localePath("/comments"),
-    },
-    {
-      isLogin: true,
-      label: t("login"),
-      to: localePath("/login"),
-    },
-  ],
-]})
-
+    [],
+    [
+      {
+        label: t("sake"),
+        to: localePath("/sakes"),
+      },
+      {
+        label: t("brand"),
+        to: localePath("/brands"),
+      },
+      {
+        label: t("brewery"),
+        to: localePath("/breweries"),
+      },
+      {
+        label: t("post"),
+        to: localePath("/comments"),
+      },
+      {
+        isLogin: true,
+        label: t("login"),
+        to: localePath("/login"),
+      },
+    ],
+  ]
+})
 </script>
 <template>
   <div class="flex flex-wrap">
@@ -50,8 +49,12 @@ const navLinks = computed(() => {
           }}</span>
         </template>
         <template #avatar="{ link }">
-          <UAvatar v-if="link.isLogin && currentUser != null" size="xs" :alt="currentUser?.displayName ?? undefined"
-            :src="currentUser?.photoURL ?? undefined" />
+          <UAvatar
+            v-if="link.isLogin && currentUser != null"
+            size="xs"
+            :alt="currentUser?.displayName ?? undefined"
+            :src="currentUser?.photoURL ?? undefined"
+          />
         </template>
       </UHorizontalNavigation>
     </div>

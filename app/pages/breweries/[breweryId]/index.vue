@@ -16,7 +16,7 @@ function deleteRecord() {}
 
 <template>
   <div>
-    <h1>{{ $t("brewery") }} {{ $t("details") }} </h1>
+    <h1>{{ $t("brewery") }} {{ $t("details") }}</h1>
     <hr />
     <small v-if="brewery">{{ brewery.id }}</small>
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>

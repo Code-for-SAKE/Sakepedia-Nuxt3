@@ -64,7 +64,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="法人番号" name="breweryId">
-        <UInput placeholder="国税庁が指定する13桁の識別番号" v-model="state.breweryId" />
+        <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
       </UFormGroup>
 
       <UFormGroup label="名前" name="name" required="true">

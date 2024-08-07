@@ -55,7 +55,9 @@ const mapInitialized = async () => {
 
   for (const data of datas.list) {
     const brewery = data
-    const marker = L.marker(L.latLng(brewery.data.location.latitude, brewery.data.location.longitude))
+    const marker = L.marker(
+      L.latLng(brewery.data.location.latitude, brewery.data.location.longitude),
+    )
     const link = '<a href="/breweries/' + data.id + '">' + brewery.name + "</a>"
 
     marker.bindPopup(link)
