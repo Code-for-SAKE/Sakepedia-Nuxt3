@@ -43,7 +43,7 @@ const getMoreData = async () => {
     <div class="flex justify-between">
       <h1>日本酒一覧</h1>
       <UButton
-        class="bg-success-400 text-black"
+        class="bg-success-500 text-black"
         variant="solid"
         to="/breweries/[breweryId]/brands/add.vue"
         >追加</UButton
