@@ -15,7 +15,32 @@ const deleteSake = async function () {}
 <template>
   <div>
     <h1>日本酒 詳細</h1>
-    {{ sake?.data.name }}<
+    <hr />
+    <h2 v-if="sake">{{ sake?.data.name }}</h2>
+    <dl>
+      <dt>酒蔵</dt>
+      <dd>
+        <NuxtLink :to="'/' + sake?.data.brewery?.path">
+          <div class="w-full">{{ sake?.data.brewery?.id }}</div>
+        </NuxtLink>
+      </dd>
+      <dt>銘柄</dt>
+      <dd>
+        <NuxtLink :to="'/' + sake?.data.brand?.path">
+          <div class="w-full">{{ sake?.data.brand?.id }}</div>
+        </NuxtLink>
+      </dd>
+      <dt>分類</dt>
+      <dd></dd>
+      <dt>合うおつまみ</dt>
+      <dd></dd>
+      <dt>説明</dt>
+      <dd>{{ sake?.data.description }}</dd>
+      <dt>URL</dt>
+      <dd></dd>
+      <dt>更新日</dt>
+      <dd></dd>
+    </dl>
     <UButton class="info" :to="route.path + '/update'">編集</UButton>
     <UButton class="danger" @click="confirmDelete = true">削除</UButton>
     <UModal v-model="confirmDelete">

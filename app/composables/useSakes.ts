@@ -43,7 +43,7 @@ export const useSake = () => {
         name: snapshot.data()?.name,
         description: snapshot.data()?.description,
         brand: snapshot.ref.parent.parent,
-        brewery: snapshot.ref.parent.parent,
+        brewery: snapshot.ref.parent.parent?.parent.parent,
       },
     }
   }
