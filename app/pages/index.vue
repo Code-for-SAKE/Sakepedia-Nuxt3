@@ -39,7 +39,7 @@ const summary = await getSummary()
         },
         header: {
           base: 'text-gray-50',
-          background: 'bg-primary-600',
+          background: 'bg-sakeprimary-500',
           padding: 'px-2 py-2 sm:px-6',
         },
         footer: {
