@@ -13,7 +13,7 @@ type Auth = {
   currentUser: globalThis.Ref<User | null>
   signIn: () => Promise<void>
   signOut: () => Promise<void>
-  checkAuthState: () => void
+  checkAuthState: () => Promise<void>
 }
 
 export const useAuth = (): Auth => {
@@ -47,12 +47,15 @@ export const useAuth = (): Auth => {
     currentUser.value = null
   }
 
-  const checkAuthState = (): void => {
+  const checkAuthState = async (): Promise<void> => {
     // serverからは利用できなくします
     if (import.meta.server) return
-    const auth = getAuth(app)
-    onAuthStateChanged(auth, async (user) => {
-      currentUser.value = user
+    return new Promise((resolve) => {
+      const auth = getAuth(app)
+      onAuthStateChanged(auth, async (user) => {
+        currentUser.value = user
+        resolve()
+      })
     })
   }
 
