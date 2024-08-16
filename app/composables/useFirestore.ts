@@ -110,8 +110,9 @@ export const useFirestore = () => {
   const addItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
     const coll = collection(db, path)
     const entries = Object.entries(params)
-    for (const [key, value] of entries) {
+    for (const [key, _] of entries) {
       if (params[key] === undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete params[key]
       }
     }
@@ -120,8 +121,9 @@ export const useFirestore = () => {
 
   const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
     const entries = Object.entries(params)
-    for (const [key, value] of entries) {
+    for (const [key, _] of entries) {
       if (params[key] === undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete params[key]
       }
     }

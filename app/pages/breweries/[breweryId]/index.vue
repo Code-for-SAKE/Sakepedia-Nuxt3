@@ -3,20 +3,17 @@ import type { Brewery } from "~/composables/useBrewery"
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
+const localePath = useLocalePath()
 const { getItem } = useBrewery()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
-
-const add = async function () {
-  await navigateTo({ path: `${brewery.id}/brands/add` })
-}
 
 function deleteRecord() {}
 </script>
 
 <template>
   <div>
-    <h1>酒蔵 詳細</h1>
+    <h1>{{ $t("brewery") }} {{ $t("details") }}</h1>
     <hr />
     <small v-if="brewery">{{ brewery.id }}</small>
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
@@ -38,7 +35,11 @@ function deleteRecord() {}
         <p v-if="brewery.data.location">{{ brewery.data.location.latitude }}</p>
         <p v-if="brewery.data.location">{{ brewery.data.location.longitude }}</p>
         <div
-          v-if="brewery.data.location && brewery.data.location.latitude && brewery.data.location.longitude"
+          v-if="
+            brewery.data.location &&
+            brewery.data.location.latitude &&
+            brewery.data.location.longitude
+          "
           class="map-wrap col-12 col-lg-6 m-3"
         >
           <BreweryMap :brewery="brewery.data" />
@@ -142,7 +143,9 @@ function deleteRecord() {}
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>
-        <UButton @click="add">銘柄追加</UButton>
+        <UButton class="success" :to="localePath(`${route.path}/brands/add`)">{{
+          $t("add")
+        }}</UButton>
       </div>
       <BreweryBrandList :brewery-id="String(route.params.breweryId)" />
     </div>

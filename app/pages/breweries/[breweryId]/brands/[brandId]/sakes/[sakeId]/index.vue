@@ -3,13 +3,19 @@ import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getItem, deleteItem } = useSake()
-const item = await getItem(route.path)
+const { defaultLocale } = useI18n()
+const localePath = useLocalePath()
+const dataPath = localePath(route.path, defaultLocale)
+
+const item = await getItem(dataPath)
 const sake: Data<Sake> = item!
 
 console.log("Sakeitem", item)
 
 const confirmDelete = ref(false)
-const deleteSake = async function () {}
+const deleteSake = async function () {
+  deleteItem(item.path)
+}
 </script>
 
 <template>

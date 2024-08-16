@@ -7,6 +7,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const { getBrandList } = useBrewery()
+const localePath = useLocalePath()
+
 // const res =  getBrandList('60638e8e8d83689315fb5d7d');
 const limit = 5
 
@@ -49,7 +51,7 @@ const getMoreData = async () => {
     </div>
     <UTable :rows="brands" :columns="columns" class="border border-t-0" :ui="{ thead: 'hidden' }">
       <template #name-data="{ row }">
-        <NuxtLink :to="`/breweries/${props.breweryId}/brands/${row.id}`">
+        <NuxtLink :to="localePath(`/breweries/${props.breweryId}/brands/${row.id}`)">
           <div class="w-full">
             <span>{{ row.data.name }}</span>
           </div>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
 const { getList } = useBrand()
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 const searchText: string = route.query.name != null ? String(route.query.name) : ""
 const limit = route.query.limit != null ? Number(route.query.limit) : 3
@@ -21,7 +23,7 @@ const count: Ref<number> = ref<number>(res.listCount)
 const columns = [
   {
     key: "name",
-    label: "名前",
+    label: t("名前"),
     sortable: true,
   },
 ]
@@ -40,8 +42,8 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="flex justify-between">
-      <h1>銘柄一覧</h1>
-      <UButton class="success" to="/brands/add">追加</UButton>
+      <h1>{{ $t("brandList") }}</h1>
+      <UButton class="success" :to="localePath('/brands/add')">{{ $t("add") }}</UButton>
     </div>
     <hr />
     <div class="grid grid-cols-3">
@@ -62,7 +64,7 @@ const getMoreData = async () => {
       </div>
     </div>
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      {{ cnt }} / {{ count }}件
+      {{ cnt }} / {{ count }}
     </div>
     <UTable :rows="brands" :columns="columns">
       <template #name-data="{ row }">
@@ -71,6 +73,6 @@ const getMoreData = async () => {
         </NuxtLink>
       </template>
     </UTable>
-    <UButton v-show="cnt < count" @click="getMoreData">MORE</UButton>
+    <UButton v-show="cnt < count" @click="getMoreData">{{ $t("more") }}</UButton>
   </div>
 </template>

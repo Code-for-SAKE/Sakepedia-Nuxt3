@@ -6,8 +6,11 @@ import type { Data } from "~/composables/useFirestore"
 const route = useRoute()
 const { getList, getItem: getBrewery, getReference } = useBrewery()
 const { getItem, setItem } = useBrand()
+const { defaultLocale } = useI18n()
+const localePath = useLocalePath()
+const dataPath = localePath(route.path, defaultLocale)
 
-const item = await getItem(`breweries/${route.params.breweryId}/brands/${route.params.brandId}`)
+const item = await getItem(dataPath)
 const brand: Data<Brand> = item!
 let searchText: string = ""
 if (brand.data.brewery) {
@@ -32,7 +35,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   console.log(event.data)
   event.data.brewery = await getReference(selected.value)
   await setItem(brand.path, event.data)
-  await navigateTo(brand.path)
+  await navigateTo(localePath(brand.path))
 }
 
 const loading = ref(false)

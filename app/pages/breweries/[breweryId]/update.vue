@@ -7,6 +7,7 @@ import type { Brewery } from "~/composables/useBrewery"
 
 const route = useRoute()
 const { getItem, setItem } = useBrewery()
+const localePath = useLocalePath()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
@@ -44,12 +45,6 @@ type Schema = InferType<typeof schema>
 
 const state = reactive(brewery.data)
 console.log("state.twitter", state.twitter)
-const entries = Object.entries(state)
-for (const [key, value] of entries) {
-  if (value === null) {
-    delete state[key]
-  }
-}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
@@ -64,7 +59,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="法人番号" name="breweryId">
-        <UInput placeholder="国税庁が指定する13桁の識別番号" v-model="state.breweryId" />
+        <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
       </UFormGroup>
 
       <UFormGroup label="名前" name="name" required="true">
@@ -171,7 +166,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
 
       <UButton type="submit"> 更新 </UButton>
-      <UButton :to="'/breweries/' + brewery.id"> キャンセル </UButton>
+      <UButton :to="localePath('/breweries/' + brewery.id)"> キャンセル </UButton>
     </UForm>
   </div>
 </template>

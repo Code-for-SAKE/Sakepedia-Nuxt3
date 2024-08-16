@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const { getList } = useBrewery()
+const localePath = useLocalePath()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : "")
 const prefectureId: string = route.query.prefecture != null ? String(route.query.prefecture) : "0"
@@ -49,7 +50,7 @@ const getMoreData = async () => {
   const res = await getList({
     searchText: searchText.value,
     prefecture: prefecture.value?.id ?? "0",
-    before: breweries.value[breweries.value.length - 1].data.name,
+    before: breweries.value[breweries.value.length - 1].data,
     limit: limit,
   })
 
@@ -61,8 +62,8 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="mb-4">
-      <h1>酒蔵一覧</h1>
-      <UButton class="success" to="/breweries/add">追加</UButton>
+      <h1>{{ $t("breweryList") }}</h1>
+      <UButton class="success" :to="localePath('/breweries/add')">{{ $t("add") }}</UButton>
     </div>
     <hr class="mb-4" />
     <div class="flex flex-wrap gap-4">
@@ -70,7 +71,7 @@ const getMoreData = async () => {
         <div class="flex">
           <span
             class="flex items-center bg-gray-200 rounded rounded-r-none border border-r-0 px-3 text-sm"
-            >都道府県</span
+            >{{ $t("prefecture") }}</span
           >
         </div>
         <UInputMenu
@@ -95,13 +96,13 @@ const getMoreData = async () => {
           <template #trailing>
             <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
             @click="searchText = ''" /> -->
-            <UButton @click="setHistories(), searchVector()">検索</UButton>
+            <UButton @click="setHistories(), searchVector()">{{ $t("search") }}</UButton>
           </template>
         </UInput>
       </div>
     </div>
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      {{ cnt }} / {{ count }}件
+      {{ cnt }} / {{ count }}
     </div>
     <UTable
       :rows="breweries"
@@ -110,7 +111,7 @@ const getMoreData = async () => {
       :ui="{ thead: 'hidden' }"
     >
       <template #name-data="{ row }">
-        <NuxtLink :to="'/breweries/' + row.id">
+        <NuxtLink :to="localePath('/breweries/' + row.id)">
           <div class="w-full">
             <span>{{ row.data.name }}</span>
             <span>{{
@@ -122,6 +123,6 @@ const getMoreData = async () => {
         </NuxtLink>
       </template>
     </UTable>
-    <UButton v-show="cnt < count" @click="getMoreData">MORE</UButton>
+    <UButton v-show="cnt < count" @click="getMoreData">{{ $t("more") }}</UButton>
   </div>
 </template>

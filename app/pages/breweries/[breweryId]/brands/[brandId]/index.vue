@@ -4,8 +4,11 @@ import type { Data } from "~/composables/useFirestore"
 const route = useRoute()
 const { getItem, deleteItem } = useBrand()
 const { getItem: getBrewery } = useBrewery()
+const { defaultLocale } = useI18n()
+const localePath = useLocalePath()
+const dataPath = localePath(route.path, defaultLocale)
 
-const item = await getItem(route.path)
+const item = await getItem(dataPath)
 const brand: Data<Brand> = item!
 
 console.log(item)
@@ -17,7 +20,7 @@ if (brand?.data.brewery) {
 const confirmDelete = ref(false)
 const deleteBrand = async function () {
   await deleteItem(brand.path)
-  await navigateTo("/brands")
+  await navigateTo(localePath("/brands"))
 }
 </script>
 
