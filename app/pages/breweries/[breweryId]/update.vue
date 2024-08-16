@@ -7,6 +7,7 @@ import type { Brewery } from "~/composables/useBrewery"
 
 const route = useRoute()
 const { getItem, setItem } = useBrewery()
+const localePath = useLocalePath()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
@@ -171,7 +172,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
 
       <UButton type="submit"> 更新 </UButton>
-      <UButton :to="'/breweries/' + brewery.id"> キャンセル </UButton>
+      <UButton :to="localePath('/breweries/' + brewery.id)"> キャンセル </UButton>
     </UForm>
   </div>
 </template>

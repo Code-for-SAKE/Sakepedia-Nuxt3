@@ -3,13 +3,10 @@ import type { Brewery } from "~/composables/useBrewery"
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
+const localePath = useLocalePath()
 const { getItem } = useBrewery()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
-
-const add = async function () {
-  await navigateTo({ path: `${brewery.id}/brands/add` })
-}
 
 function deleteRecord() {}
 </script>
@@ -146,7 +143,7 @@ function deleteRecord() {}
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>
-        <UButton @click="add">銘柄追加</UButton>
+        <UButton class="success" :to="localePath(`${route.path}/brands/add`)">{{ $t("add") }}</UButton>
       </div>
       <BreweryBrandList :brewery-id="String(route.params.breweryId)" />
     </div>
