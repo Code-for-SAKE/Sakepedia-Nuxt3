@@ -8,10 +8,8 @@ const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
 const dataPath = localePath(route.path, defaultLocale)
 
-const item = await getItem(dataPath)
-const brand: Data<Brand> = item!
+const brand = await getItem(dataPath)
 
-console.log(item)
 let brewery: Data<Brewery> | undefined = undefined
 if (brand?.data.brewery) {
   brewery = await getBrewery(brand.data.brewery.path)
@@ -20,7 +18,7 @@ if (brand?.data.brewery) {
 const confirmDelete = ref(false)
 const deleteBrand = async function () {
   await deleteItem(brand.path)
-  await navigateTo(localePath("/brands"))
+  await navigateTo(localePath("/" + brand.data.brewery?.path))
 }
 </script>
 
@@ -34,7 +32,7 @@ const deleteBrand = async function () {
       <dd>{{ brand?.data.name }}</dd>
       <dt>酒蔵</dt>
       <dd>
-        <NuxtLink v-if="brand?.data.brewery" :to="brewery?.path">
+        <NuxtLink v-if="brand?.data.brewery" :to="'/' + brewery?.path">
           <div class="w-full">{{ brewery?.data.name }}</div>
         </NuxtLink>
       </dd>

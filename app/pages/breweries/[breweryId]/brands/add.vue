@@ -3,57 +3,34 @@ import { object, string, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
-const { getList } = useBrewery()
-const { addItem, getReference, getItem } = useBrand()
+const localePath = useLocalePath()
+const { addItem, getItem } = useBrand()
 
 const schema = object({
   name: string().required("名前は必須です"),
-  brewery: object().required("酒蔵は必須です"),
+  brewery: object<Brewery>().required("酒蔵は必須です"),
   description: string(),
 })
 
+const breweryName = ref<string>("")
+
 type Schema = InferType<typeof schema>
 
-const state = reactive({
-  name: undefined,
-  description: undefined,
-  brewery: undefined,
+const state = reactive<Brand>({
+  name: "",
+  description: "",
+  brewery: null,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const ref = await addItem(event.data)
-  await navigateTo(ref.path)
+  await navigateTo(localePath("/" + ref.path))
 }
 
-async function onChange() {
-  state.brewery = selected.value
-}
-
-let searchText = ""
-if (route.query.breweryId) {
-  const brewery = await getItem(`breweries/${route.query.breweryId}`)
-  state.brewery = await getReference(brewery!.path)
-  searchText = brewery!.name
-}
-
-const loading = ref(false)
-const selected = ref(searchText)
-
-async function search(q: string) {
-  loading.value = true
-
-  const res = await getList({
-    searchText: q,
-    before: undefined,
-    limit: 10,
-    prefecture: "0",
-  })
-  const list = res.list.map((data) => {
-    return data
-  })
-  loading.value = false
-  console.log(list)
-  return list
+if (route.params.breweryId) {
+  const brewery = await getItem(`breweries/${route.params.breweryId}`)
+  state.brewery = brewery.ref
+  breweryName.value = brewery.data.name
 }
 </script>
 
@@ -63,16 +40,7 @@ async function search(q: string) {
       <UInput v-model="state.name" />
     </UFormGroup>
     <UFormGroup label="酒蔵" name="brewery">
-      <USelectMenu
-        v-model="selected"
-        :loading="loading"
-        :searchable="search"
-        placeholder="酒蔵検索..."
-        option-attribute="name"
-        trailing
-        by="path"
-        @change="onChange"
-      />
+      {{ breweryName }}
     </UFormGroup>
     <UFormGroup label="説明" name="description">
       <UTextarea v-model="state.description" />
