@@ -45,12 +45,6 @@ type Schema = InferType<typeof schema>
 
 const state = reactive(brewery.data)
 console.log("state.twitter", state.twitter)
-const entries = Object.entries(state)
-for (const [key, value] of entries) {
-  if (value === null) {
-    delete state[key]
-  }
-}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data

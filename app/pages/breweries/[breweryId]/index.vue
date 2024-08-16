@@ -143,7 +143,9 @@ function deleteRecord() {}
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>
-        <UButton class="success" :to="localePath(`${route.path}/brands/add`)">{{ $t("add") }}</UButton>
+        <UButton class="success" :to="localePath(`${route.path}/brands/add`)">{{
+          $t("add")
+        }}</UButton>
       </div>
       <BreweryBrandList :brewery-id="String(route.params.breweryId)" />
     </div>
