@@ -37,15 +37,15 @@ const deleteSake = async function () {
         </NuxtLink>
       </dd>
       <dt>分類</dt>
-      <dd></dd>
+      <dd />
       <dt>合うおつまみ</dt>
-      <dd></dd>
+      <dd />
       <dt>説明</dt>
       <dd>{{ sake?.data.description }}</dd>
       <dt>URL</dt>
-      <dd></dd>
+      <dd />
       <dt>更新日</dt>
-      <dd></dd>
+      <dd />
     </dl>
     <UButton class="info" :to="route.path + '/update'">編集</UButton>
     <UButton class="danger" @click="confirmDelete = true">削除</UButton>

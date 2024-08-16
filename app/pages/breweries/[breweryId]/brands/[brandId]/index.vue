@@ -18,7 +18,7 @@ if (brand?.data.brewery) {
 const confirmDelete = ref(false)
 const deleteBrand = async function () {
   await deleteItem(brand.path)
-  await navigateTo(localePath("/"+brand.data.brewery?.path))
+  await navigateTo(localePath("/" + brand.data.brewery?.path))
 }
 </script>
 
@@ -32,7 +32,7 @@ const deleteBrand = async function () {
       <dd>{{ brand?.data.name }}</dd>
       <dt>酒蔵</dt>
       <dd>
-        <NuxtLink v-if="brand?.data.brewery" :to="'/'+brewery?.path">
+        <NuxtLink v-if="brand?.data.brewery" :to="'/' + brewery?.path">
           <div class="w-full">{{ brewery?.data.name }}</div>
         </NuxtLink>
       </dd>
