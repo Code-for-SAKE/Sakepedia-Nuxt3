@@ -48,5 +48,15 @@ export default defineI18nConfig(() => ({
       sake: "Japanese Sakes",
       post: "Post",
     },
+    ko: {
+      lang: '언어',
+      title: '사케피디아',
+      subtitle: '모두를 위한 사케 오픈 데이터',
+    },
+    zhHant: {
+      lang: '語言',
+      title: 'Sakepedia',
+      subtitle: '給所有人的清酒的開放資料',
+    }
   },
 }))

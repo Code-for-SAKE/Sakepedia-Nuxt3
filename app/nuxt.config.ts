@@ -47,16 +47,16 @@ export default defineNuxtConfig({
         name: "English",
       },
       {
-        code: "es",
-        name: "Español",
-      },
-      {
         code: "ja",
         name: "日本語",
       },
       {
-        code: "fr",
-        name: "Français",
+        code: "ko",
+        name: "언어",
+      },
+      {
+        code: "zhHant",
+        name: "語言",
       },
     ],
     defaultLocale: "ja",
