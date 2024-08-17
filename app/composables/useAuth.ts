@@ -2,16 +2,16 @@ import {
   getAuth,
   signOut as firebaseSignOut,
   onAuthStateChanged,
-  GoogleAuthProvider,
   signInWithPopup,
   type User,
+  type AuthProvider,
 } from "firebase/auth"
 
 export const useUser = (): globalThis.Ref<User | null> => useState<User | null>(() => null)
 
 type Auth = {
   currentUser: globalThis.Ref<User | null>
-  signIn: () => Promise<void>
+  signIn: (provider: AuthProvider) => Promise<void>
   signOut: () => Promise<void>
   checkAuthState: () => Promise<void>
 }
@@ -26,8 +26,7 @@ export const useAuth = (): Auth => {
       navigateTo(`${route.query.redirect}`)
     }
   }
-  const signIn = async () => {
-    const provider = new GoogleAuthProvider()
+  const signIn = async (provider: AuthProvider) => {
     try {
       const auth_1 = await signInWithPopup(getAuth(app), provider)
       console.log("login", auth_1.user)
