@@ -79,7 +79,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
       </UFormGroup>
 
-      <UFormGroup label="名前" name="name" required>
+      <UFormGroup :label="$t('name')" name="name" required>
         <UInput v-model="state.name" />
       </UFormGroup>
       <UFormGroup label="ふりがな" name="kana" required>
@@ -183,7 +183,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
 
       <UButton type="submit"> 更新 </UButton>
-      <UButton :to="localePath('/breweries/' + brewery.id)"> キャンセル </UButton>
+      <UButton :to="localePath('/breweries/' + brewery.id)"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
 </template>

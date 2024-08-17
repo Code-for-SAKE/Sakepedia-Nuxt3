@@ -23,7 +23,7 @@ const count: Ref<number> = ref<number>(res.listCount)
 const columns = [
   {
     key: "name",
-    label: t("名前"),
+    label: $t("name"),
     sortable: true,
   },
 ]
