@@ -18,40 +18,46 @@ const { converter: converterBrand } = useBrand()
 const collectionName: string = "breweries"
 
 export type Brewery = {
-  breweryId: string
+  breweryId: string | undefined
   name: string
   kana: string
-  prefecture: string
-  address: string
+  prefecture: string | undefined
+  address: string | undefined
   location: {
-    latitude: number
-    longitude: number
+    latitude: number | undefined
+    longitude: number | undefined
   }
-  email: string
-  tel: string
-  fax: string
-  url: string
-  ecurl: string
-  facebook: string
-  twitter: string
-  instagram: string
-  othersns: string
-  visit: string
-  tasting: string
-  cafe: string
-  shop: string
-  otherBrewing: string
-  startYear: number
-  endYear: number
-  createdAt: Date
-  updatedAt: Date
+  email: string | undefined
+  tel: string | undefined
+  fax: string | undefined
+  url: string | undefined
+  ecurl: string | undefined
+  facebook: string | undefined
+  twitter: string | undefined
+  instagram: string | undefined
+  othersns: string | undefined
+  hasVisit: boolean
+  visit: string | undefined
+  hasTasting: boolean
+  tasting: string | undefined
+  hasCafe: boolean
+  cafe: string | undefined
+  hasShop: boolean
+  shop: string | undefined
+  hasOtherBrewing: boolean
+  otherBrewing: string | undefined
+  startYear: number | undefined
+  endYear: number | undefined
+  createdAt: Date | undefined
+  updatedAt: Date | undefined
 }
 
 export type BreweryParams = {
   searchText: string
   prefecture: string | undefined
   limit: number
-  before: Brewery | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  before: any | undefined
 }
 
 export type BrandListParams = {
@@ -86,10 +92,15 @@ export const useBrewery = () => {
         twitter: snapshot.data()?.twitter,
         instagram: snapshot.data()?.instagram,
         othersns: snapshot.data()?.othersns,
+        hasVisit: snapshot.data()?.hasVisit,
         visit: snapshot.data()?.visit,
+        hasTasting: snapshot.data()?.hasTasting,
         tasting: snapshot.data()?.tasting,
+        hasCafe: snapshot.data()?.hasCafe,
         cafe: snapshot.data()?.cafe,
+        hasShop: snapshot.data()?.hasShop,
         shop: snapshot.data()?.shop,
+        hasOtherBrewing: snapshot.data()?.hasOtherBrewing,
         otherBrewing: snapshot.data()?.otherBrewing,
         startYear: snapshot.data()?.startYear,
         endYear: snapshot.data()?.endYear,

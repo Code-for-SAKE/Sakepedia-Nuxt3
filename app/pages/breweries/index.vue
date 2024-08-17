@@ -50,7 +50,7 @@ const getMoreData = async () => {
   const res = await getList({
     searchText: searchText.value,
     prefecture: prefecture.value?.id ?? "0",
-    before: breweries.value[breweries.value.length - 1].data,
+    before: breweries.value[breweries.value.length - 1].data.name,
     limit: limit,
   })
 
