@@ -23,7 +23,7 @@ async function deleteRecord() {
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
     <h6 v-if="brewery">{{ brewery.data.kana }}</h6>
     <dl>
-      <dt>都道府県</dt>
+      <dt>{{ $t("prefecture") }}</dt>
       <dd>
         <p v-if="brewery">
           {{
@@ -137,14 +137,14 @@ async function deleteRecord() {
     <div class="d-flex justify-content-between">
       <div>
         <UButton :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
-          >編集</UButton
+          >{{ $t("edit") }}</UButton
         >
-        <UButton @click="confirmDelete = true">削除</UButton>
+        <UButton @click="confirmDelete = true">{{ $t("delete") }}</UButton>
         <UModal v-model="confirmDelete">
           <UCard>
             <Alert>本当に削除しますか？</Alert>
             <template #footer>
-              <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
+              <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
               <UButton class="danger" @click="deleteRecord">はい</UButton>
             </template>
           </UCard>
@@ -165,7 +165,7 @@ async function deleteRecord() {
     </div>
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h3>投稿一覧</h3>
+        <h3>{{ $t("postList") }}</h3>
       </div>
       <!-- <comment-list :brewery="brewery._id" /> -->
     </div>

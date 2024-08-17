@@ -47,7 +47,7 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      {{ cnt }} / {{ count }}件
+      {{ cnt }} / {{ count }}{{ $t("item") }}
     </div>
     <UTable :rows="brands" :columns="columns" class="border border-t-0" :ui="{ thead: 'hidden' }">
       <template #name-data="{ row }">
