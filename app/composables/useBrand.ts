@@ -23,7 +23,8 @@ export type BrandParams = {
   breweryId?: string
   searchText: string
   limit: number
-  before: Brand | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  before: any | undefined
 }
 
 const collectionName: string = "brands"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, type InferType } from "yup"
+import { object, string, number, type InferType, boolean } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 import type { Data } from "~/composables/useFirestore"
 
@@ -14,10 +14,11 @@ const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId
 const schema = object({
   breweryId: string().max(13, "13桁以内で入力してください"),
   name: string().required("名前は必須です"),
+  kana: string().required("ふりがなは必須です"),
   address: string(),
   prefecture: string(),
-  latitude: string(),
-  longitude: string(),
+  latitude: number(),
+  longitude: number(),
   email: string(),
   tel: string(),
   fax: string(),
@@ -27,29 +28,45 @@ const schema = object({
   twitter: string(),
   instagram: string(),
   othersns: string(),
-  hasVisit: string(),
+  hasVisit: boolean(),
   visit: string(),
-  hasTasting: string(),
+  hasTasting: boolean(),
   tasting: string(),
-  hasCafe: string(),
+  hasCafe: boolean(),
   cafe: string(),
-  hasShop: string(),
+  hasShop: boolean(),
   shop: string(),
-  hasOtherBrewing: string(),
+  hasOtherBrewing: boolean(),
   otherBrewing: string(),
-  startYear: string(),
-  endYear: string(),
+  startYear: number(),
+  endYear: number(),
 })
 
 type Schema = InferType<typeof schema>
 
-const state = reactive(brewery.data)
+
+const input:Schema = brewery.data
+input.latitude = brewery.data.location?.latitude
+input.longitude = brewery.data.location?.longitude
+const state = reactive(input)
 console.log("state.twitter", state.twitter)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log("event.data", event.data)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data:any = event.data
+  if(event.data.latitude != undefined, event.data.longitude != undefined){
+    data.location = {
+      latitude: event.data.latitude,
+      longitude: event.data.longitude
+    }
+    delete event.data.latitude
+    delete event.data.longitude
+  }
+
   await setItem(brewery.path, event.data)
+  await navigateTo(localePath("/" + brewery.path))
 }
 </script>
 
@@ -62,14 +79,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
       </UFormGroup>
 
-      <UFormGroup label="名前" name="name" required="true">
+      <UFormGroup label="名前" name="name" required>
         <UInput v-model="state.name" />
       </UFormGroup>
-      <UFormGroup label="ふりがな" name="kana" required="true">
+      <UFormGroup label="ふりがな" name="kana" required>
         <UInput v-model="state.kana" />
       </UFormGroup>
 
-      <UFormGroup label="住所" name="address" required="true">
+      <UFormGroup label="住所" name="address" required>
         <UInput v-model="state.address" />
         <small
           >都道府県、緯度経度は住所から自動的に登録されます。
@@ -91,10 +108,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormGroup>
       <UFormGroup label="緯度" name="latitude">
-        <UInput v-model="state.location.latitude" />
+        <UInput v-model="state.latitude" />
       </UFormGroup>
-      <UFormGroup label="経度" name="longtitude">
-        <UInput v-model="state.location.longitude" />
+      <UFormGroup label="経度" name="longitude">
+        <UInput v-model="state.longitude" />
       </UFormGroup>
       <UFormGroup label="Eメール" name="email">
         <UInput v-model="state.email" />

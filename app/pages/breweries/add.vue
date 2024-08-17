@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, type InferType } from "yup"
+import { object, string, number, boolean, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const schema = object({
@@ -9,8 +9,8 @@ const schema = object({
   address: string(),
   prefecture: string(),
   location: string(),
-  latitude: string(),
-  longitude: string(),
+  latitude: number(),
+  longitude: number(),
   email: string(),
   tel: string(),
   fax: string(),
@@ -20,24 +20,25 @@ const schema = object({
   twitter: string(),
   instagram: string(),
   othersns: string(),
-  hasVisit: string(),
+  hasVisit: boolean(),
   visit: string(),
-  hasTasting: string(),
+  hasTasting: boolean(),
   tasting: string(),
-  hasCafe: string(),
+  hasCafe: boolean(),
   cafe: string(),
-  hasShop: string(),
+  hasShop: boolean(),
   shop: string(),
-  hasOtherBrewing: string(),
+  hasOtherBrewing: boolean(),
   otherBrewing: string(),
-  startYear: string(),
-  endYear: string(),
-  createdAt: string(),
-  updatedAt: string(),
+  startYear: number(),
+  endYear: number(),
+  createdAt: date(),
+  updatedAt: date(),
 })
 
 type Schema = InferType<typeof schema>
 
+const localePath = useLocalePath()
 const { addItem } = useBrewery()
 
 const state = reactive({
@@ -77,8 +78,20 @@ const state = reactive({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
-  const res = await addItem(event.data)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data:any = event.data
+  if(event.data.latitude != undefined, event.data.longitude != undefined){
+    data.location = {
+      latitude: event.data.latitude,
+      longitude: event.data.longitude
+    }
+    delete event.data.latitude
+    delete event.data.longitude
+  }
+
+  const res = await addItem(data)
   console.log("res", res)
+  await navigateTo(localePath("/" + res.path))
 }
 </script>
 <template>
@@ -122,7 +135,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup label="緯度" name="latitude">
           <UInput v-model="state.latitude" />
         </UFormGroup>
-        <UFormGroup label="経度" name="longtitude">
+        <UFormGroup label="経度" name="longitude">
           <UInput v-model="state.longitude" />
         </UFormGroup>
         <UFormGroup label="Eメール" name="email">

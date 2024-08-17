@@ -4,11 +4,15 @@ import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const localePath = useLocalePath()
-const { getItem } = useBrewery()
+const { getItem, deleteItem } = useBrewery()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
-function deleteRecord() {}
+const confirmDelete = ref(false)
+async function deleteRecord() {
+  await deleteItem(brewery.path)
+  await navigateTo(localePath("/breweries"))
+}
 </script>
 
 <template>
@@ -132,10 +136,20 @@ function deleteRecord() {}
 
     <div class="d-flex justify-content-between">
       <div>
-        <UButton variant="light" :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
+        <UButton :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
           >編集</UButton
         >
-        <UButton variant="danger" @click="deleteRecord()">削除</UButton>
+        <UButton @click="confirmDelete = true">削除</UButton>
+        <UModal v-model="confirmDelete">
+          <UCard>
+            <Alert>本当に削除しますか？</Alert>
+            <template #footer>
+              <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
+              <UButton class="danger" @click="deleteRecord">はい</UButton>
+            </template>
+          </UCard>
+        </UModal>
+
       </div>
       <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
     </div>
