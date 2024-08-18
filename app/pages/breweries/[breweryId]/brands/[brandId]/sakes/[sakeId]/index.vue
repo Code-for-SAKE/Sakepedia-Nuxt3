@@ -21,7 +21,7 @@ const deleteSake = async function () {
 <template>
   <div>
     <h1>日本酒 詳細</h1>
-    <hr />
+    <hr >
     <h2 v-if="sake">{{ sake?.data.name }}</h2>
     <dl>
       <dt>酒蔵</dt>
@@ -47,8 +47,8 @@ const deleteSake = async function () {
       <dt>更新日</dt>
       <dd />
     </dl>
-    <UButton class="info" :to="route.path + '/update'">編集</UButton>
-    <UButton class="danger" @click="confirmDelete = true">削除</UButton>
+    <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
+    <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
         <Alert>本当に削除しますか？</Alert>

@@ -1,32 +1,33 @@
 <template>
   <div>
-    <h1>日本酒オープンデータを作る</h1>
-    膨大な日本酒のデータを、Wikipediaのように、みんなで編集して公開します。
+    <h1>{{ $t("makingOpenData4Sake") }}</h1>
+    {{ $t("explainAbout") }}
 
-    <h3>提供する機能</h3>
+    <h3>{{ $t("functions") }}</h3>
     <ul>
-      <li>日本酒情報の検索、追加、編集機能</li>
+      <li>{{ $t("function1") }}</li>
       <ul>
-        <li>日本酒</li>
-        <li>銘柄</li>
-        <li>酒蔵</li>
+        <li>{{ $t("sake") }}</li>
+        <li>{{ $t("brand") }}</li>
+        <li>{{ $t("brewery") }}</li>
       </ul>
-      <li>日本酒情報の取得APIの提供</li>
+      <li>{{ $t("function2") }}</li>
     </ul>
 
-    <h3>開発情報</h3>
+    <h3>{{ $t("devInfo") }}</h3>
 
     <ul>
       <li>
-        LinkedOpenDataチャレンジ2016にて開発された<a
+        {{ $t("explainBase") }}
+        <a
           href="http://idea.linkdata.org/idea/idea1s2029i"
           >Sakepedia</a
-        >をベースとしています。
+        >
       </li>
-      <li>Github上で、OSSとして開発しています。</li>
+      <li>{{ $t("explainOSS") }}</li>
       <ul>
-        <li>開発者：<a href="https://www.code4sake.org/">Code for SAKE</a></li>
-        <li>リポジトリ：<a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt">Github</a></li>
+        <li>{{ $t("developer") }} : <a href="https://www.code4sake.org/">Code for SAKE</a></li>
+        <li>{{ $t("repository") }} : <a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt">Github</a></li>
       </ul>
     </ul>
   </div>

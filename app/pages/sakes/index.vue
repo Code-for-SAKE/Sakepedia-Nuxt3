@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const { t } = useI18n()
 const { getList } = useSake()
 
 const searchText: string = route.query.name != null ? String(route.query.name) : ""
@@ -21,7 +22,7 @@ const count: Ref<number> = ref<number>(res.listCount)
 const columns = [
   {
     key: "name",
-    label: "名前",
+    label: t("name"),
     sortable: true,
   },
 ]
@@ -41,15 +42,15 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="flex justify-between">
-      <h1>日本酒一覧</h1>
+      <h1>{{ $t("breweryList") }}</h1>
       <UButton
         class="bg-success-500 text-black"
         variant="solid"
         to="/breweries/[breweryId]/brands/add.vue"
-        >追加</UButton
+        >{{ $t("add") }}</UButton
       >
     </div>
-    <hr />
+    <hr >
     <div class="grid grid-cols-3">
       <div class="col-span-2">
         <UInput
@@ -68,7 +69,7 @@ const getMoreData = async () => {
       </div>
     </div>
     <div class="flex justify-center px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-      {{ cnt }} / {{ count }}件
+      {{ cnt }} / {{ count }}{{ $t("item") }}
     </div>
     <UTable :rows="sakes" :columns="columns">
       <template #name-data="{ row }">

@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1>インポート</h1>
-    <UButton class="success" @click="fetch_brewery">酒蔵</UButton><br />
-    <UButton class="success" @click="fetch_brand">銘柄</UButton><br />
-    <UButton class="success" @click="fetch_sake">日本酒</UButton><br />
+    <UButton class="success" @click="fetch_brewery">酒蔵</UButton><br >
+    <UButton class="success" @click="fetch_brand">銘柄</UButton><br >
+    <UButton class="success" @click="fetch_sake">日本酒</UButton><br >
   </div>
 </template>
 

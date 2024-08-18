@@ -96,15 +96,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 <template>
   <div>
-    <h1>酒蔵 追加</h1>
-    <hr />
+    <h1>{{ $t("addBrewery") }}</h1>
+    <hr >
     <div class="grid grid-cols-6 gap-4">
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
         <UFormGroup label="法人番号" name="breweryId">
           <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
         </UFormGroup>
 
-        <UFormGroup label="名前" name="name" required>
+        <UFormGroup :label='$t("name")' name="name" required>
           <UInput v-model="state.name" />
         </UFormGroup>
         <UFormGroup label="ふりがな" name="kana" required>
@@ -118,7 +118,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <a href="https://geolonia.com/">Geolonia</a>の<a
               href="https://github.com/geolonia/normalize-japanese-addresses"
               >住所正規化ライブラリ</a
-            >を利用しています。<br />
+            >を利用しています。<br >
             正確な緯度経度がわかる場合は入力してください。
           </small>
         </UFormGroup>
@@ -207,7 +207,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.endYear" />
         </UFormGroup>
 
-        <UButton type="submit"> 追加 </UButton>
+        <UButton type="submit"> {{ $t("add") }} </UButton>
       </UForm>
     </div>
   </div>

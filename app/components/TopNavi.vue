@@ -36,10 +36,10 @@ const navLinks = computed(() => {
   <div class="flex flex-wrap">
     <div class="flex-none w-40">
       <NuxtLink :to="localePath('/')">
-        <img height="50" src="~/assets/image/sakepedia-yoko.png" :alt="t('Sakepedia')" />
+        <img height="50" src="~/assets/image/sakepedia-yoko.png" :alt="t('titleOfSite')" >
       </NuxtLink>
     </div>
-    <div class="flex items-center">- {{ t("subtitle") }}</div>
+    <div class="flex items-center">- {{ t("subtitleOfSite") }}</div>
     <div class="flex-auto m-3"><LocaleSwitcher /></div>
     <div class="flex-auto">
       <UHorizontalNavigation :links="navLinks">

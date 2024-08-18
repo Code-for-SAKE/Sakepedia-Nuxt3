@@ -52,11 +52,11 @@ export default defineNuxtConfig({
       },
       {
         code: "ko",
-        name: "언어",
+        name: "한국어",
       },
       {
         code: "zhHant",
-        name: "語言",
+        name: "中文",
       },
       {
         code: "th",
