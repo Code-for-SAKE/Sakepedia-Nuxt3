@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const { t } = useI18n()
 const { getList } = useSake()
 
 const searchText: string = route.query.name != null ? String(route.query.name) : ""
@@ -21,7 +22,7 @@ const count: Ref<number> = ref<number>(res.listCount)
 const columns = [
   {
     key: "name",
-    label: $t("name"),
+    label: t("name"),
     sortable: true,
   },
 ]

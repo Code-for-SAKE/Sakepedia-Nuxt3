@@ -136,7 +136,7 @@ async function deleteRecord() {
 
     <div class="d-flex justify-content-between">
       <div>
-        <UButton :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
+        <UButton :to="localePath('/breweries/' + brewery.id + '/update')" class="mr-3"
           >{{ $t("edit") }}</UButton
         >
         <UButton @click="confirmDelete = true">{{ $t("delete") }}</UButton>
@@ -151,7 +151,7 @@ async function deleteRecord() {
         </UModal>
 
       </div>
-      <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
+      <UButton variant="secondary" :to="localePath('/breweries')">一覧に戻る</UButton>
     </div>
     <hr >
     <div class="my-4">
