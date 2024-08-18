@@ -73,7 +73,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
   <div>
     <h1>酒蔵 更新</h1>
-    <hr />
+    <hr >
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="法人番号" name="breweryId">
         <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
@@ -93,7 +93,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <a href="https://geolonia.com/">Geolonia</a>の<a
             href="https://github.com/geolonia/normalize-japanese-addresses"
             >住所正規化ライブラリ</a
-          >を利用しています。<br />
+          >を利用しています。<br >
           正確な緯度経度がわかる場合は入力してください。
         </small>
       </UFormGroup>

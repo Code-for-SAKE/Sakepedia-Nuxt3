@@ -18,7 +18,7 @@ async function deleteRecord() {
 <template>
   <div>
     <h1>{{ $t("brewery") }} {{ $t("details") }}</h1>
-    <hr />
+    <hr >
     <small v-if="brewery">{{ brewery.id }}</small>
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
     <h6 v-if="brewery">{{ brewery.data.kana }}</h6>
@@ -153,7 +153,7 @@ async function deleteRecord() {
       </div>
       <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
     </div>
-    <hr />
+    <hr >
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>銘柄</h3>

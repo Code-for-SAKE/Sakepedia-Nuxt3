@@ -65,7 +65,7 @@ const getMoreData = async () => {
       <h1>{{ $t("breweryList") }}</h1>
       <UButton class="success" :to="localePath('/breweries/add')">{{ $t("add") }}</UButton>
     </div>
-    <hr class="mb-4" />
+    <hr class="mb-4" >
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-wrap items-stretch w-fit mb-4 relative">
         <div class="flex">
