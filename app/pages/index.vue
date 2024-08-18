@@ -1,18 +1,19 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const tabItems = [
   {
     key: "breweries-map",
-    label: $t("localBreweryMap"),
+    label: t("localBreweryMap"),
     content: "breweries-map",
   },
   {
     key: "breweries-map-hotsprings",
-    label: $t("onsenBreweryMap"),
+    label: t("onsenBreweryMap"),
     content: "breweries-map-hotsprings",
   },
   {
     key: "breweries-map-nature",
-    label: $t("natureBreweryMap"),
+    label: t("natureBreweryMap"),
     content: "Coming Soon...",
   },
 ]
