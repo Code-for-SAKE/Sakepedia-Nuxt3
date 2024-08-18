@@ -47,8 +47,8 @@ const deleteSake = async function () {
       <dt>更新日</dt>
       <dd />
     </dl>
-    <UButton class="info" :to="route.path + '/update'">編集</UButton>
-    <UButton class="danger" @click="confirmDelete = true">削除</UButton>
+    <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
+    <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
         <Alert>本当に削除しますか？</Alert>

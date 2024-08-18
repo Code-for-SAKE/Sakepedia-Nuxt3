@@ -44,8 +44,7 @@ const schema = object({
 
 type Schema = InferType<typeof schema>
 
-
-const input:Schema = brewery.data
+const input: Schema = brewery.data
 input.latitude = brewery.data.location?.latitude
 input.longitude = brewery.data.location?.longitude
 const state = reactive(input)
@@ -55,11 +54,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log("event.data", event.data)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data:any = event.data
-  if(event.data.latitude != undefined, event.data.longitude != undefined){
+  const data: any = event.data
+  if ((event.data.latitude != undefined, event.data.longitude != undefined)) {
     data.location = {
       latitude: event.data.latitude,
-      longitude: event.data.longitude
+      longitude: event.data.longitude,
     }
     delete event.data.latitude
     delete event.data.longitude
@@ -79,7 +78,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
       </UFormGroup>
 
-      <UFormGroup label="名前" name="name" required>
+      <UFormGroup :label="$t('name')" name="name" required>
         <UInput v-model="state.name" />
       </UFormGroup>
       <UFormGroup label="ふりがな" name="kana" required>
@@ -183,7 +182,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormGroup>
 
       <UButton type="submit"> 更新 </UButton>
-      <UButton :to="localePath('/breweries/' + brewery.id)"> キャンセル </UButton>
+      <UButton :to="localePath('/breweries/' + brewery.id)"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
 </template>

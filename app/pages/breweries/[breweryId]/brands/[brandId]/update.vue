@@ -37,7 +37,7 @@ if (route.params.breweryId) {
 
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-    <UFormGroup label="名前" name="name">
+    <UFormGroup label="{{ $t('name') }}" name="name">
       <UInput v-model="state.name" />
     </UFormGroup>
     <UFormGroup label="酒蔵" name="brewery">

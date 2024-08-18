@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const { t } = useI18n()
 const { getList } = useBrewery()
 const localePath = useLocalePath()
 
@@ -24,7 +25,7 @@ const count: Ref<number> = ref<number>(res.listCount)
 const columns = [
   {
     key: "name",
-    label: "",
+    label: t("name"),
     sortable: false,
   },
 ]

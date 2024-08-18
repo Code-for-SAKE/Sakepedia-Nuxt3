@@ -23,7 +23,7 @@ async function deleteRecord() {
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
     <h6 v-if="brewery">{{ brewery.data.kana }}</h6>
     <dl>
-      <dt>都道府県</dt>
+      <dt>{{ $t("prefecture") }}</dt>
       <dd>
         <p v-if="brewery">
           {{
@@ -33,7 +33,7 @@ async function deleteRecord() {
           }}
         </p>
       </dd>
-      <dt>住所</dt>
+      <dt>{{ $t("address") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.address }}</p>
         <p v-if="brewery.data.location">{{ brewery.data.location.latitude }}</p>
@@ -48,9 +48,9 @@ async function deleteRecord() {
         >
           <BreweryMap :brewery="brewery.data" />
         </div>
-        <p v-else>位置情報がありません</p>
+        <p v-else>{{ $t("noLocation") }}</p>
       </dd>
-      <dt>Eメール</dt>
+      <dt>{{ $t("email") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="'mailto:' + brewery.data.email" target="_blank">{{
@@ -58,105 +58,104 @@ async function deleteRecord() {
           }}</a>
         </p>
       </dd>
-      <dt>電話番号</dt>
+      <dt>{{ $t("tel") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.tel }}</p>
       </dd>
-      <dt>FAX番号</dt>
+      <dt>{{ $t("fax") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.fax }}</p>
       </dd>
-      <dt>URL</dt>
+      <dt>{{ $t("url") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.url">{{ brewery.data.url }}</a>
         </p>
       </dd>
-      <dt>購入URL</dt>
+      <dt>{{ $t("ecurl") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.ecurl">{{ brewery.data.ecurl }}</a>
         </p>
       </dd>
-      <dt>Facebook</dt>
+      <dt>{{ $t("facebook") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.facebook">{{ brewery.data.facebook }}</a>
         </p>
       </dd>
-      <dt>Twitter</dt>
+      <dt>{{ $t("twitter") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.twitter">{{ brewery.data.twitter }}</a>
         </p>
       </dd>
-      <dt>Instagram</dt>
+      <dt>{{ $t("instagram") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.instagram">{{ brewery.data.instagram }}</a>
         </p>
       </dd>
-      <dt>その他SNS</dt>
+      <dt>{{ $t("otherSNS") }}</dt>
       <dd>
         <p>
           <a v-if="brewery" :href="brewery.data.othersns">{{ brewery.data.othersns }}</a>
         </p>
       </dd>
-      <dt>見学</dt>
+      <dt>{{ $t("visit") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.visit }}</p>
       </dd>
-      <dt>試飲</dt>
+      <dt>{{ $t("tasting") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.tasting }}</p>
       </dd>
-      <dt>併設カフェ</dt>
+      <dt>{{ $t("cafe") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.cafe }}</p>
       </dd>
-      <dt>併設ショップ</dt>
+      <dt>{{ $t("shop") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.shop }}</p>
       </dd>
-      <dt>日本酒以外の醸造・蒸留</dt>
+      <dt>{{ $t("otherBrewery") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.otherBrewing }}</p>
       </dd>
-      <dt>創業年</dt>
+      <dt>{{ $t("startYear") }}</dt>
       <dd>
         <p v-if="brewery.data.startYear">{{ brewery.data.startYear }}年</p>
       </dd>
-      <dt v-if="brewery.data.endYear">廃業年</dt>
+      <dt v-if="brewery.data.endYear">{{ $t("endYear") }}</dt>
       <dd>
         <p v-if="brewery.data.endYear">{{ brewery.data.endYear }}年</p>
       </dd>
-      <dt>更新日</dt>
+      <dt>{{ $t("updatedAt") }}</dt>
       <dd>{{ datetime(brewery.data.updatedAt) }}</dd>
     </dl>
 
     <div class="d-flex justify-content-between">
       <div>
-        <UButton :to="'/breweries/' + brewery.id + '/update'" class="mr-3"
-          >編集</UButton
-        >
-        <UButton @click="confirmDelete = true">削除</UButton>
+        <UButton :to="localePath('/breweries/' + brewery.id + '/update')" class="mr-3">{{
+          $t("edit")
+        }}</UButton>
+        <UButton @click="confirmDelete = true">{{ $t("delete") }}</UButton>
         <UModal v-model="confirmDelete">
           <UCard>
-            <Alert>本当に削除しますか？</Alert>
+            <Alert>{{ $t("confirmDelete") }}</Alert>
             <template #footer>
-              <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
-              <UButton class="danger" @click="deleteRecord">はい</UButton>
+              <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
+              <UButton class="danger" @click="deleteRecord">{{ $t("yes") }}</UButton>
             </template>
           </UCard>
         </UModal>
-
       </div>
-      <UButton variant="secondary" to="/breweries">一覧に戻る</UButton>
+      <UButton variant="secondary" :to="localePath('/breweries')">{{ $t("back") }}</UButton>
     </div>
     <hr />
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h3>銘柄</h3>
+        <h3>{{ $t("brand") }}</h3>
         <UButton class="success" :to="localePath(`${route.path}/brands/add`)">{{
           $t("add")
         }}</UButton>
@@ -165,7 +164,7 @@ async function deleteRecord() {
     </div>
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h3>投稿一覧</h3>
+        <h3>{{ $t("postList") }}</h3>
       </div>
       <!-- <comment-list :brewery="brewery._id" /> -->
     </div>

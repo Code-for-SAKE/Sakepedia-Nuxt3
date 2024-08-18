@@ -79,11 +79,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data:any = event.data
-  if(event.data.latitude != undefined, event.data.longitude != undefined){
+  const data: any = event.data
+  if ((event.data.latitude != undefined, event.data.longitude != undefined)) {
     data.location = {
       latitude: event.data.latitude,
-      longitude: event.data.longitude
+      longitude: event.data.longitude,
     }
     delete event.data.latitude
     delete event.data.longitude
@@ -96,7 +96,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 <template>
   <div>
-    <h1>酒蔵 追加</h1>
+    <h1>{{ $t("addBrewery") }}</h1>
     <hr />
     <div class="grid grid-cols-6 gap-4">
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -104,7 +104,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
         </UFormGroup>
 
-        <UFormGroup label="名前" name="name" required>
+        <UFormGroup :label="$t('name')" name="name" required>
           <UInput v-model="state.name" />
         </UFormGroup>
         <UFormGroup label="ふりがな" name="kana" required>
@@ -207,7 +207,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.endYear" />
         </UFormGroup>
 
-        <UButton type="submit"> 追加 </UButton>
+        <UButton type="submit"> {{ $t("add") }} </UButton>
       </UForm>
     </div>
   </div>

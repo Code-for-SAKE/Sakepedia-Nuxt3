@@ -28,7 +28,7 @@ const deleteBrand = async function () {
     <dl>
       <dt>ID</dt>
       <dd>{{ brand.id }}</dd>
-      <dt>名前</dt>
+      <dt>{{ $t("name") }}</dt>
       <dd>{{ brand?.data.name }}</dd>
       <dt>酒蔵</dt>
       <dd>
@@ -39,13 +39,13 @@ const deleteBrand = async function () {
       <dt>説明</dt>
       <dd>{{ brand?.data.description }}</dd>
     </dl>
-    <UButton class="info" :to="route.path + '/update'">編集</UButton>
+    <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">削除</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
         <Alert>本当に削除しますか？</Alert>
         <template #footer>
-          <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
+          <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
           <UButton class="danger" @click="deleteBrand">はい</UButton>
         </template>
       </UCard>
