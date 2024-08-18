@@ -58,6 +58,10 @@ export default defineNuxtConfig({
         code: "zhHant",
         name: "語言",
       },
+      {
+        code: "th",
+        name: "ภาษาไทย",
+      },
     ],
     defaultLocale: "ja",
     strategy: "prefix_and_default",

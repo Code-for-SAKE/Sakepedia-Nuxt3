@@ -57,6 +57,11 @@ export default defineI18nConfig(() => ({
       lang: '語言',
       title: 'Sakepedia',
       subtitle: '給所有人的清酒的開放資料',
+    },
+    th: {
+      lang: 'ภาษาไทย',
+      title: 'สาเกพีเดีย',
+      subtitle: 'ข้อมูลเปิดสาเกสำหรับทุกคน',
     }
   },
 }))
