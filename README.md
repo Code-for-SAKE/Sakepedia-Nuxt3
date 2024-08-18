@@ -1,6 +1,8 @@
 # Sakepedia-Nuxt3
 みんなでつくる日本酒オープンデータSakepediaのNuxt3版
 
+[Readme in english](./README.en.md)
+
 # 環境
 Docker
 Nuxt3.11.1
@@ -23,7 +25,7 @@ yarn
 
 Firebaseのウェブアプリの`SDK の設定と構成`を参照
 
-front/.env
+app/.env
 ```.env
 NUXT_PUBLIC_FIREBASE_API_KEY=
 NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
