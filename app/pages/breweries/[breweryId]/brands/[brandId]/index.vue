@@ -28,7 +28,7 @@ const deleteBrand = async function () {
     <dl>
       <dt>ID</dt>
       <dd>{{ brand.id }}</dd>
-      <dt>{{  $t("name") }}</dt>
+      <dt>{{ $t("name") }}</dt>
       <dd>{{ brand?.data.name }}</dd>
       <dt>酒蔵</dt>
       <dd>

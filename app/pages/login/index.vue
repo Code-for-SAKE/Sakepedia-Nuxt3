@@ -1,5 +1,5 @@
 <script setup>
-import { GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, GithubAuthProvider } from "firebase/auth"
 
 definePageMeta({
   layoutTransition: true,
@@ -12,7 +12,6 @@ const signInGoogle = () => {
 const signInGithub = () => {
   signIn(new GithubAuthProvider())
 }
-
 </script>
 
 <template>

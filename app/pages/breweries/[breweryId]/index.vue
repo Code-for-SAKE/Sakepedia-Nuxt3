@@ -18,7 +18,7 @@ async function deleteRecord() {
 <template>
   <div>
     <h1>{{ $t("brewery") }} {{ $t("details") }}</h1>
-    <hr >
+    <hr />
     <small v-if="brewery">{{ brewery.id }}</small>
     <h2 v-if="brewery">{{ brewery.data.name }}</h2>
     <h6 v-if="brewery">{{ brewery.data.kana }}</h6>
@@ -33,7 +33,7 @@ async function deleteRecord() {
           }}
         </p>
       </dd>
-      <dt>{{$t("address")}}</dt>
+      <dt>{{ $t("address") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.address }}</p>
         <p v-if="brewery.data.location">{{ brewery.data.location.latitude }}</p>
@@ -106,7 +106,7 @@ async function deleteRecord() {
       <dd>
         <p v-if="brewery">{{ brewery.data.visit }}</p>
       </dd>
-      <dt>{{  $t("tasting") }}</dt>
+      <dt>{{ $t("tasting") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.tasting }}</p>
       </dd>
@@ -118,7 +118,7 @@ async function deleteRecord() {
       <dd>
         <p v-if="brewery">{{ brewery.data.shop }}</p>
       </dd>
-      <dt>{{  $t("otherBrewery") }}</dt>
+      <dt>{{ $t("otherBrewery") }}</dt>
       <dd>
         <p v-if="brewery">{{ brewery.data.otherBrewing }}</p>
       </dd>
@@ -136,9 +136,9 @@ async function deleteRecord() {
 
     <div class="d-flex justify-content-between">
       <div>
-        <UButton :to="localePath('/breweries/' + brewery.id + '/update')" class="mr-3"
-          >{{ $t("edit") }}</UButton
-        >
+        <UButton :to="localePath('/breweries/' + brewery.id + '/update')" class="mr-3">{{
+          $t("edit")
+        }}</UButton>
         <UButton @click="confirmDelete = true">{{ $t("delete") }}</UButton>
         <UModal v-model="confirmDelete">
           <UCard>
@@ -149,11 +149,10 @@ async function deleteRecord() {
             </template>
           </UCard>
         </UModal>
-
       </div>
       <UButton variant="secondary" :to="localePath('/breweries')">{{ $t("back") }}</UButton>
     </div>
-    <hr >
+    <hr />
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("brand") }}</h3>

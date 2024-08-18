@@ -21,7 +21,7 @@ const deleteSake = async function () {
 <template>
   <div>
     <h1>日本酒 詳細</h1>
-    <hr >
+    <hr />
     <h2 v-if="sake">{{ sake?.data.name }}</h2>
     <dl>
       <dt>酒蔵</dt>

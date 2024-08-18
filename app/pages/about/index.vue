@@ -19,15 +19,15 @@
     <ul>
       <li>
         {{ $t("explainBase") }}
-        <a
-          href="http://idea.linkdata.org/idea/idea1s2029i"
-          >Sakepedia</a
-        >
+        <a href="http://idea.linkdata.org/idea/idea1s2029i">Sakepedia</a>
       </li>
       <li>{{ $t("explainOSS") }}</li>
       <ul>
         <li>{{ $t("developer") }} : <a href="https://www.code4sake.org/">Code for SAKE</a></li>
-        <li>{{ $t("repository") }} : <a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt">Github</a></li>
+        <li>
+          {{ $t("repository") }} :
+          <a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt">Github</a>
+        </li>
       </ul>
     </ul>
   </div>
