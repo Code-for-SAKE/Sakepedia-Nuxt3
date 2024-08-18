@@ -1,4 +1,5 @@
 # Sakepedia-Nuxt3
+<<<<<<< HEAD
 Nuxt3 version of Sakepedia, an open data site for Japanese sake created by everyone
 
 [Readme in Japanese](./README.md)
@@ -48,6 +49,33 @@ const firebaseConfig = {
 
 Create file under this project `Sakepedia-Nuxt3/app/.env`, fill info got from above:
 
+=======
+The Nuxt3 version of Sakepedia, an open data project for Japanese sake created by everyone.
+
+# Environment Requirement 
+Docker
+Nuxt3.11.1
+yarn
+
+# setting
+
+## Firebase
+
+- new Project
+  - Project Name: as you like e.g. sakepedia-nuxt3
+  - Spark
+  - Firestore Database
+    - default
+  - Authentication
+    - Google enabled
+  - Add a web app to your project
+
+## .env
+
+Please refer to the `SDK setup and configuration` for the Firebase web app
+
+front/.env
+>>>>>>> upstream/feature/i18n_fto
 ```.env
 NUXT_PUBLIC_FIREBASE_API_KEY=
 NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
@@ -58,6 +86,7 @@ NUXT_PUBLIC_FIREBASE_APP_ID=
 NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 ```
 
+<<<<<<< HEAD
 ## 3. Create .firebaserc
 
 The project should already contain this file:
@@ -68,10 +97,20 @@ The project should already contain this file:
 {
   "projects": {
     "default": "sakepedia-nuxt3"
+=======
+## .firebaserc
+
+.firebaserc
+```json
+{
+  "projects": {
+    "default": "<FirebaseのプロジェクトID>"
+>>>>>>> upstream/feature/i18n_fto
   }
 }
 ```
 
+<<<<<<< HEAD
 # Install and Build
 
 It may take an hour, depends on your networking speed.
@@ -97,11 +136,33 @@ docker-compose run --rm firebase firebase login --no-localhost
 - If `Success! Logged in as xxxx` appears, you're logged in
 
 ## 3. Install Nuxt
+=======
+# build
+
+## docker
+- nuxt
+  - Use Nuxt3 base container
+- firebase
+  - Use firebase emulator base container
+
+```bash
+docker-compose up -d
+docker-compose run --rm firebase firebase login --no-localhost
+```
+- Collecting error reports is optional.
+- URL are shown for access.
+- Review the session ID. 
+- Paste the code that appears into the CLI.
+- If it is shown "Success! Logged in as xxxx", the login is successful.
+
+# run
+>>>>>>> upstream/feature/i18n_fto
 
 ```bash
 docker-compose exec nuxt bash
 ```
 
+<<<<<<< HEAD
 ### nuxtコンテナ
 ```bash
 yarn install
@@ -142,6 +203,23 @@ http://localhost:4000/
 # Deploy　
 
 ### Nuxt container
+=======
+### nuxt container
+```bash
+yarn install
+yarn dev
+```
+### Browsing 
+#### Sakepedia
+http://localhost:3000/
+
+#### Firebaseエミュレータ
+http://localhost:4000/
+
+
+# deploy　
+### nuxt container
+>>>>>>> upstream/feature/i18n_fto
 ```bash
 yarn build --preset=firebase
 npx firebase-tools deploy --project sakepedia-nuxt3
@@ -149,22 +227,36 @@ npx firebase-tools deploy --project sakepedia-nuxt3
 
 # Linter
 
+<<<<<<< HEAD
 ESLint is used
 
 ## VSCode settings
 
 1. Add extension for ESLint
 1. Add the following items to `.vscode/settings.json`
+=======
+ESLint is in use.
+
+## VSCode setting
+
+1. Add ESLint extension into you VSCode 
+1. Add below item into your `.vscode/settings.json`
+>>>>>>> upstream/feature/i18n_fto
 
 ```json
 "eslint.experimental.useFlatConfig": true,
 "eslint.workingDirectories": [
+<<<<<<< HEAD
 "./app"
+=======
+    "./app"
+>>>>>>> upstream/feature/i18n_fto
 ]
 ```
 
 # Formatter
 
+<<<<<<< HEAD
 Prettier is used
 
 ## VSCode settings
@@ -174,18 +266,39 @@ Prettier is used
 # Data import/export
 
 ## Export local emulator
+=======
+Prettier is in use
+
+## VSCode setting
+
+1. Add Prettier extension into your VSCode
+
+# Data import / export
+
+## Export data to your local simulator
+>>>>>>> upstream/feature/i18n_fto
 
 ```
 rm -rf /opt/data/bkp
 firebase emulators:export /opt/data/bkp
 ```
 
+<<<<<<< HEAD
 # firestore Import
 ## Export to storage with firestore
 ## Download locally with gcloud
+=======
+# firestore importation
+## Use firestore to storage the exported data
+## Download locally using Google Cloud
+>>>>>>> upstream/feature/i18n_fto
 
 ```
 rm -rf /opt/data/bkp
 gcloud storage cp -r "gs://sakepedia-data/2024-06-12T10:56:22_57740" /opt/data
 mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> upstream/feature/i18n_fto
