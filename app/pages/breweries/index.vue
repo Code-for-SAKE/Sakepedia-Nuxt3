@@ -112,7 +112,7 @@ const getMoreData = async () => {
       :ui="{ thead: 'hidden' }"
     >
       <template #name-data="{ row }">
-        <NuxtLink :to="localePath('/breweries/' + row.id)">
+        <NuxtLink :to="localePath('/' + row.path)">
           <div class="w-full">
             <span>{{ row.data.name }}</span>
             <span>{{
