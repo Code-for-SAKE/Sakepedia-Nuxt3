@@ -4,13 +4,13 @@ const { getList } = useBrand()
 const { t } = useI18n()
 const localePath = useLocalePath()
 
-const searchText: string = route.query.name != null ? String(route.query.name) : ""
+const searchText = ref(route.query.name != null ? String(route.query.name) : "")
 const limit = route.query.limit != null ? Number(route.query.limit) : 3
-console.log("searchText", searchText)
+console.log("searchText", searchText.value)
 console.log("limit", limit)
 
 const res = await getList({
-  searchText: searchText,
+  searchText: searchText.value,
   before: undefined,
   limit: limit,
 })
@@ -28,9 +28,23 @@ const columns = [
   },
 ]
 
+async function searchVector() {
+  const res = await getList({
+    searchText: searchText.value,
+    before: undefined,
+    limit: limit,
+  })
+  brands.value = res.list
+  count.value = res.listCount
+}
+function setHistories() {
+  const url = window.location.href.replace(/\?.*$/, "")
+  const queries = `?name=${searchText.value}&limit=${limit}`
+  window.history.pushState(null, "", `${url}${queries}`)
+}
 const getMoreData = async () => {
   const res = await getList({
-    searchText: searchText,
+    searchText: searchText.value,
     before: brands.value[brands.value.length - 1].data.name,
     limit: limit,
   })
@@ -43,7 +57,6 @@ const getMoreData = async () => {
   <div>
     <div class="flex justify-between">
       <h1>{{ $t("brandList") }}</h1>
-      <UButton class="success" :to="localePath('/brands/add')">{{ $t("add") }}</UButton>
     </div>
     <hr />
     <div class="grid grid-cols-3">
@@ -59,6 +72,7 @@ const getMoreData = async () => {
           <template #trailing>
             <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
             @click="searchText = ''" /> -->
+            <UButton @click="setHistories(), searchVector()">{{ $t("search") }}</UButton>
           </template>
         </UInput>
       </div>
@@ -68,7 +82,7 @@ const getMoreData = async () => {
     </div>
     <UTable :rows="brands" :columns="columns">
       <template #name-data="{ row }">
-        <NuxtLink :to="row.path">
+        <NuxtLink :to="localePath('/' + row.path)">
           <div class="w-full">{{ row.data.name }}</div>
         </NuxtLink>
       </template>

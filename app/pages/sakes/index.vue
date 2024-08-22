@@ -3,13 +3,13 @@ const route = useRoute()
 const { t } = useI18n()
 const { getList } = useSake()
 
-const searchText: string = route.query.name != null ? String(route.query.name) : ""
+const searchText = ref(route.query.name != null ? String(route.query.name) : "")
 const limit = route.query.limit != null ? Number(route.query.limit) : 3
-console.log("searchText", searchText)
+console.log("searchText", searchText.value)
 console.log("limit", limit)
 
 const res = await getList({
-  searchText: searchText,
+  searchText: searchText.value,
   before: undefined,
   limit: limit,
 })
@@ -27,9 +27,23 @@ const columns = [
   },
 ]
 
+async function searchVector() {
+  const res = await getList({
+    searchText: searchText.value,
+    before: undefined,
+    limit: limit,
+  })
+  sakes.value = res.list
+  count.value = res.listCount
+}
+function setHistories() {
+  const url = window.location.href.replace(/\?.*$/, "")
+  const queries = `?name=${searchText.value}&limit=${limit}`
+  window.history.pushState(null, "", `${url}${queries}`)
+}
 const getMoreData = async () => {
   const res = await getList({
-    searchText: searchText,
+    searchText: searchText.value,
     before: sakes.value[sakes.value.length - 1].data.name,
     limit: limit,
   })
@@ -42,13 +56,7 @@ const getMoreData = async () => {
 <template>
   <div>
     <div class="flex justify-between">
-      <h1>{{ $t("breweryList") }}</h1>
-      <UButton
-        class="bg-success-500 text-black"
-        variant="solid"
-        to="/breweries/[breweryId]/brands/add.vue"
-        >{{ $t("add") }}</UButton
-      >
+      <h1>{{ $t("sakeList") }}</h1>
     </div>
     <hr />
     <div class="grid grid-cols-3">
@@ -64,6 +72,7 @@ const getMoreData = async () => {
           <template #trailing>
             <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
             @click="searchText = ''" /> -->
+            <UButton @click="setHistories(), searchVector()">{{ $t("search") }}</UButton>
           </template>
         </UInput>
       </div>
