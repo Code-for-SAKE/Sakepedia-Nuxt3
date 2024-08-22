@@ -26,13 +26,13 @@ const deleteSake = async function () {
     <dl>
       <dt>{{ $t("brewery") }}</dt>
       <dd>
-        <NuxtLink :to="'/' + sake?.data.brewery?.path">
+        <NuxtLink :to="localePath('/' + sake?.data.brewery?.path)">
           <div class="w-full">{{ sake?.data.brewery?.id }}</div>
         </NuxtLink>
       </dd>
       <dt>{{ $t("brand") }}</dt>
       <dd>
-        <NuxtLink :to="'/' + sake?.data.brand?.path">
+        <NuxtLink :to="localePath('/' + sake?.data.brand?.path)">
           <div class="w-full">{{ sake?.data.brand?.id }}</div>
         </NuxtLink>
       </dd>
@@ -47,7 +47,7 @@ const deleteSake = async function () {
       <dt>{{ $t("updatedAt") }}</dt>
       <dd />
     </dl>
-    <UButton class="info" :to="route.path + '/update'">{{ $t("update") }}</UButton>
+    <UButton class="info" :to="localePath(route.path + '/update')">{{ $t("update") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>

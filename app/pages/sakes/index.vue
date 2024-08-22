@@ -2,6 +2,7 @@
 const route = useRoute()
 const { t } = useI18n()
 const { getList } = useSake()
+const localePath = useLocalePath()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : "")
 const limit = route.query.limit != null ? Number(route.query.limit) : 3
@@ -82,7 +83,7 @@ const getMoreData = async () => {
     </div>
     <UTable :rows="sakes" :columns="columns">
       <template #name-data="{ row }">
-        <NuxtLink :to="row.path">
+        <NuxtLink :to="localePath('/' + row.path)">
           <div class="w-full">{{ row.data.name }}</div>
         </NuxtLink>
       </template>
