@@ -24,29 +24,29 @@ const deleteBrand = async function () {
 
 <template>
   <div>
-    <h1>{{ $t(brandDetails) }}</h1>
+    <h1>{{ $t("brandDetails") }}</h1>
     <dl>
       <dt>ID</dt>
       <dd>{{ brand.id }}</dd>
       <dt>{{ $t("name") }}</dt>
       <dd>{{ brand?.data.name }}</dd>
-      <dt>{{ $t(brewery) }}</dt>
+      <dt>{{ $t("brewery") }}</dt>
       <dd>
         <NuxtLink v-if="brand?.data.brewery" :to="'/' + brewery?.path">
           <div class="w-full">{{ brewery?.data.name }}</div>
         </NuxtLink>
       </dd>
-      <dt>{{ $t(explanation) }}</dt>
+      <dt>{{ $t("explanation") }}</dt>
       <dd>{{ brand?.data.description }}</dd>
     </dl>
     <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
-    <UButton class="danger" @click="confirmDelete = true">削除</UButton>
+    <UButton class="danger" @click="confirmDelete = true">{{ $t('delete') }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
-        <Alert>{{ $t(confirmDelete) }}</Alert>
+        <Alert>{{ $t("confirmDelete") }}</Alert>
         <template #footer>
           <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
-          <UButton class="danger" @click="deleteBrand">はい</UButton>
+          <UButton class="danger" @click="deleteBrand">{{ $t('yes') }}</UButton>
         </template>
       </UCard>
     </UModal>
