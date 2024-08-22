@@ -40,13 +40,13 @@ const deleteBrand = async function () {
       <dd>{{ brand?.data.description }}</dd>
     </dl>
     <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
-    <UButton class="danger" @click="confirmDelete = true">{{ $t('delete') }}</UButton>
+    <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
         <Alert>{{ $t("confirmDelete") }}</Alert>
         <template #footer>
           <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
-          <UButton class="danger" @click="deleteBrand">{{ $t('yes') }}</UButton>
+          <UButton class="danger" @click="deleteBrand">{{ $t("yes") }}</UButton>
         </template>
       </UCard>
     </UModal>
