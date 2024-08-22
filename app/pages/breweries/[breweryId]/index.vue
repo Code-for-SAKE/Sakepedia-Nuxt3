@@ -150,7 +150,7 @@ async function deleteRecord() {
           </UCard>
         </UModal>
       </div>
-      <UButton variant="secondary" :to="localePath('/breweries')">{{ $t("back") }}</UButton>
+      <UButton :to="localePath('/breweries')">{{ $t("back") }}</UButton>
     </div>
     <hr />
     <div class="my-4">
