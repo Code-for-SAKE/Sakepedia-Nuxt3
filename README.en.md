@@ -1,15 +1,16 @@
 # Sakepedia-Nuxt3
-Nuxt3 version of Sakepedia, an open data site for Japanese sake created by everyone
+The Nuxt3 version of Sakepedia, an open data project for Japanese sake created by everyone.
 
 [Readme in Japanese](./README.md)
 
-# Environment
+# Environment Requirement 
 
 - Docker
 - Nuxt3.11.1
 - yarn
 
-# Setup Firebase
+
+# setting
 
 Please follow steps below one by one
 
@@ -25,9 +26,14 @@ Go to Firebase website, create new project (It's free.)
 Currently, the url is https://console.firebase.google.com/
 
 - new Project
-  - Project name: `sakepedia-nuxt3`
-  - Analytics integration: optional
-  - Waiting project create
+  - Project Name: as you like e.g. sakepedia-nuxt3
+  - Spark
+  - Firestore Database
+    - default
+  - Authentication
+    - Google enabled
+  - Add a web app to your project
+
 
 ## 2. Create environment setting for Firebase
 
@@ -46,7 +52,10 @@ const firebaseConfig = {
 };
 ```
 
+## .env
+
 Create file under this project `Sakepedia-Nuxt3/app/.env`, fill info got from above:
+
 
 ```.env
 NUXT_PUBLIC_FIREBASE_API_KEY=
@@ -78,12 +87,16 @@ It may take an hour, depends on your networking speed.
 
 ## 1. Create docker
 
+- nuxt
+  - Use Nuxt3 base container
+- firebase
+  - Use firebase emulator base container
+
 ```bash
 cd Sakepedia-Nuxt3
 docker-compose up -d
 
 ```
-
 
 ## 2. Init firebase
 
@@ -96,13 +109,14 @@ docker-compose run --rm firebase firebase login --no-localhost
 - Paste the code that appears into the CLI
 - If `Success! Logged in as xxxx` appears, you're logged in
 
-## 3. Install Nuxt
+# run
 
 ```bash
 docker-compose exec nuxt bash
 ```
 
 ### nuxtコンテナ
+
 ```bash
 yarn install
 ```
@@ -143,6 +157,18 @@ http://localhost:4000/
 
 ### Nuxt container
 ```bash
+yarn install
+yarn dev
+```
+### Browsing 
+#### Sakepedia
+http://localhost:3000/
+
+#### Firebase Emulator
+http://localhost:4000/
+
+
+```bash
 yarn build --preset=firebase
 npx firebase-tools deploy --project sakepedia-nuxt3
 ```
@@ -159,7 +185,7 @@ ESLint is used
 ```json
 "eslint.experimental.useFlatConfig": true,
 "eslint.workingDirectories": [
-"./app"
+    "./app"
 ]
 ```
 
@@ -167,13 +193,13 @@ ESLint is used
 
 Prettier is used
 
-## VSCode settings
+## VSCode setting
 
-1. Add extension for Prettier
+1. Add Prettier extension into your VSCode
 
-# Data import/export
+# Data import / export
 
-## Export local emulator
+## Export data to your local simulator
 
 ```
 rm -rf /opt/data/bkp
