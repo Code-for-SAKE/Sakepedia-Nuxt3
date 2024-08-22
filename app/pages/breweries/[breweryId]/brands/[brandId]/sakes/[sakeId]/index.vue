@@ -24,34 +24,34 @@ const deleteSake = async function () {
     <hr />
     <h2 v-if="sake">{{ sake?.data.name }}</h2>
     <dl>
-      <dt>酒蔵</dt>
+      <dt>{{ $t("brewery") }}</dt>
       <dd>
         <NuxtLink :to="'/' + sake?.data.brewery?.path">
           <div class="w-full">{{ sake?.data.brewery?.id }}</div>
         </NuxtLink>
       </dd>
-      <dt>銘柄</dt>
+      <dt>{{ $t("brand") }}</dt>
       <dd>
         <NuxtLink :to="'/' + sake?.data.brand?.path">
           <div class="w-full">{{ sake?.data.brand?.id }}</div>
         </NuxtLink>
       </dd>
-      <dt>分類</dt>
+      <dt>{{ $t(type) }}</dt>
       <dd />
-      <dt>合うおつまみ</dt>
+      <dt>{{ $t(pairing) }}</dt>
       <dd />
-      <dt>説明</dt>
+      <dt>{{ $t(explanation) }}</dt>
       <dd>{{ sake?.data.description }}</dd>
-      <dt>URL</dt>
+      <dt>{{ $t(url) }}</dt>
       <dd />
-      <dt>更新日</dt>
+      <dt>{{ $t(updatedAt) }}</dt>
       <dd />
     </dl>
     <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
-        <Alert>本当に削除しますか？</Alert>
+        <Alert>{{ $t(confirmDelete) }}</Alert>
         <template #footer>
           <UButton class="secondary" @click="confirmDelete = false">キャンセル</UButton>
           <UButton class="danger" @click="deleteSake">はい</UButton>

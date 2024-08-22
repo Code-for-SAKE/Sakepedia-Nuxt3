@@ -17,7 +17,7 @@ const signInGithub = () => {
 <template>
   <div>
     <div v-if="currentUser == null">
-      <h1>ログイン</h1>
+      <h1>{{ $t(login) }}</h1>
       <p class="lead">GoogleアカウントかGithubアカウントでログインできます。</p>
       <UButton type="button" role="button" @click="signInGoogle"> Sign In with Google </UButton>
       <UButton type="button" role="button" @click="signInGithub"> Sign In with GitHub</UButton>

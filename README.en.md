@@ -1,4 +1,55 @@
 # Sakepedia-Nuxt3
+<<<<<<< HEAD
+Nuxt3 version of Sakepedia, an open data site for Japanese sake created by everyone
+
+[Readme in Japanese](./README.md)
+
+# Environment
+
+- Docker
+- Nuxt3.11.1
+- yarn
+
+# Setup Firebase
+
+Please follow steps below one by one
+
+## 0. Clone project
+
+```
+git clone git@github.com:Code-for-SAKE/Sakepedia-Nuxt3.git
+```
+
+## 1. Firebase
+
+Go to Firebase website, create new project (It's free.)
+Currently, the url is https://console.firebase.google.com/
+
+- new Project
+  - Project name: `sakepedia-nuxt3`
+  - Analytics integration: optional
+  - Waiting project create
+
+## 2. Create environment setting for Firebase
+
+After project created, get firebase setup info here:
+- Project overview -> press `</>` website icon
+- Fill the project name, could be the same as `sakepedia-nuxt3`, register
+- Get info under const (do not leak these info)
+```
+const firebaseConfig = {
+  apiKey: "XXXXXXXXXXXX",
+  authDomain: "XXXX",
+  projectId: "XXXX",
+  storageBucket: "XXXXX",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+};
+```
+
+Create file under this project `Sakepedia-Nuxt3/app/.env`, fill info got from above:
+
+=======
 The Nuxt3 version of Sakepedia, an open data project for Japanese sake created by everyone.
 
 # Environment Requirement 
@@ -24,6 +75,7 @@ yarn
 Please refer to the `SDK setup and configuration` for the Firebase web app
 
 front/.env
+>>>>>>> upstream/feature/i18n_fto
 ```.env
 NUXT_PUBLIC_FIREBASE_API_KEY=
 NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
@@ -34,6 +86,18 @@ NUXT_PUBLIC_FIREBASE_APP_ID=
 NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 ```
 
+<<<<<<< HEAD
+## 3. Create .firebaserc
+
+The project should already contain this file:
+
+`.firebaserc`
+
+```json
+{
+  "projects": {
+    "default": "sakepedia-nuxt3"
+=======
 ## .firebaserc
 
 .firebaserc
@@ -41,10 +105,38 @@ NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 {
   "projects": {
     "default": "<FirebaseのプロジェクトID>"
+>>>>>>> upstream/feature/i18n_fto
   }
 }
 ```
 
+<<<<<<< HEAD
+# Install and Build
+
+It may take an hour, depends on your networking speed.
+
+## 1. Create docker
+
+```bash
+cd Sakepedia-Nuxt3
+docker-compose up -d
+
+```
+
+
+## 2. Init firebase
+
+```bash
+docker-compose run --rm firebase firebase login --no-localhost
+```
+- Collecting an error report is optional
+- Access the URL that appears
+- Check the session ID
+- Paste the code that appears into the CLI
+- If `Success! Logged in as xxxx` appears, you're logged in
+
+## 3. Install Nuxt
+=======
 # build
 
 ## docker
@@ -64,11 +156,54 @@ docker-compose run --rm firebase firebase login --no-localhost
 - If it is shown "Success! Logged in as xxxx", the login is successful.
 
 # run
+>>>>>>> upstream/feature/i18n_fto
 
 ```bash
 docker-compose exec nuxt bash
 ```
 
+<<<<<<< HEAD
+### nuxtコンテナ
+```bash
+yarn install
+```
+
+# Run
+
+```bash
+docker-compose exec nuxt bash
+```
+after enter container, run yarn
+
+```
+yarn dev
+```
+
+After yarn done, you can see the terminal have line like this
+```
+[11:23:47 AM] Nuxt 3.12.2 with Nitro 2.9.6
+➜ Local:    http://0.0.0.0:3000/
+...
+...
+etc.
+...
+[nitro 11:24:01 AM] ✔ Nuxt Nitro server built in 1630 ms
+```
+
+
+## Check service alive
+
+Website:
+http://localhost:3000/
+
+Firebase Emulator:
+http://localhost:4000/
+
+
+# Deploy　
+
+### Nuxt container
+=======
 ### nuxt container
 ```bash
 yarn install
@@ -84,6 +219,7 @@ http://localhost:4000/
 
 # deploy　
 ### nuxt container
+>>>>>>> upstream/feature/i18n_fto
 ```bash
 yarn build --preset=firebase
 npx firebase-tools deploy --project sakepedia-nuxt3
@@ -91,22 +227,46 @@ npx firebase-tools deploy --project sakepedia-nuxt3
 
 # Linter
 
+<<<<<<< HEAD
+ESLint is used
+
+## VSCode settings
+
+1. Add extension for ESLint
+1. Add the following items to `.vscode/settings.json`
+=======
 ESLint is in use.
 
 ## VSCode setting
 
 1. Add ESLint extension into you VSCode 
 1. Add below item into your `.vscode/settings.json`
+>>>>>>> upstream/feature/i18n_fto
 
 ```json
 "eslint.experimental.useFlatConfig": true,
 "eslint.workingDirectories": [
+<<<<<<< HEAD
+"./app"
+=======
     "./app"
+>>>>>>> upstream/feature/i18n_fto
 ]
 ```
 
 # Formatter
 
+<<<<<<< HEAD
+Prettier is used
+
+## VSCode settings
+
+1. Add extension for Prettier
+
+# Data import/export
+
+## Export local emulator
+=======
 Prettier is in use
 
 ## VSCode setting
@@ -116,18 +276,29 @@ Prettier is in use
 # Data import / export
 
 ## Export data to your local simulator
+>>>>>>> upstream/feature/i18n_fto
 
 ```
 rm -rf /opt/data/bkp
 firebase emulators:export /opt/data/bkp
 ```
 
+<<<<<<< HEAD
+# firestore Import
+## Export to storage with firestore
+## Download locally with gcloud
+=======
 # firestore importation
 ## Use firestore to storage the exported data
 ## Download locally using Google Cloud
+>>>>>>> upstream/feature/i18n_fto
 
 ```
 rm -rf /opt/data/bkp
 gcloud storage cp -r "gs://sakepedia-data/2024-06-12T10:56:22_57740" /opt/data
 mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> upstream/feature/i18n_fto
