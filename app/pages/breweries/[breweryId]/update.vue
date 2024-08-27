@@ -181,7 +181,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UInput v-model="state.endYear" />
       </UFormGroup>
 
-      <UButton type="submit"> 更新 </UButton>
+      <UButton type="submit"> {{ $t("update") }} </UButton>
       <UButton :to="localePath('/breweries/' + brewery.id)"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
