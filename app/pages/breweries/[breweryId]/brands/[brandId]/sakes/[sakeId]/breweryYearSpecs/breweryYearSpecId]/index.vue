@@ -69,7 +69,7 @@ const deleteSake = async function () {
         <h3>{{ $t("otherData") }}</h3>
         <div class="d-flex justify-content-between">
           <div></div>
-          <UButton class="info" :to="localePath(route.path + '/breweryYearSpecs/add')">{{
+          <UButton class="success" @click="confirmDelete = false">{{
             $t("addBreweryData")
           }}</UButton>
         </div>
