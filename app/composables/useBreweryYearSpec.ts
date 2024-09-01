@@ -14,11 +14,21 @@ const {
 } = useFirestore()
 
 export type BreweryYearSpec = {
-  name: string
-  description: string
-  makedBY: number | undefined | null
-  brand: DocumentReference<DocumentData, DocumentData> | null
-  brewery: DocumentReference<DocumentData, DocumentData> | null
+  makedBY: number | undefined
+  aminoAcidContentMin: number | undefined
+  aminoAcidContentMax: number | undefined
+  alcoholContentMin: number | undefined
+  alcoholContentMax: number | undefined
+  sakeMeterValueMin: number | undefined
+  sakeMeterValueMax: number | undefined
+  acidityMin: number | undefined
+  acidityMax: number | undefined
+  ricePolishingRateMin: number | undefined
+  ricePolishingRateMax: number | undefined
+  sakeYeast: string | undefined
+  riceForMakingKoji: string | undefined
+  sakeRiceExceptForKojiMaking: string | undefined
+  bottledDate: Date | undefined
   sake: DocumentReference<DocumentData, DocumentData> | null
 }
 
@@ -81,8 +91,9 @@ export const useBreweryYearSpec = () => {
   }
 
   const addItem = async (params: BreweryYearSpec) => {
+    console.log(params.sake?.parent)
     return await addItemFirestore(
-      `breweries/${params.brewery!.id}/brands/${params.brand!.id}/sakes/${params.sake!.id}/breweryYearSpec`,
+      `breweries/${params.sake?.parent?.parent?.parent?.parent?.id}/brands/${params.sake?.parent?.parent?.id}/sakes/${params.sake!.id}/breweryYearSpecs`,
       params,
     )
   }
