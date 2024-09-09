@@ -33,15 +33,13 @@ export type BreweryYearSpec = {
 }
 
 export type BreweryYearSpecParams = {
-  brandId?: string
-  breweryId?: string
-  sakeId?: string
+  sake?: Data<Sake> | null
   searchText: string
   limit: number
   before: Sake | undefined
 }
 
-const collectionName: string = "breweryYearSpec"
+const collectionName: string = "breweryYearSpecs"
 
 /**
  * Firestore へのアクセス
@@ -76,14 +74,12 @@ export const useBreweryYearSpec = () => {
   }
 
   const getList = async (params: BreweryYearSpecParams) => {
-    console.log("BreweryYearSpecParams", params)
     if (typeof params.limit !== "number" || params.limit < 0)
       throw new Error("express-paginate: `limit` is not a number >= 0")
-    const coll = params.sakeId
-      ? collection(db, `breweries/${params.breweryId}/${collectionName}`)
+    const coll = params.sake
+      ? collection(db, `/${params.sake.path}/${collectionName}`)
       : collectionGroup(db, collectionName)
-    // let snapshot;
-    let q = query(coll, orderBy("name"))
+    let q = query(coll, orderBy("makedBY", "desc"))
     // snapshot = await getCountFromServer(query(coll));
     if (params.searchText != "") {
       q = query(q, where("name", "==", params.searchText))

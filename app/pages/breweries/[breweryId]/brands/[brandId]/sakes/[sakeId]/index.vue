@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LastBreweryYearSpec from "~/components/LastBreweryYearSpec.vue"
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
@@ -9,8 +10,6 @@ const dataPath = localePath(route.path, defaultLocale)
 
 const item = await getItem(dataPath)
 const sake: Data<Sake> = item!
-
-console.log("Sakeitem", item)
 
 const confirmDelete = ref(false)
 const deleteSake = async function () {
@@ -63,7 +62,7 @@ const deleteSake = async function () {
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("latestBreweryData") }}</h3>
       </div>
-      <last-brewery-year-data :sake="$route.params.id" class="m-3" />
+      <LastBreweryYearSpec :sake="sake" class="m-3" />
       <hr />
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("otherData") }}</h3>
@@ -75,6 +74,7 @@ const deleteSake = async function () {
         </div>
       </div>
       <!-- <brewery-year-data-list class="m-3" /> -->
+      <BreweryYearSpecList :sake="sake" />
     </div>
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">

@@ -38,5 +38,6 @@ const confirmDelete = ref(false)
     <hr />
     <UButton class="info" :to="localePath(route.path + '/update')">{{ $t("edit") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
+    <UButton :to="localePath('/' + breweryYearSpec.path)"> {{ $t("back") }}</UButton>
   </div>
 </template>
