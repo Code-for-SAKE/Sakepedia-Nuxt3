@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { DocumentReference } from "firebase/firestore";
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
 const { getItem: getBrand } = useBrand()
 const { getItem: getBrewery } = useBrewery()
 const { getItem: getSake } = useSake()
-const { getItem } = usePost()
+const { getItem, deleteItem } = usePost()
 const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
 const dataPath = localePath(route.path, defaultLocale)
@@ -13,20 +14,26 @@ const dataPath = localePath(route.path, defaultLocale)
 const post = await getItem(dataPath)
 
 let brewery: Data<Brewery> | undefined = undefined
-if (post?.data.brewery) {
-  brewery = await getBrewery(post.data.brewery.path)
+if (typeof post.data.brewery == "string") {
+  brewery = await getBrewery(post.data.brewery)
+}else{
+  brewery = await getBrewery(post.data.brewery.path)  
 }
 let brand: Data<Brand> | undefined = undefined
-if (post?.data.brand) {
-    brand = await getBrand(post.data.brand.path)
+if (typeof post.data.brand == "string") {
+  brand = await getBrand(post.data.brand)
+}else if (post.data.brand instanceof DocumentReference){
+  brand = await getBrand(post.data.brand.path)
 }
 let sake: Data<Sake> | undefined = undefined
-if (post?.data.sake) {
-    sake = await getSake(post.data.sake.path)
+if (typeof post.data.sake == "string") {
+  sake = await getSake(post.data.sake)
+}else if (post.data.sake instanceof DocumentReference){
+  sake = await getSake(post.data.sake.path)
 }
 const confirmDelete = ref(false)
 const deletePost = async function () {
-  await deleteItem(brand.path)
+  await deleteItem(post.path)
   await navigateTo(localePath("/posts"))
 }
 </script>
@@ -57,9 +64,18 @@ const deletePost = async function () {
       </dd>
       <dt>{{ $t("comment") }}</dt>
       <dd>{{ post?.data.comment }}</dd>
+      <dd>
+        <MultiImage v-model="post.data.image"/>
+      </dd>
+      <dt>{{ $t("pairing") }}</dt>
+      <dd>
+        <UBadge v-for="mariage in post?.data.mariages" :key="mariage">{{mariage}}</UBadge>
+      </dd>
     </dl>
-    <UButton class="info" :to="route.path + '/update'">{{ $t("search") }}</UButton>
-    <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
+    <UFormGroup>
+      <UButton class="info" :to="route.path + '/update'">{{ $t("update") }}</UButton>
+      <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
+    </UFormGroup>
     <UModal v-model="confirmDelete">
       <UCard>
         <Alert>{{ $t("confirmDelete") }}</Alert>

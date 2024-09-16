@@ -9,17 +9,17 @@ const {
   getReference,
   getFromReference,
   addItem: addItemFirestore,
-  setItem,
+  setItem: setItemFirestore,
   deleteItem,
 } = useFirestore()
 
 export type Post = {
-  brewery: DocumentReference<DocumentData, DocumentData> | null
-  brand: DocumentReference<DocumentData, DocumentData> | null
-  sake: DocumentReference<DocumentData, DocumentData> | null
-  comment: string
-  image: string
-  mariages: string[]
+  brewery: DocumentReference<DocumentData, DocumentData> | string
+  brand: DocumentReference<DocumentData, DocumentData> | string | null
+  sake: DocumentReference<DocumentData, DocumentData> | string | null
+  comment: string | null
+  image: string[] | null
+  mariages: string[] | null
 }
 
 export type PostParams = {
@@ -66,14 +66,14 @@ export const usePost = () => {
     }
     if (params.sakeId) {
       const ref = await getReference(
-        `/breweries/${params.breweryId}/brands/${params.brandId}/sakes/${params.sakeId}`,
+        `breweries/${params.breweryId}/brands/${params.brandId}/sakes/${params.sakeId}`,
       )
       q = query(q, where("sake", "==", ref))
     } else if (params.brandId) {
-      const ref = await getReference(`/breweries/${params.breweryId}/brands/${params.brandId}`)
+      const ref = await getReference(`breweries/${params.breweryId}/brands/${params.brandId}`)
       q = query(q, where("brand", "==", ref))
     } else if (params.breweryId) {
-      const ref = await getReference(`/breweries/${params.breweryId}`)
+      const ref = await getReference(`breweries/${params.breweryId}`)
       q = query(q, where("brewery", "==", ref))
     }
     return await getListFirestore<Post>({
@@ -89,7 +89,37 @@ export const usePost = () => {
   }
 
   const addItem = async (params: Post) => {
-    return await addItemFirestore(collectionName, params)
+    const _params = params;
+    if(typeof params.brewery === "string"){
+      const path = params.brewery;
+      _params.brewery = await getReference(path);
+    }
+    if(typeof params.brand === "string"){
+      const path = params.brand;
+      _params.brand = await getReference(path);
+    }
+    if(typeof params.sake === "string"){
+      const path = params.sake;
+      _params.sake = await getReference(path);
+    }
+    return await addItemFirestore(collectionName, _params)
+  }
+
+  const setItem = async (path:string, params: Post) => {
+    const _params = params;
+    if(typeof params.brewery === "string"){
+      const path = params.brewery;
+      _params.brewery = await getReference(path);
+    }
+    if(typeof params.brand === "string"){
+      const path = params.brand;
+      _params.brand = await getReference(path);
+    }
+    if(typeof params.sake === "string"){
+      const path = params.sake;
+      _params.sake = await getReference(path);
+    }
+    return await setItemFirestore(path, _params)
   }
 
   return {

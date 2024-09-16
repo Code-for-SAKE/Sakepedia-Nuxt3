@@ -47,7 +47,7 @@ function setHistories() {
 const getMoreData = async () => {
   const res = await getList({
     searchText: searchText.value,
-    before: posts.value[posts.value.length - 1].data.comment,
+    before: posts.value[posts.value.length - 1].id,
     limit: limit,
   })
 
@@ -66,18 +66,9 @@ const getMoreData = async () => {
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-wrap items-stretch w-fit mb-4 relative" />
       <div class="flex-auto">
-        <UInput
-          v-model="searchText"
-          name="q"
-          placeholder="Search..."
-          icon="i-heroicons-magnifying-glass-20-solid"
-          class="w-full"
-          autocomplete="off"
-          :ui="{ icon: { trailing: { pointer: '' } } }"
-        >
+        <UInput v-model="searchText" name="q" placeholder="Search..." icon="i-heroicons-magnifying-glass-20-solid"
+          class="w-full" autocomplete="off" :ui="{ icon: { trailing: { pointer: '' } } }">
           <template #trailing>
-            <!-- <UButton v-show="q !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid" :padded="false"
-            @click="searchText = ''" /> -->
             <UButton @click="setHistories(), searchVector()">{{ $t("search") }}</UButton>
           </template>
         </UInput>
@@ -87,10 +78,20 @@ const getMoreData = async () => {
       {{ cnt }} / {{ count }}
     </div>
     <UTable :rows="posts" :columns="columns" class="border border-t-0" :ui="{ thead: 'hidden' }">
-      <template #name-data="{ row }">
+      <template #image-data="{ row }">
         <NuxtLink :to="localePath('/' + row.path)">
           <div class="w-full">
-            <image :src="row.data.image" />
+            <MultiImage v-model="row.data.image" />
+          </div>
+        </NuxtLink>
+      </template>
+      <template #comment-data="{ row }">
+        <NuxtLink :to="localePath('/' + row.path)">
+          <div v-if="row.data.comment" class="w-full">
+            {{ row.data.comment }}
+          </div>
+          <div v-else class="w-full">
+            {{ $t("noComment") }}
           </div>
         </NuxtLink>
       </template>

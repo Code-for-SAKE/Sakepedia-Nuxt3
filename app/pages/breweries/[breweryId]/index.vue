@@ -166,6 +166,7 @@ async function deleteRecord() {
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("postList") }}</h3>
       </div>
+      <UButton :to="localePath({path:'/posts/add', query:{breweryId:route.params.breweryId}})">{{ $t("add") }}</UButton>
       <!-- <comment-list :brewery="brewery._id" /> -->
     </div>
   </div>
