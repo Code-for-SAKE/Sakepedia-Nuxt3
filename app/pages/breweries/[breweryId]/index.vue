@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CommentList from "~/components/CommentList.vue"
 import type { Brewery } from "~/composables/useBrewery"
 import type { Data } from "~/composables/useFirestore"
 
@@ -166,8 +167,11 @@ async function deleteRecord() {
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("postList") }}</h3>
       </div>
-      <UButton :to="localePath({path:'/posts/add', query:{breweryId:route.params.breweryId}})">{{ $t("add") }}</UButton>
-      <!-- <comment-list :brewery="brewery._id" /> -->
+      <UButton
+        :to="localePath({ path: '/posts/add', query: { breweryId: route.params.breweryId } })"
+        >{{ $t("add") }}</UButton
+      >
+      <CommentList :brewery-id="String(route.params.breweryId)" />
     </div>
   </div>
 </template>
