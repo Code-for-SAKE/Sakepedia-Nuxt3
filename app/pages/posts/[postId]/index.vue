@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DocumentReference } from "firebase/firestore";
+import { DocumentReference } from "firebase/firestore"
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
@@ -16,19 +16,19 @@ const post = await getItem(dataPath)
 let brewery: Data<Brewery> | undefined = undefined
 if (typeof post.data.brewery == "string") {
   brewery = await getBrewery(post.data.brewery)
-}else{
-  brewery = await getBrewery(post.data.brewery.path)  
+} else {
+  brewery = await getBrewery(post.data.brewery.path)
 }
 let brand: Data<Brand> | undefined = undefined
 if (typeof post.data.brand == "string") {
   brand = await getBrand(post.data.brand)
-}else if (post.data.brand instanceof DocumentReference){
+} else if (post.data.brand instanceof DocumentReference) {
   brand = await getBrand(post.data.brand.path)
 }
 let sake: Data<Sake> | undefined = undefined
 if (typeof post.data.sake == "string") {
   sake = await getSake(post.data.sake)
-}else if (post.data.sake instanceof DocumentReference){
+} else if (post.data.sake instanceof DocumentReference) {
   sake = await getSake(post.data.sake.path)
 }
 const confirmDelete = ref(false)
@@ -65,11 +65,11 @@ const deletePost = async function () {
       <dt>{{ $t("comment") }}</dt>
       <dd>{{ post?.data.comment }}</dd>
       <dd>
-        <MultiImage v-model="post.data.image"/>
+        <MultiImage v-model="post.data.image" />
       </dd>
       <dt>{{ $t("pairing") }}</dt>
       <dd>
-        <UBadge v-for="mariage in post?.data.mariages" :key="mariage">{{mariage}}</UBadge>
+        <UBadge v-for="mariage in post?.data.mariages" :key="mariage">{{ mariage }}</UBadge>
       </dd>
     </dl>
     <UFormGroup>

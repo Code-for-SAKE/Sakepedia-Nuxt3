@@ -100,7 +100,7 @@ export const useFirestore = () => {
 
   const getReference = async (path: string) => {
     //絶対パスとして受け取る
-    const pathStr = path.startsWith('/') ? path : "/" + path
+    const pathStr = path.startsWith("/") ? path : "/" + path
     const ref = doc(db, pathStr)
     return ref
   }

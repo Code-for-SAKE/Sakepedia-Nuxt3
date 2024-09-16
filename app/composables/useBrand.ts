@@ -36,7 +36,6 @@ export type SakeListParams = {
   before: Sake | undefined
 }
 
-
 const collectionName: string = "brands"
 
 /**

@@ -66,8 +66,15 @@ const getMoreData = async () => {
     <div class="flex flex-wrap gap-4">
       <div class="flex flex-wrap items-stretch w-fit mb-4 relative" />
       <div class="flex-auto">
-        <UInput v-model="searchText" name="q" placeholder="Search..." icon="i-heroicons-magnifying-glass-20-solid"
-          class="w-full" autocomplete="off" :ui="{ icon: { trailing: { pointer: '' } } }">
+        <UInput
+          v-model="searchText"
+          name="q"
+          placeholder="Search..."
+          icon="i-heroicons-magnifying-glass-20-solid"
+          class="w-full"
+          autocomplete="off"
+          :ui="{ icon: { trailing: { pointer: '' } } }"
+        >
           <template #trailing>
             <UButton @click="setHistories(), searchVector()">{{ $t("search") }}</UButton>
           </template>

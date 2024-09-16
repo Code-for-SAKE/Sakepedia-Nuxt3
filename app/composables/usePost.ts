@@ -89,35 +89,35 @@ export const usePost = () => {
   }
 
   const addItem = async (params: Post) => {
-    const _params = params;
-    if(typeof params.brewery === "string"){
-      const path = params.brewery;
-      _params.brewery = await getReference(path);
+    const _params = params
+    if (typeof params.brewery === "string") {
+      const path = params.brewery
+      _params.brewery = await getReference(path)
     }
-    if(typeof params.brand === "string"){
-      const path = params.brand;
-      _params.brand = await getReference(path);
+    if (typeof params.brand === "string") {
+      const path = params.brand
+      _params.brand = await getReference(path)
     }
-    if(typeof params.sake === "string"){
-      const path = params.sake;
-      _params.sake = await getReference(path);
+    if (typeof params.sake === "string") {
+      const path = params.sake
+      _params.sake = await getReference(path)
     }
     return await addItemFirestore(collectionName, _params)
   }
 
-  const setItem = async (path:string, params: Post) => {
-    const _params = params;
-    if(typeof params.brewery === "string"){
-      const path = params.brewery;
-      _params.brewery = await getReference(path);
+  const setItem = async (path: string, params: Post) => {
+    const _params = params
+    if (typeof params.brewery === "string") {
+      const path = params.brewery
+      _params.brewery = await getReference(path)
     }
-    if(typeof params.brand === "string"){
-      const path = params.brand;
-      _params.brand = await getReference(path);
+    if (typeof params.brand === "string") {
+      const path = params.brand
+      _params.brand = await getReference(path)
     }
-    if(typeof params.sake === "string"){
-      const path = params.sake;
-      _params.sake = await getReference(path);
+    if (typeof params.sake === "string") {
+      const path = params.sake
+      _params.sake = await getReference(path)
     }
     return await setItemFirestore(path, _params)
   }
