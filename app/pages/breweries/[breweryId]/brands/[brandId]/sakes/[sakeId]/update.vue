@@ -9,7 +9,9 @@ const { getItem: getBrand } = useBrand()
 const { getItem, setItem } = useSake()
 const localePath = useLocalePath()
 
-const sake = await getItem(`/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}`)
+const sake = await getItem(
+  `/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}`,
+)
 const breweryName = ref<string>("")
 const brandName = ref<string>("")
 
@@ -36,7 +38,9 @@ if (route.params.breweryId) {
   state.brewery = brewery.ref
   breweryName.value = brewery.data.name
   if (route.params.brandId) {
-    const brand = await getBrand(`breweries/${route.params.breweryId}/brands/${route.params.brandId}`)
+    const brand = await getBrand(
+      `breweries/${route.params.breweryId}/brands/${route.params.brandId}`,
+    )
     state.brand = brand.ref
     brandName.value = brand.data.name
   }
