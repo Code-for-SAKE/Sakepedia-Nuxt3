@@ -47,6 +47,8 @@ if (route.params.breweryId) {
       <UTextarea v-model="state.description" />
     </UFormGroup>
 
-    <UButton type="submit"> Submit </UButton>
+    <UButton type="submit"> {{ $t("update") }} </UButton>
+    <UButton :to="localePath('/' + brand.path)"> {{ $t("cancel") }}</UButton>
+
   </UForm>
 </template>

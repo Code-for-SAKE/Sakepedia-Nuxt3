@@ -49,7 +49,7 @@ if (route.params.breweryId) {
 
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-    <UFormGroup label="{{ $t('name') }}" name="name">
+    <UFormGroup :label="$t('name')" name="name">
       <UInput v-model="state.name" />
     </UFormGroup>
     <UFormGroup label="酒蔵" name="brewery">
@@ -62,6 +62,7 @@ if (route.params.breweryId) {
       <UTextarea v-model="state.description" />
     </UFormGroup>
 
-    <UButton type="submit"> Submit </UButton>
+    <UButton type="submit"> {{ $t("update")}} </UButton>
+    <UButton :to="localePath('/' + sake.path)"> {{ $t("cancel") }}</UButton>
   </UForm>
 </template>
