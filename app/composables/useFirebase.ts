@@ -3,6 +3,7 @@ import type { FirebaseApp } from "firebase/app"
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions"
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore"
 import { getAuth, connectAuthEmulator } from "firebase/auth"
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 export const useFirebaseApp = (): FirebaseApp => {
   console.log("useFirebase")
@@ -32,6 +33,10 @@ export const useFirebaseApp = (): FirebaseApp => {
 
       const functions = getFunctions(app)
       connectFunctionsEmulator(functions, "localhost", 5001)
+      
+      const storage = getStorage();
+      connectStorageEmulator(storage, "localhost", 9199);
+
     }
   } else {
     app = getApps()[0]
