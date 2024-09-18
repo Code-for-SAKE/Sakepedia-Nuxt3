@@ -3,8 +3,11 @@ import { object, array, type InferType, type ObjectSchema } from "yup"
 import * as yup from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 import type { ImageFilesData } from "~/components/ImageUploader.vue"
+const localePath = useLocalePath()
+const { addItem, setItem } = usePost()
 const { getItem, getBrandList } = useBrewery()
 const { getSakeList } = useBrand()
+const { upload, getUniqueFileName } = useStorage()
 
 const route = useRoute()
 const brewery: Data<Brewery> = await getItem(`breweries/${route.query.breweryId}`)
@@ -32,8 +35,6 @@ const schema: ObjectSchema<Post> = object({
 
 type Schema = InferType<typeof schema>
 
-const localePath = useLocalePath()
-const { addItem } = usePost()
 
 const state = reactive<{
   brewery: string
@@ -80,12 +81,29 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: any = event.data
 
-  data.image = images.value.map((img) => {
-    return String(img.img)
-  })
-
+  //画像以外を登録
   const res = await addItem(data)
-  console.log("res", res)
+
+  //画像をアップロード
+  const results = await images.value.map(async (img) => {
+    const unique = getUniqueFileName(img.file)
+    const path = `images/${res.id}/${unique}`
+    const result = upload(path, img.file)
+    return result
+  })
+  debugger;
+  //結果からフルパスを取得
+  const imagePaths = await Promise.all(results).then(
+    (results)=>{
+      return results.map((res)=>{return res.metadata.fullPath})
+    }
+  );
+  console.log(imagePaths)
+  data.image = imagePaths
+  //画像のパスを追加で更新
+  const resSet = await setItem(res.path, data)
+
+  console.log("res", res, resSet)
   await navigateTo(localePath("/" + res.path))
 }
 </script>

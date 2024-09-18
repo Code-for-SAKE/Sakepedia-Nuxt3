@@ -9,6 +9,7 @@ export type ImageFilesData = {
   type: string
   lastModified: number
   img: string | ArrayBuffer | null
+  file: File
 }[]
 
 const imageFilesData = ref<ImageFilesData>(props.modelValue ?? [])
@@ -33,6 +34,7 @@ async function setImages(files: File[] | null) {
           type: file.type,
           lastModified: file.lastModified,
           img: await getBase64(file),
+          file
         }
       }),
     ).then((v) => {

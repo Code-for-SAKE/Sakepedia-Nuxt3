@@ -1,6 +1,13 @@
 <script setup lang="ts">
+const { download } = useStorage()
 const props = defineProps<{ modelValue: string[] | null }>()
-const images = ref<string[]>(props.modelValue ?? [])
+const images = ref<string[]>([])
+const paths = await props.modelValue?.map(async (path)=>{
+  return await download(path);
+})
+if(paths){
+  images.value = await Promise.all(paths)
+}
 </script>
 <template>
   <div class="flex">
