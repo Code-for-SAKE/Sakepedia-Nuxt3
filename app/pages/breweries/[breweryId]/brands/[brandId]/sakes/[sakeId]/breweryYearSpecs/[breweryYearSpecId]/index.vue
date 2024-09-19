@@ -3,6 +3,7 @@ import type { BreweryYearSpec } from "~/composables/useBreweryYearSpec"
 import type { Data } from "~/composables/useFirestore"
 
 const route = useRoute()
+const { getItem: getSake } = useSake()
 const { getItem, deleteItem } = useBreweryYearSpec()
 const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
@@ -11,6 +12,8 @@ const dataPath = localePath(route.path, defaultLocale)
 const item = await getItem(dataPath)
 const breweryYearSpec: Data<BreweryYearSpec> = item!
 const confirmDelete = ref(false)
+
+const sakeItem = await getSake(breweryYearSpec?.data.sake?.path)
 </script>
 
 <template>
@@ -19,7 +22,7 @@ const confirmDelete = ref(false)
     <hr />
     <h2>
       <NuxtLink :to="localePath('/' + breweryYearSpec?.data.sake?.path)">
-        <div class="w-full">{{ breweryYearSpec?.data.sake?.id }}</div>
+        <div class="w-full">{{ sakeItem.data.name }}</div>
       </NuxtLink>
     </h2>
 

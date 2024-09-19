@@ -18,9 +18,10 @@ export type Sake = {
   subname: string
   type: string
   mariages: string
+  url: string
   description: string
-  brand: DocumentReference<DocumentData, DocumentData> | null
-  brewery: DocumentReference<DocumentData, DocumentData> | null
+  brand: DocumentReference<DocumentData, DocumentData> | null | undefined
+  brewery: DocumentReference<DocumentData, DocumentData> | null | undefined
   createdAt: Date | undefined
   updatedAt: Date | undefined
 }
@@ -46,9 +47,14 @@ export const useSake = () => {
       ref: snapshot.ref,
       data: {
         name: snapshot.data()?.name,
+        subname: snapshot.data()?.subname,
+        type: snapshot.data()?.type,
+        mariages: snapshot.data()?.mariages,
         description: snapshot.data()?.description,
         brand: snapshot.ref.parent.parent,
         brewery: snapshot.ref.parent.parent?.parent.parent,
+        createdAt: snapshot.data()?.createdAt,
+        updatedAt: snapshot.data()?.updatedAt,
       },
     }
   }

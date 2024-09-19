@@ -6,7 +6,6 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-// const { getBreweryYearSpecList } = useSake()
 const { getList } = useBreweryYearSpec()
 const localePath = useLocalePath()
 

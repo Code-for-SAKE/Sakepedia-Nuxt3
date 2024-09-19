@@ -127,6 +127,7 @@ if (route.params.breweryId) {
         <UInput v-model="state.bottledDate" />
       </UFormGroup>
       <UButton type="submit"> {{ $t("add") }} </UButton>
+      <UButton :to="localePath('/' + state)"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
 </template>

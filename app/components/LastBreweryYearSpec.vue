@@ -19,7 +19,6 @@ const res = await getList({
   limit: limit,
 })
 const breweryYearSpec: Ref = ref(res.list[0])
-console.log("Last breweryYearSpec", breweryYearSpec)
 
 async function deleteRecord() {}
 </script>
@@ -31,7 +30,8 @@ async function deleteRecord() {}
       <h6>By {{ "author" }} {{ breweryYearSpec.data.modifiedAt }}</h6>
       <dl>
         <dt>アミノ酸度</dt>
-        <dd><range-value :values="breweryYearSpec.data.aminoAcidContent" /></dd>
+        {{ breweryYearSpec.data.aminoAcidContentMin }}
+        <dd><range-value :values="breweryYearSpec.data.aminoAcidContentMin" /></dd>
         <dt>アルコール度</dt>
         <dd><range-value :values="breweryYearSpec.data.alcoholContent" /></dd>
         <dt>日本酒度</dt>
