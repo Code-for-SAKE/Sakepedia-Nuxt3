@@ -48,21 +48,24 @@ if (route.params.breweryId) {
 </script>
 
 <template>
-  <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-    <UFormGroup :label="$t('name')" name="name">
-      <UInput v-model="state.name" />
-    </UFormGroup>
-    <UFormGroup label="酒蔵" name="brewery">
-      {{ breweryName }}
-    </UFormGroup>
-    <UFormGroup label="銘柄" name="brewery">
-      {{ brandName }}
-    </UFormGroup>
-    <UFormGroup label="説明" name="description">
-      <UTextarea v-model="state.description" />
-    </UFormGroup>
+  <div>
+    <h1>{{ $t("sake") }}{{ $t("update") }}</h1>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormGroup :label="$t('name')" name="name">
+        <UInput v-model="state.name" />
+      </UFormGroup>
+      <UFormGroup label="酒蔵" name="brewery">
+        {{ breweryName }}
+      </UFormGroup>
+      <UFormGroup label="銘柄" name="brewery">
+        {{ brandName }}
+      </UFormGroup>
+      <UFormGroup label="説明" name="description">
+        <UTextarea v-model="state.description" />
+      </UFormGroup>
 
-    <UButton type="submit"> {{ $t("update")}} </UButton>
-    <UButton :to="localePath('/' + sake.path)"> {{ $t("cancel") }}</UButton>
-  </UForm>
+      <UButton type="submit"> {{ $t("update") }} </UButton>
+      <UButton :to="localePath('/' + sake.path)"> {{ $t("cancel") }}</UButton>
+    </UForm>
+  </div>
 </template>

@@ -20,7 +20,7 @@ const deleteSake = async function () {
 
 <template>
   <div>
-    <h1>日本酒 詳細</h1>
+    <h1>{{ $t("sakeDetails") }}</h1>
     <hr />
     <h2 v-if="sake">{{ sake?.data.name }}</h2>
     <dl>
@@ -47,7 +47,7 @@ const deleteSake = async function () {
       <dt>{{ $t("updatedAt") }}</dt>
       <dd />
     </dl>
-    <UButton class="info" :to="localePath(route.path + '/update')">{{ $t("update") }}</UButton>
+    <UButton class="info" :to="localePath(route.path + '/update')">{{ $t("edit") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
     <UModal v-model="confirmDelete">
       <UCard>
@@ -58,7 +58,25 @@ const deleteSake = async function () {
         </template>
       </UCard>
     </UModal>
-    <div>
+    <hr />
+    <div class="my-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ $t("latestBreweryData") }}</h3>
+      </div>
+      <last-brewery-year-data :sake="$route.params.id" class="m-3" />
+      <hr />
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ $t("otherData") }}</h3>
+        <div class="d-flex justify-content-between">
+          <div></div>
+          <UButton class="success" @click="confirmDelete = false">{{
+            $t("addBreweryData")
+          }}</UButton>
+        </div>
+      </div>
+      <!-- <brewery-year-data-list class="m-3" /> -->
+    </div>
+    <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("postList") }}</h3>
       </div>
