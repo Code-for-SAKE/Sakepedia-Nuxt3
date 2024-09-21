@@ -91,7 +91,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const result = upload(path, img.file)
     return result
   })
-  debugger;
   //結果からフルパスを取得
   const imagePaths = await Promise.all(results).then(
     (results)=>{
@@ -106,6 +105,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   console.log("res", res, resSet)
   await navigateTo(localePath("/" + res.path))
 }
+
+//銘柄と日本酒が指定されていれば選択する
+state.brand = route.query.breweryId ? brands.at(0)?.path : undefined
+onChangeBrand(state.brand).then(()=>{
+  state.sake = route.query.sakeId ? sakes.value.find(el => el.path.endsWith(String(route.query.sakeId)))?.path : undefined
+})
+
 </script>
 <template>
   <div>
