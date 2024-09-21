@@ -60,7 +60,6 @@ const getMoreData = async () => {
   <div>
     <div class="mb-4">
       <h1>{{ $t("postList") }}</h1>
-      <UButton class="success" :to="localePath('/posts/add')">{{ $t("add") }}</UButton>
     </div>
     <hr class="mb-4" />
     <div class="flex flex-wrap gap-4">
