@@ -50,5 +50,34 @@ const deleteBrand = async function () {
         </template>
       </UCard>
     </UModal>
+    <div class="my-4">
+      {{ $t("sakeList") }}
+      <UButton :to="localePath(`/${brand.path}/sakes/add`)">
+        {{ $t("add") }}
+      </UButton>
+      <BrandSakeList :brand-path="brand.path" />
+    </div>
+    <div class="my-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ $t("postList") }}</h3>
+      </div>
+      <UButton
+        :to="
+          localePath({
+            path: '/posts/add',
+            query: {
+              breweryId: route.params.breweryId,
+              brandId: route.params.brandId,
+            },
+          })
+        "
+      >
+        {{ $t("add") }}
+      </UButton>
+      <CommentList
+        :brewery-id="String(route.params.breweryId)"
+        :brand-id="String(route.params.brandId)"
+      />
+    </div>
   </div>
 </template>

@@ -21,7 +21,7 @@ const navLinks = computed(() => {
       },
       {
         label: t("post"),
-        to: localePath("/comments"),
+        to: localePath("/posts"),
       },
       {
         isLogin: true,

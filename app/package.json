@@ -31,6 +31,8 @@
     "@nuxt/eslint": "^0.3.13",
     "@types/leaflet.markercluster": "^1.5.4",
     "@types/node": "^20.14.2",
+    "@vueuse/core": "^11.0.3",
+    "@vueuse/nuxt": "^11.0.3",
     "eslint": "^9.5.0",
     "firebase-admin": "^12.1.1",
     "firebase-functions": "^5.0.1",

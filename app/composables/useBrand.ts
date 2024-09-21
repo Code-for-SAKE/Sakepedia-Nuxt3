@@ -13,6 +13,8 @@ const {
   deleteItem,
 } = useFirestore()
 
+const { converter: converterSake } = useSake()
+
 export type Brand = {
   name: string
   description: string
@@ -25,6 +27,13 @@ export type BrandParams = {
   limit: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   before: any | undefined
+}
+
+export type SakeListParams = {
+  brandPath: string
+  searchText: string
+  limit: number
+  before: Sake | undefined
 }
 
 const collectionName: string = "brands"
@@ -76,6 +85,23 @@ export const useBrand = () => {
     return await addItemFirestore(`breweries/${params.brewery!.id}/brands`, params)
   }
 
+  const getSakeList = async (params: SakeListParams) => {
+    console.log("SakeListParams", params)
+    if (typeof params.limit !== "number" || params.limit < 0)
+      throw new Error("express-paginate: `limit` is not a number >= 0")
+
+    const coll = collection(db, params.brandPath, "sakes")
+    // let snapshot;
+    const q = query(coll, orderBy("name"))
+    // snapshot = await getCountFromServer(query(coll));
+    return await getListFirestore<Brand>({
+      query: q,
+      limit: params.limit,
+      before: params.before,
+      converter: converterSake,
+    })
+  }
+
   return {
     getList,
     getItem,
@@ -85,5 +111,6 @@ export const useBrand = () => {
     setItem,
     deleteItem,
     converter,
+    getSakeList,
   }
 }

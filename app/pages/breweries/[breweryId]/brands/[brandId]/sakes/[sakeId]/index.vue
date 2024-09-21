@@ -79,13 +79,26 @@ const deleteSake = async function () {
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("postList") }}</h3>
-        <div class="d-flex justify-content-between">
-          <div></div>
-
-          <UButton class="success" @click="confirmDelete = false">{{ $t("addPost") }}</UButton>
-        </div>
       </div>
-      <!-- <comment-list /> -->
+      <UButton
+        :to="
+          localePath({
+            path: '/posts/add',
+            query: {
+              breweryId: route.params.breweryId,
+              brandId: route.params.brandId,
+              sakeId: route.params.sakeId,
+            },
+          })
+        "
+      >
+        {{ $t("add") }}
+      </UButton>
+      <CommentList
+        :brewery-id="String(route.params.breweryId)"
+        :brand-id="String(route.params.brandId)"
+        :sake-id="String(route.params.sakeId)"
+      />
     </div>
   </div>
 </template>

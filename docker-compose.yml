@@ -25,6 +25,7 @@ services:
       - ./firebase.json:/opt/firebase/firebase.json
       - ./firestore.indexes.json:/opt/firebase/firestore.indexes.json
       - ./firestore.rules:/opt/firebase/firestore.rules
+      - ./storage.rules:/opt/firebase/storage.rules
       - ./docker/firebase/bin/:/root/.cache:cached
       - ./docker/firebase/config/:/root/.config:cached
       - ./docker/firebase/data/:/opt/data
