@@ -19,7 +19,7 @@ const schema = object({
   acidityMax: number(),
   ricePolishingRateMin: number(),
   ricePolishingRateMax: number(),
-  sakeYeast: number(),
+  sakeYeast: string(),
   riceForMakingKoji: string(),
   sakeRiceExceptForKojiMaking: string(),
   bottledDate: date(),
@@ -30,7 +30,7 @@ const sakeName = ref<string>("")
 
 type Schema = InferType<typeof schema>
 
-const state = reactive<BreweryYearSpec>({
+const state = reactive({
   makedBY: undefined,
   aminoAcidContentMin: undefined,
   aminoAcidContentMax: undefined,
@@ -46,11 +46,38 @@ const state = reactive<BreweryYearSpec>({
   riceForMakingKoji: undefined,
   sakeRiceExceptForKojiMaking: undefined,
   bottledDate: undefined,
-  sake: null,
+  sake: undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const ref = await addItem(event.data)
+  const ref = await addItem({
+    makedBY: event.data.makedBY,
+    aminoAcidContent:
+      event.data.aminoAcidContentMin && event.data.aminoAcidContentMax
+        ? [event.data.aminoAcidContentMin, event.data.aminoAcidContentMax]
+        : undefined,
+    alcoholContent:
+      event.data.alcoholContentMin && event.data.alcoholContentMax
+        ? [event.data.alcoholContentMin, event.data.alcoholContentMax]
+        : undefined,
+    sakeMeterValue:
+      event.data.sakeMeterValueMin && event.data.sakeMeterValueMax
+        ? [event.data.sakeMeterValueMin, event.data.sakeMeterValueMax]
+        : undefined,
+    acidity:
+      event.data.acidityMin && event.data.acidityMax
+        ? [event.data.acidityMin, event.data.acidityMax]
+        : undefined,
+    ricePolishingRate:
+      event.data.ricePolishingRateMin && event.data.ricePolishingRateMax
+        ? [event.data.ricePolishingRateMin, event.data.ricePolishingRateMax]
+        : undefined,
+    sakeYeast: event.data.sakeYeast,
+    riceForMakingKoji: event.data.riceForMakingKoji,
+    sakeRiceExceptForKojiMaking: event.data.sakeRiceExceptForKojiMaking,
+    bottledDate: event.data.bottledDate,
+    sake: event.data.sake,
+  })
   await navigateTo(localePath("/" + ref.path))
 }
 
@@ -69,7 +96,8 @@ if (route.params.breweryId) {
     <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup :label="$t('sake')" name="sake">
-        <UInput v-model="state.sake" />
+        {{ sakeName }}
+        <UInput v-model="state.sake" disabled="true" />
       </UFormGroup>
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">
         <UInput v-model="state.makedBY" />

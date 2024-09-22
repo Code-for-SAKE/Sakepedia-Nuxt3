@@ -15,16 +15,11 @@ const {
 
 export type BreweryYearSpec = {
   makedBY: number | undefined
-  aminoAcidContentMin: number | undefined
-  aminoAcidContentMax: number | undefined
-  alcoholContentMin: number | undefined
-  alcoholContentMax: number | undefined
-  sakeMeterValueMin: number | undefined
-  sakeMeterValueMax: number | undefined
-  acidityMin: number | undefined
-  acidityMax: number | undefined
-  ricePolishingRateMin: number | undefined
-  ricePolishingRateMax: number | undefined
+  aminoAcidContent: number[] | undefined
+  alcoholContent: number[] | undefined
+  sakeMeterValue: number[] | undefined
+  acidity: number[] | undefined
+  ricePolishingRate: number[] | undefined
   sakeYeast: string | undefined
   riceForMakingKoji: string | undefined
   sakeRiceExceptForKojiMaking: string | undefined
@@ -54,16 +49,21 @@ export const useBreweryYearSpec = () => {
       ref: snapshot.ref,
       data: {
         makedBY: snapshot.data()?.makedBY,
-        aminoAcidContentMin: snapshot.data()?.aminoAcidContentMin,
-        aminoAcidContentMax: snapshot.data()?.aminoAcidContentMax,
-        alcoholContentMin: snapshot.data()?.alcoholContentMin,
-        alcoholContentMax: snapshot.data()?.alcoholContentMax,
-        sakeMeterValueMin: snapshot.data()?.sakeMeterValueMin,
-        sakeMeterValueMax: snapshot.data()?.sakeMeterValueMax,
-        acidityMin: snapshot.data()?.acidityMin,
-        acidityMax: snapshot.data()?.acidityMax,
-        ricePolishingRateMin: snapshot.data()?.ricePolishingRateMin,
-        ricePolishingRateMax: snapshot.data()?.ricePolishingRateMax,
+        aminoAcidContent: snapshot.data()?.aminoAcidContent
+          ? [snapshot.data()?.aminoAcidContent[0], snapshot.data()?.aminoAcidContent[1]]
+          : undefined,
+        alcoholContent: snapshot.data()?.alcoholContent
+          ? [snapshot.data()?.alcoholContent[0], snapshot.data()?.alcoholContent[1]]
+          : undefined,
+        sakeMeterValue: snapshot.data()?.sakeMeterValue
+          ? [snapshot.data()?.sakeMeterValue[0], snapshot.data()?.sakeMeterValue[1]]
+          : undefined,
+        acidity: snapshot.data()?.acidity
+          ? [snapshot.data()?.acidity[0], snapshot.data()?.acidity[1]]
+          : undefined,
+        ricePolishingRate: snapshot.data()?.ricePolishingRate
+          ? [snapshot.data()?.ricePolishingRate[0], snapshot.data()?.ricePolishingRate[1]]
+          : undefined,
         sakeYeast: snapshot.data()?.sakeYeast,
         bottledDate: snapshot.data()?.bottledDate,
         riceForMakingKoji: snapshot.data()?.riceForMakingKoji,
@@ -98,7 +98,6 @@ export const useBreweryYearSpec = () => {
   }
 
   const addItem = async (params: BreweryYearSpec) => {
-    console.log(params.sake?.parent)
     return await addItemFirestore(
       `breweries/${params.sake?.parent?.parent?.parent?.parent?.id}/brands/${params.sake?.parent?.parent?.id}/sakes/${params.sake!.id}/breweryYearSpecs`,
       params,

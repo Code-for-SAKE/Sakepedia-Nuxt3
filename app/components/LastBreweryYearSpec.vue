@@ -31,15 +31,15 @@ async function deleteRecord() {}
       <dl>
         <dt>アミノ酸度</dt>
         {{ breweryYearSpec.data.aminoAcidContentMin }}
-        <dd><range-value :values="breweryYearSpec.data.aminoAcidContentMin" /></dd>
+        <dd><RangeValue :values="breweryYearSpec.data.aminoAcidContent" /></dd>
         <dt>アルコール度</dt>
-        <dd><range-value :values="breweryYearSpec.data.alcoholContent" /></dd>
+        <dd><RangeValue :values="breweryYearSpec.data.alcoholContent" /></dd>
         <dt>日本酒度</dt>
-        <dd><range-value :values="breweryYearSpec.data.sakeMeterValue" /></dd>
+        <dd><RangeValue :values="breweryYearSpec.data.sakeMeterValue" /></dd>
         <dt>酸度</dt>
-        <dd><range-value :values="breweryYearSpec.data.acidity" /></dd>
+        <dd><RangeValue :values="breweryYearSpec.data.acidity" /></dd>
         <dt>精米歩合</dt>
-        <dd><range-value :values="breweryYearSpec.data.ricePolishingRate" /></dd>
+        <dd><RangeValue :values="breweryYearSpec.data.ricePolishingRate" /></dd>
         <dt>酵母</dt>
         <dd>{{ breweryYearSpec.data.sakeYeast }}</dd>
         <dt>麹米</dt>
