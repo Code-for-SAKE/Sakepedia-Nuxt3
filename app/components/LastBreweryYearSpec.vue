@@ -30,7 +30,6 @@ async function deleteRecord() {}
       <h6>By {{ "author" }} {{ breweryYearSpec.data.modifiedAt }}</h6>
       <dl>
         <dt>アミノ酸度</dt>
-        {{ breweryYearSpec.data.aminoAcidContentMin }}
         <dd><RangeValue :values="breweryYearSpec.data.aminoAcidContent" /></dd>
         <dt>アルコール度</dt>
         <dd><RangeValue :values="breweryYearSpec.data.alcoholContent" /></dd>

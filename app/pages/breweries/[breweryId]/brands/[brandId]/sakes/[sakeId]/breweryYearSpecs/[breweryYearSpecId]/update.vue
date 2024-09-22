@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, type InferType } from "yup"
+import { object, string, number, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 import type { BreweryYearSpec } from "~/composables/useBreweryYearSpec"
 
@@ -15,20 +15,92 @@ const breweryYearSpec = await getItem(
 const sakeName = ref<string>("")
 
 const schema = object({
-  name: string().required("名前は必須です"),
-  brand: object().required("銘柄は必須です"),
-  brewery: object().required("酒蔵は必須です"),
-  description: string(),
+  makedBY: number(),
+  aminoAcidContentMin: number(),
+  aminoAcidContentMax: number(),
+  alcoholContentMin: number(),
+  alcoholContentMax: number(),
+  sakeMeterValueMin: number(),
+  sakeMeterValueMax: number(),
+  acidityMin: number(),
+  acidityMax: number(),
+  ricePolishingRateMin: number(),
+  ricePolishingRateMax: number(),
+  sakeYeast: string(),
+  riceForMakingKoji: string(),
+  sakeRiceExceptForKojiMaking: string(),
+  bottledDate: date(),
+  sake: object<Sake>().required("日本酒は必須です"),
 })
 
 type Schema = InferType<typeof schema>
 
-const state = reactive<BreweryYearSpec>(breweryYearSpec.data)
+const state = reactive({
+  makedBY: breweryYearSpec.data.makedBY,
+  aminoAcidContentMin: breweryYearSpec.data.aminoAcidContent
+    ? breweryYearSpec.data.aminoAcidContent[0]
+    : undefined,
+  aminoAcidContentMax: breweryYearSpec.data.aminoAcidContent
+    ? breweryYearSpec.data.aminoAcidContent[1]
+    : undefined,
+  alcoholContentMin: breweryYearSpec.data.alcoholContent
+    ? breweryYearSpec.data.alcoholContent[0]
+    : undefined,
+  alcoholContentMax: breweryYearSpec.data.alcoholContent
+    ? breweryYearSpec.data.alcoholContent[1]
+    : undefined,
+  sakeMeterValueMin: breweryYearSpec.data.sakeMeterValue
+    ? breweryYearSpec.data.sakeMeterValue[0]
+    : undefined,
+  sakeMeterValueMax: breweryYearSpec.data.sakeMeterValue
+    ? breweryYearSpec.data.sakeMeterValue[1]
+    : undefined,
+  acidityMin: breweryYearSpec.data.acidity ? breweryYearSpec.data.acidity[0] : undefined,
+  acidityMax: breweryYearSpec.data.acidity ? breweryYearSpec.data.acidity[1] : undefined,
+  ricePolishingRateMin: breweryYearSpec.data.ricePolishingRate
+    ? breweryYearSpec.data.ricePolishingRate[0]
+    : undefined,
+  ricePolishingRateMax: breweryYearSpec.data.ricePolishingRate
+    ? breweryYearSpec.data.ricePolishingRate[1]
+    : undefined,
+  sakeYeast: breweryYearSpec.data.sakeYeast,
+  riceForMakingKoji: breweryYearSpec.data.riceForMakingKoji,
+  sakeRiceExceptForKojiMaking: breweryYearSpec.data.sakeRiceExceptForKojiMaking,
+  bottledDate: breweryYearSpec.data.bottledDate,
+  sake: breweryYearSpec.data.sake,
+})
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
-  await setItem(breweryYearSpec.path, event.data)
+  await setItem(breweryYearSpec.path, {
+    makedBY: event.data.makedBY,
+    aminoAcidContent:
+      event.data.aminoAcidContentMin && event.data.aminoAcidContentMax
+        ? [event.data.aminoAcidContentMin, event.data.aminoAcidContentMax]
+        : undefined,
+    alcoholContent:
+      event.data.alcoholContentMin && event.data.alcoholContentMax
+        ? [event.data.alcoholContentMin, event.data.alcoholContentMax]
+        : undefined,
+    sakeMeterValue:
+      event.data.sakeMeterValueMin && event.data.sakeMeterValueMax
+        ? [event.data.sakeMeterValueMin, event.data.sakeMeterValueMax]
+        : undefined,
+    acidity:
+      event.data.acidityMin && event.data.acidityMax
+        ? [event.data.acidityMin, event.data.acidityMax]
+        : undefined,
+    ricePolishingRate:
+      event.data.ricePolishingRateMin && event.data.ricePolishingRateMax
+        ? [event.data.ricePolishingRateMin, event.data.ricePolishingRateMax]
+        : undefined,
+    sakeYeast: event.data.sakeYeast,
+    riceForMakingKoji: event.data.riceForMakingKoji,
+    sakeRiceExceptForKojiMaking: event.data.sakeRiceExceptForKojiMaking,
+    bottledDate: event.data.bottledDate,
+    sake: event.data.sake,
+  })
   await navigateTo(localePath("/" + breweryYearSpec.path))
 }
 
@@ -48,14 +120,63 @@ if (route.params.breweryId) {
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <h3>{{ sakeName }}</h3>
+      <UInput v-model="state.sake" disabled="true" />
 
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">
         <UInput v-model="state.makedBY" />
       </UFormGroup>
       <UFormGroup :label="$t('amino')" name="amino">
-        <UInput v-model="state.aminoAcidContentMin" />
+        <div class="grid grid-cols-12 gap-4">
+          <UInput class="gap-4" v-model="state.aminoAcidContentMin" />
+          〜
+          <UInput class="gap-4" v-model="state.aminoAcidContentMax" />
+        </div>
+        <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
-
+      <UFormGroup :label="$t('alcohol')" name="alcohol">
+        <div class="grid grid-cols-12 gap-4">
+          <UInput class="gap-4" v-model="state.alcoholContentMin" />
+          〜
+          <UInput class="gap-4" v-model="state.alcoholContentMax" />
+        </div>
+        <small>{{ $t("explainRange") }} </small>
+      </UFormGroup>
+      <UFormGroup :label="$t('nihonshudo')" name="nihonshudo">
+        <div class="grid grid-cols-12 gap-4">
+          <UInput class="gap-4" v-model="state.sakeMeterValueMin" />
+          〜
+          <UInput class="gap-4" v-model="state.sakeMeterValueMax" />
+        </div>
+        <small>{{ $t("explainRange") }} </small>
+      </UFormGroup>
+      <UFormGroup :label="$t('acidity')" name="acidity">
+        <div class="grid grid-cols-12 gap-4">
+          <UInput class="gap-4" v-model="state.acidityMin" />
+          〜
+          <UInput class="gap-4" v-model="state.acidityMax" />
+        </div>
+        <small>{{ $t("explainRange") }} </small>
+      </UFormGroup>
+      <UFormGroup :label="$t('seimaibuai')" name="seimaibuai">
+        <div class="grid grid-cols-12 gap-4">
+          <UInput class="gap-4" v-model="state.ricePolishingRateMin" />
+          〜
+          <UInput class="gap-4" v-model="state.ricePolishingRateMax" />
+        </div>
+        <small>{{ $t("explainRange") }} </small>
+      </UFormGroup>
+      <UFormGroup :label="$t('yeast')" name="yeast">
+        <UInput v-model="state.sakeYeast" />
+      </UFormGroup>
+      <UFormGroup :label="$t('koujimai')" name="koujimai">
+        <UInput v-model="state.riceForMakingKoji" />
+      </UFormGroup>
+      <UFormGroup :label="$t('kakemai')" name="kakemai">
+        <UInput v-model="state.sakeRiceExceptForKojiMaking" />
+      </UFormGroup>
+      <UFormGroup :label="$t('manufacturedAt')" name="manufacturedAt">
+        <UInput v-model="state.bottledDate" />
+      </UFormGroup>
       <UButton type="submit"> {{ $t("update") }} </UButton>
       <UButton :to="localePath('/' + breweryYearSpec.path)"> {{ $t("cancel") }}</UButton>
     </UForm>
