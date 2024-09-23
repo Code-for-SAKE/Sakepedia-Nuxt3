@@ -15,8 +15,11 @@ const {
 
 export type Brand = {
   name: string
+  logo: string
   description: string
   brewery: DocumentReference<DocumentData, DocumentData> | null
+  createdAt: Date | undefined
+  updatedAt: Date | undefined
 }
 
 export type BrandParams = {
@@ -40,8 +43,11 @@ export const useBrand = () => {
       ref: snapshot.ref,
       data: {
         name: snapshot.data()?.name,
+        logo: snapshot.data()?.logo,
         description: snapshot.data()?.description,
         brewery: snapshot.ref.parent.parent,
+        createdAt: snapshot.data()?.createdAt?.toDate(),
+        updatedAt: snapshot.data()?.updatedAt?.toDate(),
       },
     }
   }

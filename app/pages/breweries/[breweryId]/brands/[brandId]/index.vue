@@ -25,19 +25,24 @@ const deleteBrand = async function () {
 <template>
   <div>
     <h1>{{ $t("brandDetails") }}</h1>
+    <hr />
+
+    <dd>{{ brand.id }}</dd>
+    <h2>{{ brand?.data.name }}</h2>
+
     <dl>
-      <dt>ID</dt>
-      <dd>{{ brand.id }}</dd>
-      <dt>{{ $t("name") }}</dt>
-      <dd>{{ brand?.data.name }}</dd>
       <dt>{{ $t("brewery") }}</dt>
       <dd>
         <NuxtLink v-if="brand?.data.brewery" :to="'/' + brewery?.path">
           <div class="w-full">{{ brewery?.data.name }}</div>
         </NuxtLink>
       </dd>
-      <dt>{{ $t("explanation") }}</dt>
+      <dt>{{ $t("logo") }}</dt>
+      <dd>{{ brand?.data.logo }}</dd>
+      <dt>{{ $t("speciality") }}</dt>
       <dd>{{ brand?.data.description }}</dd>
+      <dt>{{ $t("updatedAt") }}</dt>
+      <dd>{{ brand?.data.updatedAt }}</dd>
     </dl>
     <UButton class="info" :to="route.path + '/update'">{{ $t("edit") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
@@ -50,5 +55,30 @@ const deleteBrand = async function () {
         </template>
       </UCard>
     </UModal>
+    <hr />
+    <div class="my-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ $t("sakeList") }}</h3>
+        <div class="d-flex justify-content-between">
+          <div></div>
+
+          <UButton class="success" :to="localePath(`${route.path}/sakes/add`)">{{
+            $t("addSake")
+          }}</UButton>
+        </div>
+      </div>
+      <!-- <comment-list /> -->
+    </div>
+    <div class="my-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ $t("postList") }}</h3>
+        <div class="d-flex justify-content-between">
+          <div></div>
+
+          <UButton class="success" @click="confirmDelete = false">{{ $t("addPost") }}</UButton>
+        </div>
+      </div>
+      <!-- <comment-list /> -->
+    </div>
   </div>
 </template>

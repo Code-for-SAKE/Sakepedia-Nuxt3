@@ -19,14 +19,15 @@ const brandPath = sake.data.brand?.path
 const brand = await getBrand(brandPath)
 
 const confirmDelete = ref(false)
-const deleteSake = async function () {
-  deleteItem(item.path)
+async function deleteRecord() {
+  await deleteItem(dataPath)
+  await navigateTo(localePath("/" + sake?.data.brand?.path))
 }
 </script>
 
 <template>
   <div>
-    <h1>{{ $t("sakeDetails") }}</h1>
+    <h1>{{ $t("sake") }}</h1>
     <hr />
     <h2 v-if="sake">{{ sake?.data.name }}</h2>
     <dl>
@@ -112,6 +113,17 @@ const deleteSake = async function () {
           <div></div>
 
           <UButton class="success" @click="confirmDelete = false">{{ $t("addPost") }}</UButton>
+          <UModal v-model="confirmDelete">
+            <UCard>
+              <Alert>{{ $t("confirmDelete") }}</Alert>
+              <template #footer>
+                <UButton class="secondary" @click="confirmDelete = false">{{
+                  $t("cancel")
+                }}</UButton>
+                <UButton class="danger" @click="deleteRecord">{{ $t("yes") }}</UButton>
+              </template>
+            </UCard>
+          </UModal>
         </div>
       </div>
       <!-- <comment-list /> -->

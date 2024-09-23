@@ -64,6 +64,6 @@ const sakeItem = await getSake(breweryYearSpec?.data.sake?.path)
         </template>
       </UCard>
     </UModal>
-    <UButton :to="localePath('/' + breweryYearSpec.path)"> {{ $t("back") }}</UButton>
+    <UButton :to="localePath('/breweryYearSpecs/')"> {{ $t("back") }}</UButton>
   </div>
 </template>
