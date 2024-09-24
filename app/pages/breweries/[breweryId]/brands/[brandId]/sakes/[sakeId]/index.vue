@@ -82,7 +82,7 @@ async function deleteRecord() {
         <Alert>{{ $t("confirmDelete") }}</Alert>
         <template #footer>
           <UButton class="secondary" @click="confirmDelete = false">{{ $t("cancel") }}</UButton>
-          <UButton class="danger" @click="deleteSake">{{ $t("yes") }}</UButton>
+          <UButton class="danger" @click="deleteRecord">{{ $t("yes") }}</UButton>
         </template>
       </UCard>
     </UModal>
@@ -96,7 +96,7 @@ async function deleteRecord() {
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("otherData") }}</h3>
         <div class="d-flex justify-content-between">
-          <div></div>
+          <div />
           <UButton class="info" :to="localePath(route.path + '/breweryYearSpecs/add')">{{
             $t("addBreweryData")
           }}</UButton>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { object, string, number, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
-import type { BreweryYearSpec } from "~/composables/useBreweryYearSpec"
 
 const route = useRoute()
 
@@ -127,41 +126,41 @@ if (route.params.breweryId) {
       </UFormGroup>
       <UFormGroup :label="$t('amino')" name="amino">
         <div class="grid grid-cols-12 gap-4">
-          <UInput class="gap-4" v-model="state.aminoAcidContentMin" />
+          <UInput v-model="state.aminoAcidContentMin" class="gap-4" />
           〜
-          <UInput class="gap-4" v-model="state.aminoAcidContentMax" />
+          <UInput v-model="state.aminoAcidContentMax" class="gap-4" />
         </div>
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('alcohol')" name="alcohol">
         <div class="grid grid-cols-12 gap-4">
-          <UInput class="gap-4" v-model="state.alcoholContentMin" />
+          <UInput v-model="state.alcoholContentMin" class="gap-4" />
           〜
-          <UInput class="gap-4" v-model="state.alcoholContentMax" />
+          <UInput v-model="state.alcoholContentMax" class="gap-4" />
         </div>
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('nihonshudo')" name="nihonshudo">
         <div class="grid grid-cols-12 gap-4">
-          <UInput class="gap-4" v-model="state.sakeMeterValueMin" />
+          <UInput v-model="state.sakeMeterValueMin" class="gap-4" />
           〜
-          <UInput class="gap-4" v-model="state.sakeMeterValueMax" />
+          <UInput v-model="state.sakeMeterValueMax" class="gap-4" />
         </div>
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('acidity')" name="acidity">
         <div class="grid grid-cols-12 gap-4">
-          <UInput class="gap-4" v-model="state.acidityMin" />
+          <UInput v-model="state.acidityMin" class="gap-4" />
           〜
-          <UInput class="gap-4" v-model="state.acidityMax" />
+          <UInput v-model="state.acidityMax" class="gap-4" />
         </div>
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('seimaibuai')" name="seimaibuai">
         <div class="grid grid-cols-12 gap-4">
-          <UInput class="gap-4" v-model="state.ricePolishingRateMin" />
+          <UInput v-model="state.ricePolishingRateMin" class="gap-4" />
           〜
-          <UInput class="gap-4" v-model="state.ricePolishingRateMax" />
+          <UInput v-model="state.ricePolishingRateMax" class="gap-4" />
         </div>
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
