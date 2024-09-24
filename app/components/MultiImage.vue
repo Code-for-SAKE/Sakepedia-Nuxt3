@@ -2,10 +2,10 @@
 const { download } = useStorage()
 const props = defineProps<{ modelValue: string[] | null }>()
 const images = ref<string[]>([])
-const paths = await props.modelValue?.map(async (path)=>{
-  return await download(path);
+const paths = await props.modelValue?.map(async (path) => {
+  return await download(path)
 })
-if(paths){
+if (paths) {
   images.value = await Promise.all(paths)
 }
 </script>

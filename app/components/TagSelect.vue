@@ -48,7 +48,7 @@ async function onChange() {
     <template #label>
       <UBadge v-for="tag in tags" :key="tag.label"
         >{{ tag.label }}
-        <UButton icon="i-heroicons-trash" @click="onDeleteTag($event, tag)" size="sm" />
+        <UButton icon="i-heroicons-trash" size="sm" @click="onDeleteTag($event, tag)" />
       </UBadge>
     </template>
     <template #option-create="{ option }">
