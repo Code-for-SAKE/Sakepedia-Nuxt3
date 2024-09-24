@@ -34,7 +34,7 @@ async function setImages(files: File[] | null) {
           type: file.type,
           lastModified: file.lastModified,
           img: await getBase64(file),
-          file
+          file,
         }
       }),
     ).then((v) => {
