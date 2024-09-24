@@ -21,7 +21,7 @@ colorMode.preference = "light"
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #footer {
   padding-top: 100px;
   background-image: url("~/assets/image/sake-footer_bg.png");
@@ -37,5 +37,33 @@ colorMode.preference = "light"
 
 #footer-content > * {
   display: inline-block;
+}
+
+.success {
+  background-color: #8cbd21;
+}
+
+.danger {
+  background-color: #823e73;
+}
+
+.info {
+  background-color: #0c8bba;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 24.5px;
+}
+
+dt {
+  font-weight: bold;
 }
 </style>

@@ -18,8 +18,11 @@ type Schema = InferType<typeof schema>
 
 const state = reactive<Brand>({
   name: "",
+  logo: "",
   description: "",
   brewery: null,
+  createdAt: undefined,
+  updatedAt: undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -42,7 +45,10 @@ if (route.params.breweryId) {
     <UFormGroup label="酒蔵" name="brewery">
       {{ breweryName }}
     </UFormGroup>
-    <UFormGroup label="説明" name="description">
+    <UFormGroup :label="$t('logo')" name="logo">
+      <UInput v-model="state.logo" />
+    </UFormGroup>
+    <UFormGroup :label="$t('speciality')" name="description">
       <UTextarea v-model="state.description" />
     </UFormGroup>
 

@@ -68,7 +68,7 @@ const deleteSake = async function () {
       <div class="d-flex justify-content-between align-items-center">
         <h3>{{ $t("otherData") }}</h3>
         <div class="d-flex justify-content-between">
-          <div />
+          <div></div>
           <UButton class="success" @click="confirmDelete = false">{{
             $t("addBreweryData")
           }}</UButton>

@@ -62,7 +62,7 @@ const getMoreData = async () => {
 
 <template>
   <div>
-    <div class="mb-4">
+    <div class="flex justify-between">
       <h1>{{ $t("breweryList") }}</h1>
       <UButton class="success" :to="localePath('/breweries/add')">{{ $t("add") }}</UButton>
     </div>
