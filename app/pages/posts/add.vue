@@ -35,7 +35,6 @@ const schema: ObjectSchema<Post> = object({
 
 type Schema = InferType<typeof schema>
 
-
 const state = reactive<{
   brewery: string
   brand: string | undefined
@@ -92,11 +91,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     return result
   })
   //結果からフルパスを取得
-  const imagePaths = await Promise.all(results).then(
-    (results)=>{
-      return results.map((res)=>{return res.metadata.fullPath})
-    }
-  );
+  const imagePaths = await Promise.all(results).then((results) => {
+    return results.map((res) => {
+      return res.metadata.fullPath
+    })
+  })
   console.log(imagePaths)
   data.image = imagePaths
   //画像のパスを追加で更新
@@ -108,10 +107,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 //銘柄と日本酒が指定されていれば選択する
 state.brand = route.query.breweryId ? brands.at(0)?.path : undefined
-onChangeBrand(state.brand).then(()=>{
-  state.sake = route.query.sakeId ? sakes.value.find(el => el.path.endsWith(String(route.query.sakeId)))?.path : undefined
+onChangeBrand(state.brand).then(() => {
+  state.sake = route.query.sakeId
+    ? sakes.value.find((el) => el.path.endsWith(String(route.query.sakeId)))?.path
+    : undefined
 })
-
 </script>
 <template>
   <div>
