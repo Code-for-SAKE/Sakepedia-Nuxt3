@@ -40,13 +40,15 @@ if (route.params.breweryId) {
     <UFormGroup :label="$t('name')" name="name">
       <UInput v-model="state.name" />
     </UFormGroup>
-    <UFormGroup label="酒蔵" name="brewery">
+    <UFormGroup :label="$t('brewery')" name="brewery">
       {{ breweryName }}
     </UFormGroup>
-    <UFormGroup label="説明" name="description">
+    <UFormGroup :label="$t('logo')" name="logo">
+      <UInput v-model="state.logo" />
+    </UFormGroup>
+    <UFormGroup :label="$t('speciality')" name="description">
       <UTextarea v-model="state.description" />
     </UFormGroup>
-
     <UButton type="submit"> {{ $t("update") }} </UButton>
     <UButton :to="localePath('/' + brand.path)"> {{ $t("cancel") }}</UButton>
   </UForm>

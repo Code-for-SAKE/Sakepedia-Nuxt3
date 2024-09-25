@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, type InferType } from "yup"
+import { object, string, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
@@ -19,7 +19,13 @@ const schema = object({
   name: string().required("名前は必須です"),
   brewery: object().required("酒蔵は必須です"),
   brand: object().required("銘柄は必須です"),
+  subname: string(),
+  type: string(),
+  mariages: string(),
   description: string(),
+  url: string(),
+  createdAt: date(),
+  updatedAt: date(),
 })
 
 type Schema = InferType<typeof schema>
@@ -54,16 +60,24 @@ if (route.params.breweryId) {
       <UFormGroup :label="$t('name')" name="name">
         <UInput v-model="state.name" />
       </UFormGroup>
-      <UFormGroup label="酒蔵" name="brewery">
+      <UFormGroup :label="$t('brewery')" name="brewery">
         {{ breweryName }}
       </UFormGroup>
-      <UFormGroup label="銘柄" name="brewery">
+      <UFormGroup :label="$t('brand')" name="brand">
         {{ brandName }}
       </UFormGroup>
-      <UFormGroup label="説明" name="description">
-        <UTextarea v-model="state.description" />
+      <UFormGroup :label="$t('type')" name="type">
+        <UInput v-model="state.type" />
       </UFormGroup>
-
+      <UFormGroup :label="$t('pairing')" name="pairing">
+        <UInput v-model="state.mariages" />
+      </UFormGroup>
+      <UFormGroup :label="$t('explanation')" name="explanation">
+        <UInput v-model="state.description" />
+      </UFormGroup>
+      <UFormGroup :label="$t('url')" name="url">
+        <UInput v-model="state.url" />
+      </UFormGroup>
       <UButton type="submit"> {{ $t("update") }} </UButton>
       <UButton :to="localePath('/' + sake.path)"> {{ $t("cancel") }}</UButton>
     </UForm>

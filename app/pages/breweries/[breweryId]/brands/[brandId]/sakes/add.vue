@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, type InferType } from "yup"
+import { object, string, number, boolean, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
@@ -10,7 +10,13 @@ const { addItem } = useSake()
 
 const schema = object({
   name: string().required("名前は必須です"),
+  subname: string(),
+  type: string(),
+  mariages: string(),
   description: string(),
+  url: string(),
+  createdAt: date(),
+  updatedAt: date(),
 })
 
 const breweryName = ref<string>("")
@@ -20,7 +26,13 @@ type Schema = InferType<typeof schema>
 
 const state = reactive<Sake>({
   name: "",
+  subname: "",
+  type: "",
+  mariages: "",
   description: "",
+  url: "",
+  createdAt: undefined,
+  updatedAt: undefined,
   brewery: null,
   brand: null,
 })
@@ -52,16 +64,25 @@ if (route.params.breweryId) {
     <UFormGroup :label="$t('name')" name="name">
       <UInput v-model="state.name" />
     </UFormGroup>
-    <UFormGroup label="酒蔵" name="brewery">
+    <UFormGroup :label="$t('brewery')" name="brewery">
       {{ breweryName }}
     </UFormGroup>
-    <UFormGroup label="銘柄" name="brand">
+    <UFormGroup :label="$t('brand')" name="brand">
       {{ brandName }}
     </UFormGroup>
-    <UFormGroup label="説明" name="description">
-      <UTextarea v-model="state.description" />
+    <UFormGroup :label="$t('type')" name="type">
+      <UInput v-model="state.type" />
     </UFormGroup>
-
-    <UButton type="submit"> Submit </UButton>
+    <UFormGroup :label="$t('pairing')" name="pairing">
+      <UInput v-model="state.mariages" />
+    </UFormGroup>
+    <UFormGroup :label="$t('explanation')" name="explanation">
+      <UInput v-model="state.description" />
+    </UFormGroup>
+    <UFormGroup :label="$t('url')" name="url">
+      <UInput v-model="state.url" />
+    </UFormGroup>
+    <UButton type="submit"> {{ $t("add") }} </UButton>
+    <UButton :to="localePath('/' + state)"> {{ $t("cancel") }}</UButton>
   </UForm>
 </template>
