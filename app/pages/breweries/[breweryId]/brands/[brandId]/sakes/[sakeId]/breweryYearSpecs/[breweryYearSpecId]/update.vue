@@ -78,28 +78,38 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     aminoAcidContent:
       event.data.aminoAcidContentMin && event.data.aminoAcidContentMax
         ? [event.data.aminoAcidContentMin, event.data.aminoAcidContentMax]
-        : undefined,
+        : event.data.aminoAcidContentMin
+          ? [event.data.aminoAcidContentMin]
+          : undefined,
     alcoholContent:
       event.data.alcoholContentMin && event.data.alcoholContentMax
         ? [event.data.alcoholContentMin, event.data.alcoholContentMax]
-        : undefined,
+        : event.data.alcoholContentMin
+          ? [event.data.alcoholContentMin]
+          : undefined,
     sakeMeterValue:
       event.data.sakeMeterValueMin && event.data.sakeMeterValueMax
         ? [event.data.sakeMeterValueMin, event.data.sakeMeterValueMax]
-        : undefined,
+        : event.data.sakeMeterValueMin
+          ? [event.data.sakeMeterValueMin]
+          : undefined,
     acidity:
       event.data.acidityMin && event.data.acidityMax
         ? [event.data.acidityMin, event.data.acidityMax]
-        : undefined,
+        : event.data.acidityMin
+          ? [event.data.acidityMin]
+          : undefined,
     ricePolishingRate:
       event.data.ricePolishingRateMin && event.data.ricePolishingRateMax
         ? [event.data.ricePolishingRateMin, event.data.ricePolishingRateMax]
-        : undefined,
+        : event.data.ricePolishingRateMin
+          ? [event.data.ricePolishingRateMin]
+          : undefined,
     sakeYeast: event.data.sakeYeast,
     riceForMakingKoji: event.data.riceForMakingKoji,
     sakeRiceExceptForKojiMaking: event.data.sakeRiceExceptForKojiMaking,
     bottledDate: event.data.bottledDate,
-    sake: event.data.sake,
+    sake: state.sake,
   })
   await navigateTo(localePath("/" + breweryYearSpec.path))
 }
@@ -120,8 +130,6 @@ if (route.params.breweryId) {
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <h3>{{ sakeName }}</h3>
-      <UInput v-model="state.sake" disabled="true" />
-
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">
         <UInput v-model="state.makedBY" />
       </UFormGroup>
