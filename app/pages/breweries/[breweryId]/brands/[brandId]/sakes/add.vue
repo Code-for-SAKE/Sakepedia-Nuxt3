@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, number, boolean, date, type InferType } from "yup"
+import { object, string, array, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
@@ -11,8 +11,8 @@ const { addItem } = useSake()
 const schema = object({
   name: string().required("名前は必須です"),
   subname: string(),
-  type: string(),
-  mariages: string(),
+  type: array().of(string().required()).required(),
+  mariages: array().of(string().required()).required(),
   description: string(),
   url: string(),
   createdAt: date(),
@@ -27,8 +27,8 @@ type Schema = InferType<typeof schema>
 const state = reactive<Sake>({
   name: "",
   subname: "",
-  type: "",
-  mariages: "",
+  type: [],
+  mariages: [],
   description: "",
   url: "",
   createdAt: undefined,
@@ -71,10 +71,10 @@ if (route.params.breweryId) {
       {{ brandName }}
     </UFormGroup>
     <UFormGroup :label="$t('type')" name="type">
-      <UInput v-model="state.type" />
+      <TagSelect v-model="state.type" :options="sakeTypes" placeholder="" />
     </UFormGroup>
     <UFormGroup :label="$t('pairing')" name="pairing">
-      <UInput v-model="state.mariages" />
+      <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
     </UFormGroup>
     <UFormGroup :label="$t('explanation')" name="explanation">
       <UInput v-model="state.description" />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, date, type InferType } from "yup"
+import { object, string, array, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
@@ -20,12 +20,10 @@ const schema = object({
   brewery: object().required("酒蔵は必須です"),
   brand: object().required("銘柄は必須です"),
   subname: string(),
-  type: string(),
-  mariages: string(),
+  type: array().of(string().required()),
+  mariages: array().of(string().required()),
   description: string(),
   url: string(),
-  createdAt: date(),
-  updatedAt: date(),
 })
 
 type Schema = InferType<typeof schema>
@@ -34,7 +32,6 @@ const state = reactive<Sake>(sake.data)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
-  console.log(event.data)
   await setItem(sake.path, event.data)
   await navigateTo(localePath("/" + sake.path))
 }
@@ -67,10 +64,10 @@ if (route.params.breweryId) {
         {{ brandName }}
       </UFormGroup>
       <UFormGroup :label="$t('type')" name="type">
-        <UInput v-model="state.type" />
+        <TagSelect v-model="state.type" :options="sakeTypes" placeholder="" />
       </UFormGroup>
       <UFormGroup :label="$t('pairing')" name="pairing">
-        <UInput v-model="state.mariages" />
+        <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
       </UFormGroup>
       <UFormGroup :label="$t('explanation')" name="explanation">
         <UInput v-model="state.description" />
