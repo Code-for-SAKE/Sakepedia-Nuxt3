@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Data } from "~/composables/useFirestore"
+import { datetime } from "#imports";
 
 const route = useRoute()
 const { getItem, deleteItem } = useBrand()
@@ -42,7 +43,7 @@ const deleteBrand = async function () {
       <dt>{{ $t("speciality") }}</dt>
       <dd>{{ brand?.data.description }}</dd>
       <dt>{{ $t("updatedAt") }}</dt>
-      <dd>{{ brand?.data.updatedAt }}</dd>
+      <dd>{{ datetime(brand?.data.updatedAt) }}</dd>
     </dl>
     <UButton class="info" :to="route.path + '/update'">{{ $t("edit") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>
