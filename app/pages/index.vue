@@ -51,7 +51,6 @@ const summary = await getSummary()
       }"
     >
       <template #header> {{ $t("breweryMap") }} </template>
-
       <UTabs :items="tabItems" orientation="vertical" :ui="{ wrapper: 'flex gap-4' }">
         <template #item="{ item }">
           <div v-if="item.key === 'breweries-map'" class="primary">

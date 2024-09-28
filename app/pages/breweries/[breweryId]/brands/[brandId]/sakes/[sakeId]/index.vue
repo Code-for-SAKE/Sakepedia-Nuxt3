@@ -23,6 +23,11 @@ async function deleteRecord() {
   await deleteItem(dataPath)
   await navigateTo(localePath("/" + sake?.data.brand?.path))
 }
+
+useHead({
+    title: sake?.data.name || t('sake'),
+})
+
 </script>
 
 <template>
