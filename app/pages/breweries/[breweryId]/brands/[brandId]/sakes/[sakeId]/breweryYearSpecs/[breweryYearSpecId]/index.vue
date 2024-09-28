@@ -50,6 +50,10 @@ const sakeItem = await getSake(breweryYearSpec?.data.sake?.path)
       <dd>{{ breweryYearSpec.data.sakeRiceExceptForKojiMaking }}</dd>
       <dt>製造年月(日)</dt>
       <dd>{{ breweryYearSpec.data.bottledDate }}</dd>
+      <dt>{{ $t("createdAt") }}</dt>
+      <dd>{{ datetime(breweryYearSpec.createdAt) }} by {{ breweryYearSpec.createdUser?.displayName }}</dd>
+      <dt>{{ $t("updatedAt") }}</dt>
+      <dd>{{ datetime(breweryYearSpec.updatedAt) }} by {{ breweryYearSpec.updatedUser?.displayName }}</dd>
     </dl>
 
     <hr />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, array, date, type InferType } from "yup"
+import { object, string, array, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()
@@ -15,8 +15,6 @@ const schema = object({
   mariages: array().of(string().required()).required(),
   description: string(),
   url: string(),
-  createdAt: date(),
-  updatedAt: date(),
 })
 
 const breweryName = ref<string>("")
@@ -31,8 +29,6 @@ const state = reactive<Sake>({
   mariages: [],
   description: "",
   url: "",
-  createdAt: undefined,
-  updatedAt: undefined,
   brewery: null,
   brand: null,
 })

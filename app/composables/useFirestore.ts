@@ -1,4 +1,3 @@
-import { useNow } from "@vueuse/core"
 import type {
   DocumentData,
   DocumentReference,
@@ -11,7 +10,7 @@ import {
   getFirestore,
   getCountFromServer,
   getDoc,
-  setDoc,
+  updateDoc,
   addDoc,
   deleteDoc,
   doc,
@@ -29,6 +28,10 @@ export type Data<T> = {
   path: string
   ref: DocumentReference
   data: T
+  createdAt?: Date | undefined
+  createdUser?: Editor | undefined
+  updatedAt?: Date | undefined
+  updatedUser?: Editor | undefined
 }
 
 export type Params<T> = {
@@ -51,6 +54,14 @@ export const useFirestore = () => {
   const app = useFirebaseApp()
   const db = getFirestore(app)
   const user = useUser()
+
+  const _converterDateUser = <T>(snapshot: DocumentSnapshot<DocumentData, DocumentData>, data: Data<T>) => {
+    data.createdAt = snapshot.data()?.createdAt
+    data.createdUser = snapshot.data()?.createdUser
+    data.updatedAt = snapshot.data()?.updatedAt
+    data.updatedUser = snapshot.data()?.updatedUser
+    return data
+  }  
 
   const getSummary = async () => {
     const brewery = await getCount(query(collection(db, "breweries")))
@@ -79,7 +90,7 @@ export const useFirestore = () => {
 
     const list: Data<T>[] = []
     querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
-      list.push(params.converter(doc))
+      list.push(_converterDateUser(doc, params.converter(doc)))
     })
     console.log("list.length", list.length)
 
@@ -97,7 +108,7 @@ export const useFirestore = () => {
 
   const getItem = async <T>(path: string, converter: Converter<T>) => {
     const snapshot = await getDoc(doc(db, path))
-    return converter(snapshot)
+    return _converterDateUser(snapshot, converter(snapshot))
   }
 
   const getReference = async (path: string) => {
@@ -120,10 +131,10 @@ export const useFirestore = () => {
         delete params[key]
       }
     }
-    params['createdAt'] = new Date()
-    params['updatedAt'] = new Date()
-    params['createdUser'] = useEditor(user.value)
-    params['updatedUser'] = useEditor(user.value)
+    params.createdAt = params.createdAt ?? new Date()
+    params.updatedAt = params.updatedAt ?? new Date()
+    params.createdUser = params.createdUser ?? useEditor(user.value)
+    params.updatedUser = params.updatedUser ?? useEditor(user.value)
     return await addDoc(coll, params)
   }
 
@@ -135,9 +146,9 @@ export const useFirestore = () => {
         delete params[key]
       }
     }
-    params['updatedAt'] = new Date()
-    params['updatedUser'] = useEditor(user.value)
-    return await setDoc(doc(db, path), params)
+    params.updatedAt = params.updatedAt ?? new Date()
+    params.updatedUser = params.updatedUser ?? useEditor(user.value)
+    return await updateDoc(doc(db, path), params)
   }
 
   const deleteItem = async (path: string) => {

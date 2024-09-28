@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Data } from "~/composables/useFirestore"
-import { datetime } from "#imports";
 
 const route = useRoute()
 const { getItem: getSake, deleteItem } = useSake()
@@ -62,8 +61,10 @@ useHead({
       <dd>
         <a v-if="sake.data.url" :href="sake.data.url">{{ sake.data.url }}</a>
       </dd>
+      <dt>{{ $t("createdAt") }}</dt>
+      <dd>{{ datetime(sake.createdAt) }} by {{ sake.createdUser?.displayName }}</dd>
       <dt>{{ $t("updatedAt") }}</dt>
-      <dd>{{ datetime(sake.data.updatedAt) }}</dd>
+      <dd>{{ datetime(sake.updatedAt) }} by {{ sake.updatedUser?.displayName }}</dd>
     </dl>
     <UButton class="info" :to="localePath(route.path + '/update')">{{ $t("edit") }}</UButton>
     <UButton class="danger" @click="confirmDelete = true">{{ $t("delete") }}</UButton>

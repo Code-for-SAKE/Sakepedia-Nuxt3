@@ -52,8 +52,6 @@ export const useSake = () => {
         url: snapshot.data()?.url,
         brand: snapshot.ref.parent.parent,
         brewery: snapshot.ref.parent.parent?.parent.parent,
-        createdAt: snapshot.data()?.createdAt,
-        updatedAt: snapshot.data()?.updatedAt,
       },
     }
   }
