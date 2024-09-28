@@ -21,6 +21,11 @@ const deleteBrand = async function () {
   await deleteItem(brand.path)
   await navigateTo(localePath("/" + brand.data.brewery?.path))
 }
+
+useHead({
+    title: brewery?.data.name || brand?.data.name || t('brand'),
+})
+
 </script>
 
 <template>

@@ -52,6 +52,11 @@ const getMoreData = async () => {
   sakes.value.splice(sakes.value.length, 0, ...res.list)
   count.value = res.listCount
 }
+
+useHead({
+    title: t('sakeList'),
+})
+
 </script>
 
 <template>
