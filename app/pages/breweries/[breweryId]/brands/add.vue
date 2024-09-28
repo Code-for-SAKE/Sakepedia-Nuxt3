@@ -38,6 +38,9 @@ if (route.params.breweryId) {
 </script>
 
 <template>
+  <div>
+    <h1>{{ $t("addBrand") }}</h1>
+    <hr>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
     <UFormGroup :label="$t('name')" name="name">
       <UInput v-model="state.name" />
@@ -54,4 +57,5 @@ if (route.params.breweryId) {
     <UButton type="submit"> {{ $t("add") }} </UButton>
     <UButton :to="localePath('/' + state.brewery?.path)"> {{ $t("cancel") }}</UButton>
   </UForm>
+</div>
 </template>
