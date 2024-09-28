@@ -8,6 +8,14 @@ import {
 } from "firebase/auth"
 
 export const useUser = (): globalThis.Ref<User | null> => useState<User | null>(() => null)
+export type Editor = {
+  uid: string
+  displayName: string
+}
+
+export const useEditor = (user: User | null):Editor => {
+  return {uid: user?.uid ?? "", displayName: user?.displayName ?? ""}
+}
 
 type Auth = {
   currentUser: globalThis.Ref<User | null>

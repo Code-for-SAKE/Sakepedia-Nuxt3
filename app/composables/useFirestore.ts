@@ -1,3 +1,4 @@
+import { useNow } from "@vueuse/core"
 import type {
   DocumentData,
   DocumentReference,
@@ -49,6 +50,7 @@ export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentDat
 export const useFirestore = () => {
   const app = useFirebaseApp()
   const db = getFirestore(app)
+  const user = useUser()
 
   const getSummary = async () => {
     const brewery = await getCount(query(collection(db, "breweries")))
@@ -118,6 +120,10 @@ export const useFirestore = () => {
         delete params[key]
       }
     }
+    params['createdAt'] = new Date()
+    params['updatedAt'] = new Date()
+    params['createdUser'] = useEditor(user.value)
+    params['updatedUser'] = useEditor(user.value)
     return await addDoc(coll, params)
   }
 
@@ -129,6 +135,8 @@ export const useFirestore = () => {
         delete params[key]
       }
     }
+    params['updatedAt'] = new Date()
+    params['updatedUser'] = useEditor(user.value)
     return await setDoc(doc(db, path), params)
   }
 
