@@ -208,6 +208,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UFormGroup>
 
         <UButton type="submit"> {{ $t("add") }} </UButton>
+        <UButton :to="localePath('/breweries')"> {{ $t("cancel") }}</UButton>
       </UForm>
     </div>
   </div>

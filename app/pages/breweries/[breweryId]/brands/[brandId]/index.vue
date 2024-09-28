@@ -55,6 +55,7 @@ const deleteBrand = async function () {
         </template>
       </UCard>
     </UModal>
+    <UButton :to="localePath('/' + brewery?.path)">{{ $t("back") }}</UButton>
     <div class="my-4">
       {{ $t("sakeList") }}
       <UButton :to="localePath(`/${brand.path}/sakes/add`)">

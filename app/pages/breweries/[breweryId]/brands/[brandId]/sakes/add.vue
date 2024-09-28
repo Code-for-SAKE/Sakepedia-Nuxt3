@@ -83,6 +83,6 @@ if (route.params.breweryId) {
       <UInput v-model="state.url" />
     </UFormGroup>
     <UButton type="submit"> {{ $t("add") }} </UButton>
-    <UButton :to="localePath('/' + state)"> {{ $t("cancel") }}</UButton>
+    <UButton :to="localePath('/' + state.brand?.path)"> {{ $t("cancel") }}</UButton>
   </UForm>
 </template>
