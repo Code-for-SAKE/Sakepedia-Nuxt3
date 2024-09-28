@@ -1,0 +1,14 @@
+FROM arm64v8/node:20-slim
+ENV TZ Asia/Tokyo
+ENV CXXFLAGS="-stdlib=libc++"
+
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y \
+    git \
+    vim \
+    python3 \
+    python3-pip
+
+RUN npm install -g firebase-tools

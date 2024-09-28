@@ -133,3 +133,8 @@ rm -rf /opt/data/bkp
 gcloud storage cp -r "gs://sakepedia-data/2024-06-12T10:56:22_57740" /opt/data
 mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
 ```
+
+# MacM1の場合、インストールが失敗します
+コンテナ内のインストール `yarn install` ステップで、`gyp` というエラーメッセージが表示されてインストールに失敗する。
+この問題を解決するには、コンテナを作成する前に `yarn remove firebase-admin` を使用して `firebase-admin` 依存関係を削除する必要がある。
+まだ行けない場合、`Dockerfile.m5`を`Dockerfile`に上書きしてからdockerのイメージをbuildをしたらいける（かも）。
