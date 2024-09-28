@@ -98,7 +98,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <div>
     <h1>{{ $t("addBrewery") }}</h1>
     <hr />
-    <div class="grid grid-cols-6 gap-4">
+    <div class="flex gap-4">
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
         <UFormGroup label="法人番号" name="breweryId">
           <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />
