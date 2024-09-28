@@ -163,7 +163,7 @@ if (route.params.breweryId) {
         <UInput v-model="state.bottledDate" />
       </UFormGroup>
       <UButton type="submit"> {{ $t("add") }} </UButton>
-      <UButton :to="localePath('/breweryYearSpecs')"> {{ $t("cancel") }}</UButton>
+      <UButton :to="localePath('/')"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
 </template>
