@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  values: string[]
+  values: string[] | number[]
 }
 const props = defineProps<Props>()
 </script>
