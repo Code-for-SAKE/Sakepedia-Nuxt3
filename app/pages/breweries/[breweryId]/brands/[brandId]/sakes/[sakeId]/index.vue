@@ -86,6 +86,7 @@ async function deleteRecord() {
         </template>
       </UCard>
     </UModal>
+    <UButton :to="localePath('/' + brand?.path)">{{ $t("back") }}</UButton>
     <hr />
     <div class="my-4">
       <div class="d-flex justify-content-between align-items-center">
