@@ -114,7 +114,7 @@ const getMoreData = async () => {
       <template #name-data="{ row }">
         <NuxtLink :to="localePath('/' + row.path)">
           <div class="w-full">
-            <span>{{ row.data.name }}</span>
+            <span class="m-2">{{ row.data.name }}</span>
             <span>{{
               row.data.prefecture
                 ? prefectures.find((e) => e.id == row.data.prefecture)?.nameJa

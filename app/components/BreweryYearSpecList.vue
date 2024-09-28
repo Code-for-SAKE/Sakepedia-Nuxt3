@@ -58,7 +58,7 @@ const getMoreData = async () => {
       <template #name-data="{ row }">
         <NuxtLink :to="localePath(`/${row.path}`)">
           <div class="w-full">
-            <span>{{ row.data.makedBY }}</span>
+            <span>{{ row.data.makedBY }} - {{ sake.data.name  }}</span>
           </div>
         </NuxtLink>
       </template>
