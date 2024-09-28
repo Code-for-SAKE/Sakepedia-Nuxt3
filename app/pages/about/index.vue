@@ -26,7 +26,7 @@
         <li>{{ $t("developer") }} : <a href="https://www.code4sake.org/">Code for SAKE</a></li>
         <li>
           {{ $t("repository") }} :
-          <a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt">Github</a>
+          <a href="https://github.com/Code-for-SAKE/Sakepedia-Nuxt3">Github</a>
         </li>
       </ul>
     </ul>

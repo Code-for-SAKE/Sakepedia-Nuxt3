@@ -12,7 +12,7 @@ const footerLinks = computed(() => {
       },
       {
         label: "Github",
-        to: "https://github.com/Code-for-SAKE/Sakepedia-Nuxt",
+        to: "https://github.com/Code-for-SAKE/Sakepedia-Nuxt3",
       },
       {
         label: t("APIUsage"),
