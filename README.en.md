@@ -215,3 +215,8 @@ rm -rf /opt/data/bkp
 gcloud storage cp -r "gs://sakepedia-data/2024-06-12T10:56:22_57740" /opt/data
 mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
 ```
+
+# Known issue with Mac M1
+During the installation `yarn install` step inside the container, the installation fails with an error message mentioning `gyp`.
+In order to fix it, we need to remove the `firebase-admin` dependency using `yarn remove firebase-admin` before creating the container.
+(Note: You might want to use the dockerfile called "Dockerfile.m5" as it uses an arm64 image to run the project).
