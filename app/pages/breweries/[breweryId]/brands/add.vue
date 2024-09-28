@@ -21,8 +21,6 @@ const state = reactive<Brand>({
   logo: "",
   description: "",
   brewery: null,
-  createdAt: undefined,
-  updatedAt: undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {

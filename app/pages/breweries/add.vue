@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, number, boolean, date, type InferType } from "yup"
+import { object, string, number, boolean, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const schema = object({
@@ -32,8 +32,6 @@ const schema = object({
   otherBrewing: string(),
   startYear: number(),
   endYear: number(),
-  createdAt: date(),
-  updatedAt: date(),
 })
 
 type Schema = InferType<typeof schema>
@@ -71,8 +69,6 @@ const state = reactive({
   otherBrewing: undefined,
   startYear: undefined,
   endYear: undefined,
-  createdAt: undefined,
-  updatedAt: undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {

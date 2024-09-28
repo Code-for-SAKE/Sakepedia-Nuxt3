@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string, array, date, type InferType } from "yup"
+import { object, string, array, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
 const route = useRoute()

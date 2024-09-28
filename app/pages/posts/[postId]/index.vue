@@ -71,6 +71,10 @@ const deletePost = async function () {
       <dd>
         <UBadge v-for="mariage in post?.data.mariages" :key="mariage">{{ mariage }}</UBadge>
       </dd>
+      <dt>{{ $t("createdAt") }}</dt>
+      <dd>{{ datetime(post.createdAt) }} by {{ post.createdUser?.displayName }}</dd>
+      <dt>{{ $t("updatedAt") }}</dt>
+      <dd>{{ datetime(post.updatedAt) }} by {{ post.updatedUser?.displayName }}</dd>
     </dl>
     <UFormGroup>
       <UButton class="info" :to="route.path + '/update'">{{ $t("update") }}</UButton>

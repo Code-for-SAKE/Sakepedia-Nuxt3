@@ -25,7 +25,7 @@ const schema = object({
   bottledDate: date(),
 })
 
-const sakeName = ref<string>("")
+const sake = ref<Data<Sake>>()
 
 type Schema = InferType<typeof schema>
 
@@ -91,21 +91,21 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 if (route.params.breweryId) {
-  const sake = await getSake(
-    `/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}`,
+  const data = await getSake(
+    `/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}`
   )
-  state.sake = sake.ref
-  sakeName.value = sake.data.name
+  state.sake = data.ref
+  sake.value = data
 }
 </script>
 
 <template>
   <div>
     <h1>{{ $t("addBreweryData") }}</h1>
-    <hr />
+    <hr>
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup :label="$t('sake')" name="sake">
-        {{ sakeName }}
+        {{ sake?.data.name }}
       </UFormGroup>
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">
         <UInput v-model="state.makedBY" />
@@ -163,7 +163,7 @@ if (route.params.breweryId) {
         <UInput v-model="state.bottledDate" />
       </UFormGroup>
       <UButton type="submit"> {{ $t("add") }} </UButton>
-      <UButton :to="localePath('/')"> {{ $t("cancel") }}</UButton>
+      <UButton :to="localePath('/' + sake?.path)"> {{ $t("cancel") }}</UButton>
     </UForm>
   </div>
 </template>

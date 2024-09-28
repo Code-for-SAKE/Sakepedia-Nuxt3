@@ -131,8 +131,10 @@ async function deleteRecord() {
       <dd>
         <p v-if="brewery.data.endYear">{{ brewery.data.endYear }}年</p>
       </dd>
+      <dt>{{ $t("createdAt") }}</dt>
+      <dd>{{ datetime(brewery.createdAt) }} by {{ brewery.createdUser?.displayName }}</dd>
       <dt>{{ $t("updatedAt") }}</dt>
-      <dd>{{ datetime(brewery.data.updatedAt) }}</dd>
+      <dd>{{ datetime(brewery.updatedAt) }} by {{ brewery.updatedUser?.displayName }}</dd>
     </dl>
 
     <div class="d-flex justify-content-between">

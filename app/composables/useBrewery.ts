@@ -48,8 +48,6 @@ export type Brewery = {
   otherBrewing: string | undefined
   startYear: number | undefined
   endYear: number | undefined
-  createdAt: Date | undefined
-  updatedAt: Date | undefined
 }
 
 export type BreweryParams = {
@@ -104,8 +102,6 @@ export const useBrewery = () => {
         otherBrewing: snapshot.data()?.otherBrewing,
         startYear: snapshot.data()?.startYear,
         endYear: snapshot.data()?.endYear,
-        createdAt: snapshot.data()?.createdAt?.toDate(),
-        updatedAt: snapshot.data()?.updatedAt?.toDate(),
       },
     }
   }

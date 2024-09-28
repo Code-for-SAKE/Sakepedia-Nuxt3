@@ -142,7 +142,7 @@ onChangeBrand(brand?.path)
         <UFormGroup :label="$t('image')" name="image">
           <MultiImage v-model="images" />
         </UFormGroup>
-        <UFormGroup :label="$t('appetizer')" name="mariages">
+        <UFormGroup :label="$t('pairing')" name="mariages">
           <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
         </UFormGroup>
         <UFormGroup>

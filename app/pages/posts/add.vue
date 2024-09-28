@@ -52,7 +52,6 @@ const state = reactive<{
 })
 
 const images: Ref<ImageFilesData> = ref([])
-const appetizers = ["イカの塩辛", "鯛のお刺身", "おでん"]
 
 const sakes = ref<{ path: string; label: string }[]>([])
 async function onChangeBrand(brand: string | undefined) {
@@ -147,7 +146,7 @@ onChangeBrand(state.brand).then(() => {
         <UFormGroup :label="$t('image')" name="image">
           <ImageUploader v-model="images" />
         </UFormGroup>
-        <UFormGroup :label="$t('mariages')" name="mariages">
+        <UFormGroup :label="$t('pairing')" name="mariages">
           <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
         </UFormGroup>
 
