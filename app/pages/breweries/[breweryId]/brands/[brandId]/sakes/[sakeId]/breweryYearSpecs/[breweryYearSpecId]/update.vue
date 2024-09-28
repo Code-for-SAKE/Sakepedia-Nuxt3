@@ -133,7 +133,7 @@ if (route.params.breweryId) {
         <UInput v-model="state.makedBY" />
       </UFormGroup>
       <UFormGroup :label="$t('amino')" name="amino">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="flex gap-4">
           <UInput v-model="state.aminoAcidContentMin" class="gap-4" />
           〜
           <UInput v-model="state.aminoAcidContentMax" class="gap-4" />
@@ -141,7 +141,7 @@ if (route.params.breweryId) {
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('alcohol')" name="alcohol">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="flex gap-4">
           <UInput v-model="state.alcoholContentMin" class="gap-4" />
           〜
           <UInput v-model="state.alcoholContentMax" class="gap-4" />
@@ -149,7 +149,7 @@ if (route.params.breweryId) {
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('nihonshudo')" name="nihonshudo">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="flex gap-4">
           <UInput v-model="state.sakeMeterValueMin" class="gap-4" />
           〜
           <UInput v-model="state.sakeMeterValueMax" class="gap-4" />
@@ -157,7 +157,7 @@ if (route.params.breweryId) {
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('acidity')" name="acidity">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="flex gap-4">
           <UInput v-model="state.acidityMin" class="gap-4" />
           〜
           <UInput v-model="state.acidityMax" class="gap-4" />
@@ -165,7 +165,7 @@ if (route.params.breweryId) {
         <small>{{ $t("explainRange") }} </small>
       </UFormGroup>
       <UFormGroup :label="$t('seimaibuai')" name="seimaibuai">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="flex gap-4">
           <UInput v-model="state.ricePolishingRateMin" class="gap-4" />
           〜
           <UInput v-model="state.ricePolishingRateMax" class="gap-4" />
