@@ -44,27 +44,11 @@ async function deleteRecord() {
       </dd>
       <dt>{{ $t("type") }}</dt>
       <dd>
-        <h3>
-          <nuxt-link
-            v-for="type in sake.data.type"
-            :key="type"
-            :to="'/sakes?type=' + type"
-            class="badge badge-pill badge-primary p-2 m-1"
-            >{{ type }}</nuxt-link
-          >
-        </h3>
+        <UBadge v-for="type in sake?.data.type" :key="type">{{ type }}</UBadge>
       </dd>
       <dt>{{ $t("pairing") }}</dt>
       <dd>
-        <h3>
-          <nuxt-link
-            v-for="mariages in sake.data.mariages"
-            :key="mariages"
-            :to="'/sakes?type=' + mariages"
-            class="badge badge-pill badge-primary p-2 m-1"
-            >{{ mariages }}</nuxt-link
-          >
-        </h3>
+        <UBadge v-for="mariage in sake?.data.mariages" :key="mariage">{{ mariage }}</UBadge>
       </dd>
       <dt>{{ $t("explanation") }}</dt>
       <dd>{{ sake?.data.description }}</dd>

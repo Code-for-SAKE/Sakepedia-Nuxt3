@@ -16,14 +16,12 @@ const {
 export type Sake = {
   name: string
   subname: string
-  type: string
-  mariages: string
+  type: string[]
+  mariages: string[]
   url: string
   description: string
   brand: DocumentReference<DocumentData, DocumentData> | null | undefined
   brewery: DocumentReference<DocumentData, DocumentData> | null | undefined
-  createdAt: Date | undefined
-  updatedAt: Date | undefined
 }
 
 export type SakeParams = {
