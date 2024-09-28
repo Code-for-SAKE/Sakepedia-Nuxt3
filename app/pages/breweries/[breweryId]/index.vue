@@ -14,6 +14,12 @@ async function deleteRecord() {
   await deleteItem(brewery.path)
   await navigateTo(localePath("/breweries"))
 }
+
+useHead({
+    title: brewery?.data.name || t('brewery'),
+})
+
+
 </script>
 
 <template>

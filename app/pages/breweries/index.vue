@@ -58,6 +58,11 @@ const getMoreData = async () => {
   breweries.value.splice(breweries.value.length, 0, ...res.list)
   count.value = res.listCount
 }
+
+useHead({
+    title: t('breweryList'),
+})
+
 </script>
 
 <template>
