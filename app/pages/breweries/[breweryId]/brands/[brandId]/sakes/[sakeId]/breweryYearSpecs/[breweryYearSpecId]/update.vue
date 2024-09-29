@@ -125,8 +125,7 @@ if (route.params.breweryId) {
 <template>
   <div>
     <h1>{{ $t("breweryData") }}{{ $t("update") }}</h1>
-    <hr />
-
+    <hr>
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <h3>{{ sakeName }}</h3>
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">

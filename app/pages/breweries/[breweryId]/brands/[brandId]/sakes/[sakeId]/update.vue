@@ -53,6 +53,7 @@ if (route.params.breweryId) {
 <template>
   <div>
     <h1>{{ $t("sake") }}{{ $t("update") }}</h1>
+    <hr>
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup :label="$t('name')" name="name">
         <UInput v-model="state.name" />

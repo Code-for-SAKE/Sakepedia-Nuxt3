@@ -110,9 +110,8 @@ onChangeBrand(brand?.path)
 </script>
 <template>
   <div>
-    <h1>{{ $t("addPost") }}</h1>
-    <hr />
-    <div class="grid gap-4">
+    <h1>{{ $t("post") }}{{ $t("update") }}</h1>
+    <hr>
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
         <UFormGroup :label="$t('brewery')" name="brewery">
           {{ brewery.data.name }}
@@ -150,6 +149,5 @@ onChangeBrand(brand?.path)
           <UButton :to="localePath('/' + post.path)"> {{ $t("cancel") }} </UButton>
         </UFormGroup>
       </UForm>
-    </div>
   </div>
 </template>
