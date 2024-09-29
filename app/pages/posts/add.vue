@@ -84,9 +84,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   //画像をアップロード
   const results = await images.value.map(async (img) => {
-    const unique = getUniqueFileName(img.file)
+    const unique = getUniqueFileName(img.file, img.type)
     const path = `images/${res.id}/${unique}`
-    const result = upload(path, img.file)
+    const result = upload(path, img.img!)
     return result
   })
   //結果からフルパスを取得
