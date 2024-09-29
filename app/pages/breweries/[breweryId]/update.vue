@@ -71,8 +71,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
   <div>
-    <h1>酒蔵 更新</h1>
-    <hr />
+    <h1>{{ $t("brewery") }}{{ $t("update") }}</h1>
+    <hr>
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup label="法人番号" name="breweryId">
         <UInput v-model="state.breweryId" placeholder="国税庁が指定する13桁の識別番号" />

@@ -155,6 +155,9 @@ export default defineI18nConfig(() => ({
       brandName: "銘柄名",
       addBrand: "銘柄追加",
       koujimai: "麹米",
+      yes: 'はい',
+      confirmDelete: '本当に削除しますか？',
+      postDetails: '投稿詳細',
     },
     en: {
       lang: "Language",
@@ -311,6 +314,9 @@ export default defineI18nConfig(() => ({
       brandName: "brand name",
       addBrand: "add brand name",
       koujimai: "yeast rice",
+      yes: 'Yes',
+      confirmDelete: 'Are you sure you want to delete it?',
+      postDetails: 'Post Details',
     },
     ko: {
       lang: "언어",
@@ -465,6 +471,8 @@ export default defineI18nConfig(() => ({
       brandName: "브랜드명",
       addBrand: "브랜드 추가",
       koujimai: "누룩 쌀",
+      yes: '네',
+      confirmDelete: '정말로 삭제하시겠습니까?',
     },
     zhHant: {
       lang: "語言",
@@ -618,6 +626,8 @@ export default defineI18nConfig(() => ({
       brandName: "品牌名稱",
       addBrand: "新增品牌",
       koujimai: "麴米",
+      yes: '是',
+      confirmDelete: '確定要刪除嗎？',
     },
     th: {
       lang: "ภาษา",
