@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core';
 const { t } = useI18n()
 const tabItems = [
   {
@@ -14,12 +15,32 @@ const tabItems = [
   {
     key: "breweries-map-nature",
     label: t("natureBreweryMap"),
-    content: "Coming Soon...",
+    content: "breweries-map-nature",
   },
 ]
 const { getSummary } = useFirestore()
 
 const summary = await getSummary()
+
+const { width } = useWindowSize();
+
+const tabOrientation = computed(() => {
+  if (width.value > 840) {
+    return 'vertical'
+  }else if (width.value > 640) {
+    return 'horizontal'
+  } else {
+    return 'vertical'
+  }
+})
+const mapPosition = computed(() => {
+  if (width.value > 840) {
+    return 'flex'
+  } else {
+    return ''
+  }
+})
+
 </script>
 
 <template>
@@ -51,7 +72,7 @@ const summary = await getSummary()
       }"
     >
       <template #header> {{ $t("breweryMap") }} </template>
-      <UTabs :items="tabItems" orientation="vertical" :ui="{ wrapper: 'flex gap-4' }">
+      <UTabs :items="tabItems" :orientation="tabOrientation" :ui="{ wrapper: mapPosition + ' gap-4' }">
         <template #item="{ item }">
           <div v-if="item.key === 'breweries-map'" class="primary">
             <div class="map-wrap">
@@ -60,7 +81,12 @@ const summary = await getSummary()
           </div>
           <div v-else-if="item.key === 'breweries-map-hotsprings'" class="space-y-3">
             <div class="map-wrap">
-              <BreweriesMap />
+              Comming soon...
+            </div>
+          </div>
+          <div v-else-if="item.key === 'breweries-map-nature'" class="space-y-3">
+            <div class="map-wrap">
+              Comming soon...
             </div>
           </div>
         </template>
@@ -96,8 +122,8 @@ const summary = await getSummary()
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' } }">
         <template #header> {{ $t("numberOfPosts") }} </template>
-        <p id="summary-comment" class="summary text-center">
-          {{ summary.comment }}
+        <p id="summary-post" class="summary text-center">
+          {{ summary.post }}
         </p>
       </UCard>
     </div>

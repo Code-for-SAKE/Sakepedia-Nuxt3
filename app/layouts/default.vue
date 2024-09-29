@@ -8,15 +8,15 @@ colorMode.preference = "light"
 </script>
 
 <template>
-  <div id="wrap" class="m-4">
-    <header id="header" class="">
-      <TopNavi />
+  <div id="wrap">
+    <header id="header">
+      <TopNavi class="m-4"/>
     </header>
-    <div id="container">
+    <div id="container" class="m-4">
       <slot />
     </div>
     <footer id="footer" class="align-items-end text-center">
-      <BottomNavi />
+      <BottomNavi  class="m-4" />
     </footer>
   </div>
 </template>
