@@ -122,8 +122,8 @@ const mapPosition = computed(() => {
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' } }">
         <template #header> {{ $t("numberOfPosts") }} </template>
-        <p id="summary-comment" class="summary text-center">
-          {{ summary.comment }}
+        <p id="summary-post" class="summary text-center">
+          {{ summary.post }}
         </p>
       </UCard>
     </div>
