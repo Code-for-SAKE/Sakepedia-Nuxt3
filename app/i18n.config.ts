@@ -158,6 +158,7 @@ export default defineI18nConfig(() => ({
       yes: 'はい',
       confirmDelete: '本当に削除しますか？',
       postDetails: '投稿詳細',
+      nationalTaxAgencyIdNumber: '国税庁が指定する13桁の識別番号',
     },
     en: {
       lang: "Language",
