@@ -60,9 +60,8 @@ const getMoreData = async () => {
 }
 
 useHead({
-    title: t('breweryList'),
+  title: t("breweryList"),
 })
-
 </script>
 
 <template>

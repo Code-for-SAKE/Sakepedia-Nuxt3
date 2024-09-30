@@ -6,6 +6,7 @@ import type { Data } from "~/composables/useFirestore"
 const route = useRoute()
 const localePath = useLocalePath()
 const { getItem, deleteItem } = useBrewery()
+const { t } = useI18n()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
@@ -16,10 +17,8 @@ async function deleteRecord() {
 }
 
 useHead({
-    title: brewery?.data.name || t('brewery'),
+  title: brewery?.data.name || t("brewery"),
 })
-
-
 </script>
 
 <template>

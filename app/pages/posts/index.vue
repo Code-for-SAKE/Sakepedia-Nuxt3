@@ -54,6 +54,10 @@ const getMoreData = async () => {
   posts.value.splice(posts.value.length, 0, ...res.list)
   count.value = res.listCount
 }
+
+useHead({
+  title: t("postList"),
+})
 </script>
 
 <template>
