@@ -44,22 +44,27 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
+        iso: 'en',
         name: "English",
       },
       {
         code: "ja",
+        iso: 'ja',
         name: "日本語",
       },
       {
         code: "ko",
+        iso: 'ko',
         name: "한국어",
       },
       {
         code: "zhHant",
+        iso: 'zh',
         name: "中文",
       },
       {
         code: "th",
+        iso: 'th',
         name: "ภาษาไทย",
       },
     ],

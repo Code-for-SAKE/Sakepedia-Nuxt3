@@ -5,19 +5,42 @@ definePageMeta({
 
 const colorMode = useColorMode()
 colorMode.preference = "light"
+
+const route = useRoute()
+const { t } = useI18n()
+const head = useLocaleHead({
+  addDirAttribute: true,
+  identifierAttribute: 'id',
+  addSeoAttributes: true
+})
+const title = computed(() => t(String(route.meta.title ?? 'TBD'), t('layouts.title'))
+);
 </script>
 
 <template>
   <div id="wrap">
-    <header id="header">
-      <TopNavi class="m-4"/>
-    </header>
-    <div id="container" class="m-4">
-      <slot />
-    </div>
-    <footer id="footer" class="align-items-end text-center">
-      <BottomNavi  class="m-4" />
-    </footer>
+    <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+      <Head>
+        <Title>{{ title }}</Title>
+        <template v-for="link in head.link" :key="link.id">
+          <Link :id="link.id" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
+        </template>
+        <template v-for="meta in head.meta" :key="meta.id">
+          <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
+        </template>
+      </Head>
+      <Body>
+        <header id="header">
+          <TopNavi class="m-4"/>
+        </header>
+        <div id="container" class="m-4">
+          <slot />
+        </div>
+        <footer id="footer" class="align-items-end text-center">
+          <BottomNavi  class="m-4" />
+        </footer>
+      </Body>
+    </Html>
   </div>
 </template>
 
