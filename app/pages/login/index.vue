@@ -1,5 +1,7 @@
 <script setup>
 import { GoogleAuthProvider, GithubAuthProvider } from "firebase/auth"
+const toast = useToast()
+const {t} = useI18n()
 
 definePageMeta({
   layoutTransition: true,
@@ -7,10 +9,16 @@ definePageMeta({
 const { signIn, signOut, currentUser } = useAuth()
 
 const signInGoogle = () => {
-  signIn(new GoogleAuthProvider())
+  signIn(new GoogleAuthProvider(), (error)=>{
+    toast.add({title: t('loginFailed'),
+      description: error})
+  })
 }
 const signInGithub = () => {
-  signIn(new GithubAuthProvider())
+  signIn(new GithubAuthProvider(), (error)=>{
+    toast.add({title: t('loginFailed'),
+      description: error})
+  })
 }
 </script>
 

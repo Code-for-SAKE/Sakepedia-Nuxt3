@@ -19,7 +19,7 @@ export const useEditor = (user: User | null):Editor => {
 
 type Auth = {
   currentUser: globalThis.Ref<User | null>
-  signIn: (provider: AuthProvider) => Promise<void>
+  signIn: (provider: AuthProvider, onError: (error:string)=>void) => Promise<void>
   signOut: () => Promise<void>
   checkAuthState: () => Promise<void>
 }
@@ -34,7 +34,7 @@ export const useAuth = (): Auth => {
       navigateTo(`${route.query.redirect}`)
     }
   }
-  const signIn = async (provider: AuthProvider) => {
+  const signIn = async (provider: AuthProvider, onError: (error:string)=>void) => {
     try {
       const auth_1 = await signInWithPopup(getAuth(app), provider)
       console.log("login", auth_1.user)
@@ -45,6 +45,7 @@ export const useAuth = (): Auth => {
       const errorMessage = error.message
       console.log("faild to login", errorCode, errorMessage)
       currentUser.value = null
+      onError(errorMessage)
     }
   }
 
