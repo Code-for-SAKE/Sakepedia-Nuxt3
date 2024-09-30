@@ -51,6 +51,10 @@ const getMoreData = async () => {
 
   brands.value.splice(brands.value.length, 0, ...res.list)
 }
+
+useHead({
+  title: t("brandList"),
+})
 </script>
 
 <template>
