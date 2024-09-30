@@ -26,19 +26,26 @@ const signInGithub = () => {
   <div>
     <div v-if="currentUser == null">
       <h1>{{ $t("login") }}</h1>
-      <p class="lead">GoogleアカウントかGithubアカウントでログインできます。</p>
-      <UButton type="button" role="button" @click="signInGoogle"> Sign In with Google </UButton>
-      <UButton type="button" role="button" @click="signInGithub"> Sign In with GitHub</UButton>
+      <p>{{ $t('needLogin') }}</p>
+      <p>{{ $t('loginType') }}</p>
+      <p>{{ $t('noPrivacyData') }}</p>
+      <div class="flex gap-4 m-4">
+        <UButton type="button" role="button" @click="signInGoogle"> {{ $t('loginGoogle') }} <Icon name="uil:google" size="24px" /></UButton>
+        <UButton type="button" role="button" @click="signInGithub"> {{ $t('loginGithub') }} <Icon name="uil:github" size="24px" /></UButton>
+      </div>
     </div>
     <div v-else>
-      <h1>アカウント</h1>
-      <UButton type="button" role="button" @click="signOut"> Sign Out </UButton>
+      <h1>{{ $t('account') }}</h1>
+      <div class="flex gap-4 m-4">
+        <UButton type="button" role="button" @click="signOut"> Sign Out </UButton>
+      </div>
     </div>
     <section v-if="currentUser">
       <dl>
-        <dt>表示名</dt>
+        <dt>{{ $t('name') }}</dt>
         <dd>{{ currentUser.displayName }}</dd>
       </dl>
+
     </section>
   </div>
 </template>
