@@ -138,3 +138,68 @@ mv /opt/data/2024-06-12T10:56:22_57740 /opt/data/bkp
 コンテナ内のインストール `yarn install` ステップで、`gyp` というエラーメッセージが表示されてインストールに失敗する。
 この問題を解決するには、コンテナを作成する前に `yarn remove firebase-admin` を使用して `firebase-admin` 依存関係を削除する必要がある。
 まだ行けない場合、`Dockerfile.m5`を`Dockerfile`に上書きしてからdockerのイメージをbuildをしたらいける（かも）。
+
+# Nuxt2版からのデータ移行
+
+## データは以下
+- brands
+- breweries
+- brewery_year_datas # 昔の形
+- breweryyeardatas # 今の形
+- comments
+- sakes
+- users # 移行しない
+
+## Nuxt2版のサーバでmongodb内のデータをエクスポート
+
+```
+mongoexport -d Sakepedia -c breweries --out breweries.json
+mongoexport -d Sakepedia -c brands --out brands.json
+mongoexport -d Sakepedia -c sakes --out sakes.json
+mongoexport -d Sakepedia -c comments --out comments.json
+mongoexport -d Sakepedia -c brewery_year_datas --out brewery_year_datas.json
+mongoexport -d Sakepedia -c breweryyeardatas --out breweryyeardatas.json
+```
+
+## nuxtコンテナでシミュレータにインポート
+
+```
+yarn dev
+```
+
+http://localhost:3000/dumper
+以下の順でボタン押下してインポート
+コンソールログにdoneが出るまで待つ。
+
+- 酒蔵
+- 銘柄
+- 日本酒
+- 醸造データ
+- 投稿
+
+## firebaseコンテナでエミュレータのデータをエクスポート
+
+```
+rm -rf /opt/data/bkp
+firebase emulators:export /opt/data/bkp
+```
+
+## firestoreのデータをクラウドにアップ
+gcloud storage cp -r  /opt/data "gs://sakepedia-data/2024-10-01"
+
+## クラウドにアップしたデータをfirestoreにインポート
+Firebaseプロジェクト
+Firestore Database
+Google Cloudのその他の機能
+インポート/エクスポート を選択
+
+インポート
+アップロードしたフォルダ内のoverall_export_metadataを参照
+sakepedia-data/2024-10-01/firestore_export/firestore_export.overall_export_metadata
+
+## firebaseコンテナでエミュレータのエクスポートデータをfirestorageにアップロード
+
+```
+cd /opt/data
+bash upload.sh
+```

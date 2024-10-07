@@ -1,5 +1,5 @@
 import type { DocumentData, DocumentReference, DocumentSnapshot } from "firebase/firestore"
-import { collectionGroup, query, where, orderBy, collection } from "firebase/firestore"
+import { collectionGroup, query, where, orderBy, collection, documentId, doc, getDoc } from "firebase/firestore"
 import type { Data } from "./useFirestore"
 
 const {
@@ -27,6 +27,7 @@ export type Sake = {
 export type SakeParams = {
   brandId?: string
   breweryId?: string
+  sakeId?: string
   searchText: string
   limit: number
   before: Sake | undefined
@@ -60,8 +61,8 @@ export const useSake = () => {
     console.log("SakeParams", params)
     if (typeof params.limit !== "number" || params.limit < 0)
       throw new Error("express-paginate: `limit` is not a number >= 0")
-    const coll = params.breweryId
-      ? collection(db, `breweries/${params.breweryId}/${collectionName}`)
+    const coll = (params.breweryId && params.brandId)
+      ? collection(db, `breweries/${params.breweryId}/brands/${params.brandId}/${collectionName}`)
       : collectionGroup(db, collectionName)
     // let snapshot;
     let q = query(coll, orderBy("name"))
