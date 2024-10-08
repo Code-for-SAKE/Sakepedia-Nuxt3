@@ -13,7 +13,7 @@
 import { GeoPoint } from "firebase/firestore"
 import dayjs from "dayjs"
 
-const { setItem, getReference } = useFirestore()
+const { setItem, getReference, getFromReference } = useFirestore()
 const { getList } = useSake()
 const { upload, unique } = useStorage()
 
@@ -47,8 +47,15 @@ const fetch_brewery = async () => {
           data.createdUser = {displayName: data.author, uid: data.userId["$oid"]}
         }
       }
-      setItem("breweries/" + id, data, true)
-      await sleep(100)
+
+      console.log(id)
+      const path = `breweries/${id}`
+      if((await getFromReference(await getReference(path))).exists()){
+        console.log("skip")
+      }else{
+        await setItem(path, data, true)
+        await sleep(100)
+      }
     } catch (e) {
       console.log(text, e)
     }
@@ -87,8 +94,14 @@ const fetch_brand = async () => {
         }
       }
 
-      setItem("breweries/" + breweryId + "/brands/" + id, data, true)
-      await sleep(100)
+      console.log(id)
+      const path = `breweries/${breweryId}/brands/${id}`
+      if((await getFromReference(await getReference(path))).exists()){
+        console.log("skip")
+      }else{
+        await setItem(path, data, true)
+        await sleep(100)
+      }
     } catch (e) {
       console.log(text, e)
     }
@@ -134,8 +147,14 @@ const fetch_sake = async () => {
         }
       }
 
-      setItem("breweries/" + breweryId + "/brands/" + brandId + "/sakes/" + id, data, true)
-      await sleep(100)
+      console.log(id)
+      const path = `breweries/${breweryId}/brands/${brandId}/sakes/${id}`
+      if((await getFromReference(await getReference(path))).exists()){
+        console.log("skip")
+      }else{
+        await setItem(path, data, true)
+        await sleep(100)
+      }
     } catch (e) {
       console.log(text, e)
     }
@@ -195,8 +214,14 @@ const fetch_bydata = async () => {
         }
       }
 
-      setItem(`${sakePath}/breweryYearSpecs/${id}`, data, true)
-      await sleep(100)
+      console.log(id)
+      const path = `${sakePath}/breweryYearSpecs/${id}`
+      if((await getFromReference(await getReference(path))).exists()){
+        console.log("skip")
+      }else{
+        await setItem(path, data, true)
+        await sleep(100)
+      }
     } catch (e) {
       console.log(text, e)
     }
@@ -252,8 +277,14 @@ const fetch_post = async () => {
         }
       }
 
-      await setItem("posts/" + id, data, true)
-      await sleep(100)
+      console.log(id)
+      const path = `posts/${id}`
+      if((await getFromReference(await getReference(path))).exists()){
+        console.log("skip")
+      }else{
+        await setItem(path, data, true)
+        await sleep(100)
+      }
     } catch (e) {
       console.log(text, e)
     }
