@@ -8,12 +8,15 @@ const { getItem, deleteItem } = useBreweryYearSpec()
 const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
 const dataPath = localePath(route.path, defaultLocale)
+const { t } = useI18n()
+const toast = useToast()
 
 const item = await getItem(dataPath)
 const breweryYearSpec: Data<BreweryYearSpec> = item!
 const confirmDelete = ref(false)
 async function deleteRecord() {
   await deleteItem(dataPath)
+  toast.add({ title: t("deleted"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + breweryYearSpec?.data.sake?.path))
 }
 
@@ -51,9 +54,13 @@ const sakeItem = await getSake(breweryYearSpec?.data.sake?.path)
       <dt>製造年月(日)</dt>
       <dd>{{ breweryYearSpec.data.bottledDate }}</dd>
       <dt>{{ $t("createdAt") }}</dt>
-      <dd>{{ datetime(breweryYearSpec.createdAt) }} by {{ breweryYearSpec.createdUser?.displayName }}</dd>
+      <dd>
+        {{ datetime(breweryYearSpec.createdAt) }} by {{ breweryYearSpec.createdUser?.displayName }}
+      </dd>
       <dt>{{ $t("updatedAt") }}</dt>
-      <dd>{{ datetime(breweryYearSpec.updatedAt) }} by {{ breweryYearSpec.updatedUser?.displayName }}</dd>
+      <dd>
+        {{ datetime(breweryYearSpec.updatedAt) }} by {{ breweryYearSpec.updatedUser?.displayName }}
+      </dd>
     </dl>
 
     <hr />

@@ -10,13 +10,14 @@ const { t } = useI18n()
 const route = useRoute()
 const { getItem, setItem } = useBrewery()
 const localePath = useLocalePath()
+const toast = useToast()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
 const schema = object({
   breweryId: string().max(13, "13桁以内で入力してください"),
-  name: string().required(t('name')+t('require')),
-  kana: string().required(t('kana')+t('require')),
+  name: string().required(t("name") + t("require")),
+  kana: string().required(t("kana") + t("require")),
   address: string(),
   prefecture: string(),
   latitude: number(),
@@ -67,6 +68,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   await setItem(brewery.path, event.data)
+  toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + brewery.path))
 }
 </script>
@@ -74,7 +76,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
   <div>
     <h1>{{ $t("brewery") }}{{ $t("update") }}</h1>
-    <hr>
+    <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup :label="$t('coporateNumber')" name="breweryId">
         <UInput v-model="state.breweryId" :placeholder="$t('nationalTaxAgencyIdNumber')" />
@@ -90,11 +92,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <UFormGroup :label="$t('address')" name="address" required>
         <UInput v-model="state.address" />
         <small
-            >{{ $t('explainLocationLiblary') }}
-            <a href="https://github.com/geolonia/normalize-japanese-addresses"
-              >https://github.com/geolonia/normalize-japanese-addresses</a
-            >
-          </small>
+          >{{ $t("explainLocationLiblary") }}
+          <a href="https://github.com/geolonia/normalize-japanese-addresses"
+            >https://github.com/geolonia/normalize-japanese-addresses</a
+          >
+        </small>
       </UFormGroup>
       <UFormGroup :label="$t('prefecture')" name="prefecture">
         <UInputMenu
@@ -143,35 +145,35 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UCheckbox v-model="state.hasVisit" :label="$t('exist')" />
         <div v-if="state.hasVisit">
           <UInput v-model="state.visit" />
-          <small>{{ $t('howParticipate') }}</small>
+          <small>{{ $t("howParticipate") }}</small>
         </div>
       </UFormGroup>
       <UFormGroup :label="$t('tasting')" name="hasTasting">
         <UCheckbox v-model="state.hasTasting" :label="$t('exist')" />
         <div v-if="state.hasTasting">
           <UInput v-model="state.tasting" />
-          <small>{{ $t('opentime') }}</small>
+          <small>{{ $t("opentime") }}</small>
         </div>
       </UFormGroup>
       <UFormGroup :label="$t('cafe')" name="hasCafe">
         <UCheckbox v-model="state.hasCafe" :label="$t('exist')" />
         <div v-if="state.hasCafe">
           <UInput v-model="state.cafe" />
-          <small>{{ $t('opentime') }}</small>
+          <small>{{ $t("opentime") }}</small>
         </div>
       </UFormGroup>
       <UFormGroup :label="$t('shop')" name="hasShop">
         <UCheckbox v-model="state.hasShop" :label="$t('exist')" />
         <div v-if="state.hasShop">
           <UInput v-model="state.shop" />
-          <small>{{ $t('opentime') }}</small>
+          <small>{{ $t("opentime") }}</small>
         </div>
       </UFormGroup>
       <UFormGroup :label="$t('otherBrewery')" name="hasOtherBrewing">
         <UCheckbox v-model="state.hasOtherBrewing" label="あり" />
         <div v-if="state.hasOtherBrewing">
           <UInput v-model="state.otherBrewing" />
-          <small>{{ $t('explainOtherBrewery') }}</small>
+          <small>{{ $t("explainOtherBrewery") }}</small>
         </div>
       </UFormGroup>
       <UFormGroup :label="$t('startYear')" name="startYear">

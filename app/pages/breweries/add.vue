@@ -5,7 +5,7 @@ const { t } = useI18n()
 
 const schema = object({
   breweryId: string().max(13, "13桁以内で入力してください"),
-  name: string().required(t('name')+t('require')),
+  name: string().required(t("name") + t("require")),
   kana: string(),
   address: string(),
   prefecture: string(),
@@ -37,6 +37,7 @@ const schema = object({
 
 type Schema = InferType<typeof schema>
 
+const toast = useToast()
 const localePath = useLocalePath()
 const { addItem } = useBrewery()
 
@@ -87,7 +88,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   const res = await addItem(data)
-  console.log("res", res)
+  toast.add({ title: t("added"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + res.path))
 }
 </script>
@@ -111,7 +112,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup :label="$t('address')" name="address">
           <UInput v-model="state.address" />
           <small
-            >{{ $t('explainLocationLiblary') }}
+            >{{ $t("explainLocationLiblary") }}
             <a href="https://github.com/geolonia/normalize-japanese-addresses"
               >https://github.com/geolonia/normalize-japanese-addresses</a
             >
@@ -164,35 +165,35 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UCheckbox v-model="state.hasVisit" :label="$t('exist')" />
           <div v-if="state.hasVisit">
             <UInput v-model="state.visit" />
-            <small>{{ $t('howParticipate') }}</small>
+            <small>{{ $t("howParticipate") }}</small>
           </div>
         </UFormGroup>
         <UFormGroup :label="$t('tasting')" name="hasTasting">
           <UCheckbox v-model="state.hasTasting" :label="$t('exist')" />
           <div v-if="state.hasTasting">
             <UInput v-model="state.tasting" />
-            <small>{{ $t('opentime') }}</small>
+            <small>{{ $t("opentime") }}</small>
           </div>
         </UFormGroup>
         <UFormGroup :label="$t('cafe')" name="hasCafe">
           <UCheckbox v-model="state.hasCafe" :label="$t('exist')" />
           <div v-if="state.hasCafe">
             <UInput v-model="state.cafe" />
-            <small>{{ $t('opentime') }}</small>
+            <small>{{ $t("opentime") }}</small>
           </div>
         </UFormGroup>
         <UFormGroup :label="$t('shop')" name="hasShop">
           <UCheckbox v-model="state.hasShop" :label="$t('exist')" />
           <div v-if="state.hasShop">
             <UInput v-model="state.shop" />
-            <small>{{ $t('opentime') }}</small>
+            <small>{{ $t("opentime") }}</small>
           </div>
         </UFormGroup>
         <UFormGroup :label="$t('otherBrewery')" name="hasOtherBrewing">
           <UCheckbox v-model="state.hasOtherBrewing" :label="$t('exist')" />
           <div v-if="state.hasOtherBrewing">
             <UInput v-model="state.otherBrewing" />
-            <small>{{ $t('explainOtherBrewery') }}</small>
+            <small>{{ $t("explainOtherBrewery") }}</small>
           </div>
         </UFormGroup>
         <UFormGroup :label="$t('startYear')" name="startYear">

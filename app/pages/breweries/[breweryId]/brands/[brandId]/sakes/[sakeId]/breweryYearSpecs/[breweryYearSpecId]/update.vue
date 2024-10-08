@@ -2,11 +2,13 @@
 import { object, string, number, date, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
+const { t } = useI18n()
 const route = useRoute()
 
 const { getItem: getSake } = useSake()
 const { getItem, setItem } = useBreweryYearSpec()
 const localePath = useLocalePath()
+const toast = useToast()
 
 const breweryYearSpec = await getItem(
   `/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}/breweryYearSpecs/${route.params.breweryYearSpecId}`,
@@ -110,6 +112,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     bottledDate: event.data.bottledDate,
     sake: state.sake,
   })
+  toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + breweryYearSpec.path))
 }
 
@@ -125,7 +128,7 @@ if (route.params.breweryId) {
 <template>
   <div>
     <h1>{{ $t("breweryData") }}{{ $t("update") }}</h1>
-    <hr>
+    <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <h3>{{ sakeName }}</h3>
       <UFormGroup :label="$t('breweryYear')" name="breweryYear">

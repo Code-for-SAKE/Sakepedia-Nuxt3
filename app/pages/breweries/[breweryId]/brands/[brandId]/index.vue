@@ -7,6 +7,8 @@ const { getItem: getBrewery } = useBrewery()
 const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
 const dataPath = localePath(route.path, defaultLocale)
+const { t } = useI18n()
+const toast = useToast()
 
 const brand = await getItem(dataPath)
 
@@ -18,13 +20,13 @@ if (brand?.data.brewery) {
 const confirmDelete = ref(false)
 const deleteBrand = async function () {
   await deleteItem(brand.path)
+  toast.add({ title: t("deleted"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + brand.data.brewery?.path))
 }
 
 useHead({
-    title: brewery?.data.name || brand?.data.name || t('brand'),
+  title: brewery?.data.name || brand?.data.name || t("brand"),
 })
-
 </script>
 
 <template>
