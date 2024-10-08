@@ -39,9 +39,13 @@ export const useStorage = () => {
             }
         }
     }
+
+    const unique = () => {
+      return Math.random().toString(32).substring(2)
+    }
     const getUniqueFileName = (file:File, type:string|undefined) => {
-        const unique = Math.random().toString(32).substring(2)
-        return `${unique}.${getExt(file, type)}`
+        const name = unique()
+        return `${name}.${getExt(file, type)}`
     }
   
   return {
@@ -49,6 +53,7 @@ export const useStorage = () => {
     upload,
     download,
     getExt,
+    unique,
     getUniqueFileName,
   }
 }

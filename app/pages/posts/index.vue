@@ -47,7 +47,7 @@ function setHistories() {
 const getMoreData = async () => {
   const res = await getList({
     searchText: searchText.value,
-    before: posts.value[posts.value.length - 1].id,
+    before: posts.value[posts.value.length - 1].updatedAt,
     limit: limit,
   })
 

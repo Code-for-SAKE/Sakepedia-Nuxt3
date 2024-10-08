@@ -10,6 +10,7 @@ import {
   getFirestore,
   getCountFromServer,
   getDoc,
+  setDoc,
   updateDoc,
   addDoc,
   deleteDoc,
@@ -138,7 +139,7 @@ export const useFirestore = () => {
     return await addDoc(coll, params)
   }
 
-  const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T) => {
+  const setItem = async <T extends WithFieldValue<DocumentData>>(path: string, params: T, isNew?: boolean) => {
     const entries = Object.entries(params)
     for (const [key, _] of entries) {
       if (params[key] === undefined) {
@@ -148,7 +149,11 @@ export const useFirestore = () => {
     }
     params.updatedAt = params.updatedAt ?? new Date()
     params.updatedUser = params.updatedUser ?? useEditor(user.value)
-    return await updateDoc(doc(db, path), params)
+    if(isNew){
+      return await setDoc(doc(db, path), params)
+    }else{
+      return await updateDoc(doc(db, path), params)
+    }
   }
 
   const deleteItem = async (path: string) => {

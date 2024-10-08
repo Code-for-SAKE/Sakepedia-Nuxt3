@@ -60,7 +60,7 @@ export const usePost = () => {
       throw new Error("express-paginate: `limit` is not a number >= 0")
     const coll = collection(db, collectionName)
     // let snapshot;
-    let q = query(coll, orderBy("brewery"))
+    let q = query(coll, orderBy("updatedAt", 'desc'))
     if (params.searchText != "") {
       q = query(q, where("comment", "==", params.searchText))
     }
@@ -105,7 +105,7 @@ export const usePost = () => {
     return await addItemFirestore(collectionName, _params)
   }
 
-  const setItem = async (path: string, params: Post) => {
+  const setItem = async (path: string, params: Post, isNew?: boolean) => {
     const _params = params
     if (typeof params.brewery === "string") {
       const path = params.brewery
@@ -119,7 +119,7 @@ export const usePost = () => {
       const path = params.sake
       _params.sake = await getReference(path)
     }
-    return await setItemFirestore(path, _params)
+    return await setItemFirestore(path, _params, isNew)
   }
 
   return {
