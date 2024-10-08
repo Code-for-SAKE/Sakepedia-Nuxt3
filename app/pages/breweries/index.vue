@@ -9,7 +9,7 @@ const prefectureId: string = route.query.prefecture != null ? String(route.query
 const prefecture = ref(
   prefectureId ? prefectures.find((e) => e.id === prefectureId) : prefectures[0],
 )
-const limit = route.query.limit ? Number(route.query.limit) : 2
+const limit = route.query.limit ? Number(route.query.limit) : 10
 
 const res = await getList({
   searchText: searchText.value,

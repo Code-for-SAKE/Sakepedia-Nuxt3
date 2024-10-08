@@ -68,9 +68,9 @@ export const useFirestore = () => {
     const brewery = await getCount(query(collection(db, "breweries")))
     const brand = await getCount(query(collectionGroup(db, "brands")))
     const sake = await getCount(query(collectionGroup(db, "sakes")))
-    const user = await getCount(query(collection(db, "users")))
+    const breweryYearSpec = await getCount(query(collectionGroup(db, "breweryYearSpecs")))
     const post = await getCount(query(collection(db, "posts")))
-    return { brewery, brand, sake, user, post }
+    return { brewery, brand, sake, breweryYearSpec, post }
   }
 
   const getCount = async (q: Query) => {

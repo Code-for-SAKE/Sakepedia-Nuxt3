@@ -5,7 +5,7 @@ const { getList } = usePost()
 const localePath = useLocalePath()
 
 const searchText = ref(route.query.comment != null ? String(route.query.comment) : "")
-const limit = route.query.limit ? Number(route.query.limit) : 2
+const limit = route.query.limit ? Number(route.query.limit) : 10
 
 const res = await getList({
   searchText: searchText.value,

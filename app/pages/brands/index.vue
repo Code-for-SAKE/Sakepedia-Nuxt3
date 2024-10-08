@@ -5,7 +5,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 
 const searchText = ref(route.query.name != null ? String(route.query.name) : "")
-const limit = route.query.limit != null ? Number(route.query.limit) : 3
+const limit = route.query.limit != null ? Number(route.query.limit) : 10
 console.log("searchText", searchText.value)
 console.log("limit", limit)
 

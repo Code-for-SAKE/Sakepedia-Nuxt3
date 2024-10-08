@@ -29,6 +29,7 @@ export default defineI18nConfig(() => ({
       numberOfSakes: "日本酒数",
       numberOfUsers: "ユーザー数",
       numberOfPosts: "投稿数",
+      numberOfBreweryYearSpecs: "醸造データ数",
       breweryMap: "酒蔵マップ ",
       localBreweryMap: "都道府県別の酒蔵",
       onsenBreweryMap: "温泉近くの酒蔵",

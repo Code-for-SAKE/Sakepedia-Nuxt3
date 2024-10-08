@@ -118,9 +118,9 @@ useHead({
     </div>
     <div class="grid grid-cols-2 gap-4">
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' } }">
-        <template #header> {{ $t("numberOfUsers") }} </template>
-        <p id="summary-user" class="summary text-center">
-          {{ summary.user }}
+        <template #header> {{ $t("numberOfBreweryYearSpecs") }} </template>
+        <p id="summary-brewery-year-spec" class="summary text-center">
+          {{ summary.breweryYearSpec }}
         </p>
       </UCard>
       <UCard :ui="{ header: { background: 'bg-gray-100', padding: 'px-4 py-2 sm:px-2' } }">
