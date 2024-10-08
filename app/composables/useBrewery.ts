@@ -8,7 +8,7 @@ const {
   getList: getListFirestore,
   getItem: getItemFirestore,
   addItem: addItemFirestore,
-  setItem,
+  setItem: setItemFirestore,
   deleteItem,
   getReference,
   getFromReference,
@@ -173,6 +173,25 @@ export const useBrewery = () => {
       })
     }
     return await addItemFirestore(`breweries`, params)
+  }
+
+  const setItem = async (path: string, params: Brewery) => {
+    if (params.address) {
+      await normalize(params.address).then((result) => {
+        var prefId = params.prefecture != null ? Number(params.prefecture) : -1
+        if (result.level > 1 && prefId != -1) {
+          params.prefecture = String(prefId)
+        }
+        if (result.level >= 3 && params.location === undefined) {
+          console.log("location")
+          params.location = {
+            latitude: result.lat,
+            longitude: result.lng,
+          }
+        }
+      })
+    }
+    return await setItemFirestore(path, params)
   }
 
   return {
