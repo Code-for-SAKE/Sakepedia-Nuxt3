@@ -2,12 +2,14 @@
 import { object, string, array, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
+const { t } = useI18n()
 const route = useRoute()
 
 const { getItem: getBrewery } = useBrewery()
 const { getItem: getBrand } = useBrand()
 const { getItem, setItem } = useSake()
 const localePath = useLocalePath()
+const toast = useToast()
 
 const sake = await getItem(
   `/breweries/${route.params.breweryId}/brands/${route.params.brandId}/sakes/${route.params.sakeId}`,
@@ -33,6 +35,7 @@ const state = reactive<Sake>(sake.data)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   await setItem(sake.path, event.data)
+  toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + sake.path))
 }
 
@@ -53,7 +56,7 @@ if (route.params.breweryId) {
 <template>
   <div>
     <h1>{{ $t("sake") }}{{ $t("update") }}</h1>
-    <hr>
+    <hr />
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormGroup :label="$t('name')" name="name">
         <UInput v-model="state.name" />

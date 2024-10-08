@@ -8,6 +8,8 @@ const { getItem: getBrand } = useBrand()
 const { defaultLocale } = useI18n()
 const localePath = useLocalePath()
 const dataPath = localePath(route.path, defaultLocale)
+const { t } = useI18n()
+const toast = useToast()
 
 const item = await getSake(dataPath)
 const sake: Data<Sake> = item
@@ -20,13 +22,13 @@ const brand = await getBrand(brandPath)
 const confirmDelete = ref(false)
 async function deleteRecord() {
   await deleteItem(dataPath)
+  toast.add({ title: t("deleted"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + sake?.data.brand?.path))
 }
 
 useHead({
-    title: sake?.data.name || t('sake'),
+  title: sake?.data.name || t("sake"),
 })
-
 </script>
 
 <template>

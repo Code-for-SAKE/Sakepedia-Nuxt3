@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize } from "@vueuse/core"
 const { t } = useI18n()
 const tabItems = [
   {
@@ -22,25 +22,28 @@ const { getSummary } = useFirestore()
 
 const summary = await getSummary()
 
-const { width } = useWindowSize();
+const { width } = useWindowSize()
 
 const tabOrientation = computed(() => {
   if (width.value > 840) {
-    return 'vertical'
-  }else if (width.value > 640) {
-    return 'horizontal'
+    return "vertical"
+  } else if (width.value > 640) {
+    return "horizontal"
   } else {
-    return 'vertical'
+    return "vertical"
   }
 })
 const mapPosition = computed(() => {
   if (width.value > 840) {
-    return 'flex'
+    return "flex"
   } else {
-    return ''
+    return ""
   }
 })
 
+useHead({
+  title: t("titleOfSite"),
+})
 </script>
 
 <template>
@@ -72,7 +75,11 @@ const mapPosition = computed(() => {
       }"
     >
       <template #header> {{ $t("breweryMap") }} </template>
-      <UTabs :items="tabItems" :orientation="tabOrientation" :ui="{ wrapper: mapPosition + ' gap-4' }">
+      <UTabs
+        :items="tabItems"
+        :orientation="tabOrientation"
+        :ui="{ wrapper: mapPosition + ' gap-4' }"
+      >
         <template #item="{ item }">
           <div v-if="item.key === 'breweries-map'" class="primary">
             <div class="map-wrap">
@@ -80,14 +87,10 @@ const mapPosition = computed(() => {
             </div>
           </div>
           <div v-else-if="item.key === 'breweries-map-hotsprings'" class="space-y-3">
-            <div class="map-wrap">
-              Comming soon...
-            </div>
+            <div class="map-wrap">Comming soon...</div>
           </div>
           <div v-else-if="item.key === 'breweries-map-nature'" class="space-y-3">
-            <div class="map-wrap">
-              Comming soon...
-            </div>
+            <div class="map-wrap">Comming soon...</div>
           </div>
         </template>
       </UTabs>
