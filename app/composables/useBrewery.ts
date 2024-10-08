@@ -1,13 +1,14 @@
 import type { DocumentData, DocumentSnapshot } from "firebase/firestore"
 import { collection, query, where, orderBy } from "firebase/firestore"
 import type { Data } from "./useFirestore"
+import { normalize } from "@geolonia/normalize-japanese-addresses"
 
 const {
   db,
   getList: getListFirestore,
   getItem: getItemFirestore,
   addItem: addItemFirestore,
-  setItem,
+  setItem: setItemFirestore,
   deleteItem,
   getReference,
   getFromReference,
@@ -156,7 +157,41 @@ export const useBrewery = () => {
   }
 
   const addItem = async (params: Brewery) => {
+    if (params.address) {
+      await normalize(params.address).then((result) => {
+        var prefId = params.prefecture != null ? Number(params.prefecture) : -1
+        if (result.level > 1 && prefId != -1) {
+          params.prefecture = String(prefId)
+        }
+        if (result.level >= 3 && params.location === undefined) {
+          console.log("location")
+          params.location = {
+            latitude: result.lat,
+            longitude: result.lng,
+          }
+        }
+      })
+    }
     return await addItemFirestore(`breweries`, params)
+  }
+
+  const setItem = async (path: string, params: Brewery) => {
+    if (params.address) {
+      await normalize(params.address).then((result) => {
+        var prefId = params.prefecture != null ? Number(params.prefecture) : -1
+        if (result.level > 1 && prefId != -1) {
+          params.prefecture = String(prefId)
+        }
+        if (result.level >= 3 && params.location === undefined) {
+          console.log("location")
+          params.location = {
+            latitude: result.lat,
+            longitude: result.lng,
+          }
+        }
+      })
+    }
+    return await setItemFirestore(path, params)
   }
 
   return {

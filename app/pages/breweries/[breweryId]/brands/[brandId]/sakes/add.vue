@@ -2,6 +2,8 @@
 import { object, string, array, type InferType } from "yup"
 import type { FormSubmitEvent } from "#ui/types"
 
+const { t } = useI18n()
+const toast = useToast()
 const route = useRoute()
 const localePath = useLocalePath()
 const { getItem: getBrewery } = useBrewery()
@@ -39,6 +41,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   data.brand = state.brand
   data.brewery = state.brewery
   const ref = await addItem(data)
+  toast.add({ title: t("added"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/" + ref.path))
 }
 if (route.params.breweryId) {
@@ -56,34 +59,34 @@ if (route.params.breweryId) {
 </script>
 
 <template>
-    <div>
+  <div>
     <h1>{{ $t("addSake") }}</h1>
-    <hr>
+    <hr />
 
-  <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-    <UFormGroup :label="$t('name')" name="name">
-      <UInput v-model="state.name" />
-    </UFormGroup>
-    <UFormGroup :label="$t('brewery')" name="brewery">
-      {{ breweryName }}
-    </UFormGroup>
-    <UFormGroup :label="$t('brand')" name="brand">
-      {{ brandName }}
-    </UFormGroup>
-    <UFormGroup :label="$t('type')" name="type">
-      <TagSelect v-model="state.type" :options="sakeTypes" placeholder="" />
-    </UFormGroup>
-    <UFormGroup :label="$t('pairing')" name="pairing">
-      <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
-    </UFormGroup>
-    <UFormGroup :label="$t('explanation')" name="explanation">
-      <UInput v-model="state.description" />
-    </UFormGroup>
-    <UFormGroup :label="$t('url')" name="url">
-      <UInput v-model="state.url" />
-    </UFormGroup>
-    <UButton type="submit"> {{ $t("add") }} </UButton>
-    <UButton :to="localePath('/' + state.brand?.path)"> {{ $t("cancel") }}</UButton>
-  </UForm>
-</div>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormGroup :label="$t('name')" name="name">
+        <UInput v-model="state.name" />
+      </UFormGroup>
+      <UFormGroup :label="$t('brewery')" name="brewery">
+        {{ breweryName }}
+      </UFormGroup>
+      <UFormGroup :label="$t('brand')" name="brand">
+        {{ brandName }}
+      </UFormGroup>
+      <UFormGroup :label="$t('type')" name="type">
+        <TagSelect v-model="state.type" :options="sakeTypes" placeholder="" />
+      </UFormGroup>
+      <UFormGroup :label="$t('pairing')" name="pairing">
+        <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
+      </UFormGroup>
+      <UFormGroup :label="$t('explanation')" name="explanation">
+        <UInput v-model="state.description" />
+      </UFormGroup>
+      <UFormGroup :label="$t('url')" name="url">
+        <UInput v-model="state.url" />
+      </UFormGroup>
+      <UButton type="submit"> {{ $t("add") }} </UButton>
+      <UButton :to="localePath('/' + state.brand?.path)"> {{ $t("cancel") }}</UButton>
+    </UForm>
+  </div>
 </template>

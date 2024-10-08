@@ -7,12 +7,14 @@ const route = useRoute()
 const localePath = useLocalePath()
 const { getItem, deleteItem } = useBrewery()
 const { t } = useI18n()
+const toast = useToast()
 
 const brewery: Data<Brewery> = await getItem(`breweries/${route.params.breweryId}`)
 
 const confirmDelete = ref(false)
 async function deleteRecord() {
   await deleteItem(brewery.path)
+  toast.add({ title: t("deleted"), timeout: 2000, icon: "i-heroicons-check-circle" })
   await navigateTo(localePath("/breweries"))
 }
 
