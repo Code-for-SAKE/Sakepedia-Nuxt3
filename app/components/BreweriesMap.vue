@@ -54,9 +54,9 @@ const mapInitialized = async () => {
   const markers = {}
 
   for (const data of datas.list) {
-    const brewery = data
+    const brewery = data.data
     const marker = L.marker(
-      L.latLng(brewery.data.location.latitude, brewery.data.location.longitude),
+      L.latLng(brewery.location.latitude, brewery.location.longitude),
     )
     const link = '<a href="/breweries/' + data.id + '">' + brewery.name + "</a>"
 
@@ -67,7 +67,7 @@ const mapInitialized = async () => {
   // マーカーリストからクラスターグループを作成
   for (const pref in markers) {
     const markerCluster = L.markerClusterGroup({
-      removeOutsideVisibleBounds: true,
+      showCoverageOnHover: false,
       chunkedLoading: true,
       maxClusterRadius: 80,
       iconCreateFunction: function (cluster) {
