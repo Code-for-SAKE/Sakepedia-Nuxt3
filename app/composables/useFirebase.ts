@@ -1,7 +1,7 @@
 import { initializeApp, getApps } from "firebase/app"
 import type { FirebaseApp } from "firebase/app"
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions"
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore"
+import { getFirestore, connectFirestoreEmulator, initializeFirestore } from "firebase/firestore"
 import { getAuth, connectAuthEmulator } from "firebase/auth"
 import { getStorage, connectStorageEmulator } from "firebase/storage"
 
@@ -28,6 +28,7 @@ export const useFirebaseApp = (): FirebaseApp => {
       //const storage = getStorage();
       //connectStorageEmulator(storage, "localhost", 9199);
 
+      initializeFirestore(app, {ignoreUndefinedProperties: true})
       const db = getFirestore(app)
       connectFirestoreEmulator(db, "localhost", 8080)
 
