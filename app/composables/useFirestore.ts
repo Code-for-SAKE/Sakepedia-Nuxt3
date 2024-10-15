@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import type {
   DocumentData,
   DocumentReference,
@@ -48,6 +49,9 @@ export type Results<T> = {
 
 export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) => Data<T>
 
+const SEC_IN_HOUR = 3600 * 1000
+const DEFAULT_CACHE_EXPIRE = 10 * 24 * SEC_IN_HOUR  // 10日間
+
 /**
  * Firestore へのアクセス
  */
@@ -57,9 +61,9 @@ export const useFirestore = () => {
   const user = useUser()
 
   const _converterDateUser = <T>(snapshot: DocumentSnapshot<DocumentData, DocumentData>, data: Data<T>) => {
-    data.createdAt = snapshot.data()?.createdAt
+    data.createdAt = snapshot.data()?.createdAt?.toDate()
     data.createdUser = snapshot.data()?.createdUser
-    data.updatedAt = snapshot.data()?.updatedAt
+    data.updatedAt = snapshot.data()?.updatedAt?.toDate()
     data.updatedUser = snapshot.data()?.updatedUser
     return data
   }  
@@ -77,6 +81,25 @@ export const useFirestore = () => {
     const listSnapshot = await getCountFromServer(q)
     return listSnapshot.data().count
   }
+
+  /// キャッシュを取得 キャッシュが有効期限を切れていれば再作成
+  const getCache = async <T>(path: string, params:Params<T>, expire: number = DEFAULT_CACHE_EXPIRE) => {
+    const snapshot = await getDoc(doc(db, path))
+    const list: Data<T>[] = snapshot.data()?.list as Data<T>[]
+    const updatedAt = snapshot.data()?.updatedAt?.toDate()
+    
+    const diff = dayjs().diff(updatedAt)
+    console.log("diff expire", diff, expire)
+
+    if(updatedAt == undefined || diff > expire){
+      console.log("created cache")
+      getList(params).then((datas)=>{
+        setItem(path, {list: datas.list}, true)
+      })
+    }
+    return list
+  }
+
 
   const getList = async <T>(params: Params<T>) => {
     let q = params.query
@@ -166,6 +189,7 @@ export const useFirestore = () => {
     getCount,
     getList,
     getItem,
+    getCache,
     getReference,
     getFromReference,
     addItem,

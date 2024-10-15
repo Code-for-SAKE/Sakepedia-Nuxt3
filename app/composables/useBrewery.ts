@@ -9,6 +9,7 @@ const {
   getItem: getItemFirestore,
   addItem: addItemFirestore,
   setItem: setItemFirestore,
+  getCache: getCacheFirestore,
   deleteItem,
   getReference,
   getFromReference,
@@ -51,9 +52,19 @@ export type Brewery = {
   endYear: number | undefined
 }
 
+export type BreweryCache = {
+  path: string
+  name: string
+  prefecture: string | undefined
+  location: {
+    latitude: number | undefined
+    longitude: number | undefined
+  }
+}
+
 export type BreweryParams = {
   searchText: string
-  prefecture: string | undefined
+  prefecture?: string | undefined
   limit: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   before: any | undefined
@@ -105,6 +116,30 @@ export const useBrewery = () => {
         endYear: snapshot.data()?.endYear,
       },
     }
+  }
+
+  const cacheConverter = (snapshot: DocumentSnapshot<DocumentData, DocumentData>): Data<BreweryCache> => {
+    return {
+      path: snapshot.ref.path,
+      id: snapshot.id,
+      ref: snapshot.ref,
+      data: {
+        path: snapshot.ref.path,
+        name: snapshot.data()?.name,
+        prefecture: snapshot.data()?.prefecture,
+        location: snapshot.data()?.location,  
+      }
+    }
+  }
+
+  const getCache = async () => {
+    const coll = collection(db, collectionName)
+    return await getCacheFirestore<BreweryCache>(`cache/${collectionName}`, {
+      query: query(coll),
+      before: undefined,
+      limit: 2000,
+      converter: cacheConverter,
+    })
   }
 
   const getList = async (params: BreweryParams) => {
@@ -195,6 +230,7 @@ export const useBrewery = () => {
   }
 
   return {
+    getCache,
     getList,
     getItem,
     getBrandList,

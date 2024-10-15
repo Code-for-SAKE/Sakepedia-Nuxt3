@@ -25,7 +25,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css"
 import "leaflet.markercluster/dist/MarkerCluster.Default.css"
 import iconUrl from "~/assets/icons/sake.svg"
 
-const { getList } = useBrewery()
+const { getCache } = useBrewery()
 
 const zoom = ref(4)
 const map = ref(null)
@@ -44,17 +44,16 @@ const mapInitialized = async () => {
     shadowAnchor: [12, 18],
   })
 
-  const datas = await getList({
-    searchText: "",
-    before: undefined,
-    prefecture: 0,
-    limit: 2000,
-  })
+  //cacheAllList();
+  const datas = await getCache()
   // 酒蔵情報から都道府県ごとのマーカーリストを作成
   const markers = {}
 
-  for (const data of datas.list) {
+  for (const data of datas) {
     const brewery = data.data
+    if(brewery.location?.latitude == undefined
+      || brewery.location?.longitude == undefined) continue;
+
     const marker = L.marker(
       L.latLng(brewery.location.latitude, brewery.location.longitude),
     )
