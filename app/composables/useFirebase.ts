@@ -20,6 +20,7 @@ export const useFirebaseApp = (): FirebaseApp => {
   let app: FirebaseApp
   if (!getApps().length) {
     app = initializeApp(firebaseConfig)
+    initializeFirestore(app, {ignoreUndefinedProperties: true})
     const isEmulating = config.isEmulating ?? window.location.hostname == "localhost"
     if (isEmulating) {
       const auth = getAuth()
@@ -28,7 +29,6 @@ export const useFirebaseApp = (): FirebaseApp => {
       //const storage = getStorage();
       //connectStorageEmulator(storage, "localhost", 9199);
 
-      initializeFirestore(app, {ignoreUndefinedProperties: true})
       const db = getFirestore(app)
       connectFirestoreEmulator(db, "localhost", 8080)
 
