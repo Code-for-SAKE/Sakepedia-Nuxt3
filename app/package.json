@@ -14,7 +14,7 @@
     "prettier:write": "prettier ./**/*.{vue,js,ts} --write"
   },
   "dependencies": {
-    "@geolonia/normalize-japanese-addresses": "^2.10.1",
+    "@geolonia/normalize-japanese-addresses": "^3.0.0",
     "@nuxt/ui": "^2.17.0",
     "@nuxtjs/i18n": "^8.3.1",
     "@nuxtjs/seo": "^2.0.0-rc.10",
@@ -29,16 +29,16 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^0.3.13",
+    "@nuxt/eslint": "^0.6.0",
     "@types/leaflet.markercluster": "^1.5.4",
-    "@types/node": "^20.14.2",
+    "@types/node": "^22.7.5",
     "@vueuse/core": "^11.0.3",
     "@vueuse/nuxt": "^11.0.3",
     "eslint": "^9.5.0",
     "firebase-admin": "^12.1.1",
-    "firebase-functions": "^5.0.1",
+    "firebase-functions": "^6.0.1",
     "firebase-functions-test": "^3.3.0",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "typescript": "^5.4.5"
   }
 }
