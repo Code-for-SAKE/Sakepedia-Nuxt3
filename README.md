@@ -4,9 +4,10 @@
 [Readme in english](./README.en.md)
 
 # 環境
-Docker
-Nuxt3.11.1
-yarn
+- Docker
+- node v22.9.0
+- yarn 1.22.22
+- Nuxt3.11.1
 
 # setting
 
@@ -88,6 +89,7 @@ http://localhost:4000/
 ### nuxtコンテナ
 ```bash
 yarn build --preset=firebase
+firebase login --no-localhost
 npx firebase-tools deploy --project sakepedia-nuxt3
 ```
 
@@ -120,7 +122,6 @@ Prettier を使用しています
 ## ローカルemulatorのエクスポート
 
 ```
-rm -rf /opt/data/bkp
 firebase emulators:export /opt/data/bkp
 ```
 
@@ -180,7 +181,6 @@ http://localhost:3000/dumper
 ## firebaseコンテナでエミュレータのデータをエクスポート
 
 ```
-rm -rf /opt/data/bkp
 firebase emulators:export /opt/data/bkp
 ```
 
