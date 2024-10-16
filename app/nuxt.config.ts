@@ -1,17 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
+
   nitro: {
     firebase: {
       gen: 2,
     },
   },
+
   typescript: {
     strict: true,
   },
+
   runtimeConfig: {
-    isEmulating: true,
     public: {
+      isEmulating: true,
       firebaseApiKey: "",
       firebaseAuthDomain: "",
       firebaseProjectId: "",
@@ -21,8 +24,10 @@ export default defineNuxtConfig({
       firebaseMeasurementId: "",
     },
   },
+
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "nuxt3-leaflet", "@nuxtjs/i18n", "@nuxt/eslint", "@nuxtjs/seo"],
+
   /*
    ** nuxt-tailwindcss config
    */
@@ -31,40 +36,43 @@ export default defineNuxtConfig({
     exposeConfig: false,
     config: {},
   },
+
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
+          api: "modern-compiler",
           additionalData: '@use "~/assets/style/app.scss" as *;',
         },
       },
     },
   },
+
   i18n: {
     locales: [
       {
         code: "en",
-        iso: 'en',
+        language: 'en',
         name: "English",
       },
       {
         code: "ja",
-        iso: 'ja',
+        language: 'ja',
         name: "日本語",
       },
       {
         code: "ko",
-        iso: 'ko',
+        language: 'ko',
         name: "한국어",
       },
       {
         code: "zhHant",
-        iso: 'zh',
+        language: 'zh',
         name: "中文",
       },
       {
         code: "th",
-        iso: 'th',
+        language: 'th',
         name: "ภาษาไทย",
       },
     ],
@@ -77,11 +85,14 @@ export default defineNuxtConfig({
       redirectOn: "root", // recommended
     },
   },
+
   site: {
     // url: "", // 公開URLを記述する
     name: "Sakepedia Nuxt3",
     description: "みんなで作る日本酒オープンデータ",
     indexable: false, // 本番公開時には設定を変更する
   },
+
   ogImage: { enabled: false },
+  compatibilityDate: "2024-10-16",
 })
