@@ -51,9 +51,9 @@ const brands = await getBrandList({
 
 const schema: ObjectSchema<Post> = object({
   brewery: yup.string().required(),
-  brand: yup.string().default(""),
-  sake: yup.string().default(""),
-  comment: yup.string().default(""),
+  brand: yup.string().default("").nullable(),
+  sake: yup.string().default("").nullable(),
+  comment: yup.string().default("").nullable(),
   image: array().of(yup.string().required()).required(),
   mariages: array().of(yup.string().required()).required(),
 })

@@ -16,7 +16,7 @@ const breweryName = ref<string>("")
 const schema = object({
   name: string().required("名前は必須です"),
   brewery: object().required("酒蔵は必須です"),
-  description: string(),
+  description: string().nullable(),
 })
 
 type Schema = InferType<typeof schema>
