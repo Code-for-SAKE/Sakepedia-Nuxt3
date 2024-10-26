@@ -21,11 +21,11 @@ const schema = object({
   name: string().required("名前は必須です"),
   brewery: object().required("酒蔵は必須です"),
   brand: object().required("銘柄は必須です"),
-  subname: string(),
+  subname: string().nullable(),
   type: array().of(string().required()),
   mariages: array().of(string().required()),
-  description: string(),
-  url: string(),
+  description: string().nullable(),
+  url: string().nullable(),
 })
 
 type Schema = InferType<typeof schema>
