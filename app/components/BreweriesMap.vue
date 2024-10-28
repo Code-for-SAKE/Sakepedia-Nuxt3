@@ -57,7 +57,7 @@ const mapInitialized = async () => {
     const marker = L.marker(
       L.latLng(brewery.location.latitude, brewery.location.longitude),
     )
-    const link = '<a href="/breweries/' + data.id + '">' + brewery.name + "</a>"
+    const link = `<a href="/${data.path}">${brewery.name}</a>`
 
     marker.bindPopup(link)
     if (!markers[brewery.prefecture]) markers[brewery.prefecture] = []

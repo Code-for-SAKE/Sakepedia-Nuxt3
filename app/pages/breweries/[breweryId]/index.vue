@@ -54,7 +54,7 @@ useHead({
           "
           class="map-wrap col-12 col-lg-6 m-3"
         >
-          <BreweryMap :brewery="brewery.data" />
+          <BreweryMap :brewery="brewery" />
         </div>
         <p v-else>{{ $t("noLocation") }}</p>
       </dd>

@@ -4,7 +4,7 @@
       ref="map"
       :zoom="zoom"
       :max-zoom="18"
-      :center="[props.brewery.location.latitude, props.brewery.location.longitude]"
+      :center="[props.brewery.data.location.latitude ?? 139, props.brewery.data.location.longitude ?? 35]"
       @ready="mapInitialized"
     >
       <LTileLayer
@@ -22,7 +22,7 @@ import * as L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import iconUrl from "~/assets/icons/sake.svg"
 interface Props {
-  brewery: Brewery
+  brewery: Data<Brewery>
 }
 const props = defineProps<Props>()
 
@@ -44,9 +44,9 @@ const mapInitialized = async () => {
   })
 
   const marker = L.marker(
-    L.latLng(props.brewery.location.latitude, props.brewery.location.longitude),
+    L.latLng(props.brewery.data.location.latitude ?? 139, props.brewery.data.location.longitude ?? 35),
   )
-  const link = '<a href="/breweries/' + props.brewery.id + '">' + props.brewery.name + "</a>"
+  const link = `<a href="/${props.brewery.path}">${props.brewery.data.name}</a>`
 
   marker.bindPopup(link)
   marker.addTo(map.value.leafletObject)
