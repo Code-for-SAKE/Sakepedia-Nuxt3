@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["auth", "analytics"],
+  middleware: [],
 })
 
 const colorMode = useColorMode()
