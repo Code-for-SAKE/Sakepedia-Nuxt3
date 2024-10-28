@@ -1,6 +1,7 @@
-import type { DocumentData, DocumentSnapshot } from "firebase/firestore"
+import { GeoPoint, type DocumentData, type DocumentSnapshot } from "firebase/firestore"
 import { collection, query, where, orderBy } from "firebase/firestore"
 import type { Data } from "./useFirestore"
+import type { NormalizeResult } from "@types/@geolonia/normalize-japanese-addresses"
 import { normalize } from "@geolonia/normalize-japanese-addresses"
 
 const {
@@ -193,17 +194,15 @@ export const useBrewery = () => {
 
   const addItem = async (params: Brewery) => {
     if (params.address) {
-      await normalize(params.address).then((result) => {
-        var prefId = params.prefecture != null ? Number(params.prefecture) : -1
-        if (result.level > 1 && prefId != -1) {
-          params.prefecture = String(prefId)
+      await normalize(params.address).then((result: NormalizeResult) => {
+        const prefId = params.prefecture != null ? params.prefecture : undefined
+        if (result.level > 1 && prefId == undefined) {
+          console.log("prefectures", result)
+          params.prefecture = prefectures.find((e) => e.nameJa === result.pref)?.id
         }
         if (result.level >= 3 && params.location === undefined) {
           console.log("location")
-          params.location = {
-            latitude: result.lat,
-            longitude: result.lng,
-          }
+          params.location = new GeoPoint(result.point.lat,result.point.lng)
         }
       })
     }
@@ -212,17 +211,15 @@ export const useBrewery = () => {
 
   const setItem = async (path: string, params: Brewery) => {
     if (params.address) {
-      await normalize(params.address).then((result) => {
-        var prefId = params.prefecture != null ? Number(params.prefecture) : -1
-        if (result.level > 1 && prefId != -1) {
-          params.prefecture = String(prefId)
+      await normalize(params.address).then((result: NormalizeResult) => {
+        const prefId = params.prefecture != null ? params.prefecture : undefined
+        if (result.level > 1 && prefId == undefined) {
+          console.log("prefectures", result)
+          params.prefecture = prefectures.find((e) => e.nameJa === result.pref)?.id
         }
         if (result.level >= 3 && params.location === undefined) {
           console.log("location")
-          params.location = {
-            latitude: result.lat,
-            longitude: result.lng,
-          }
+          params.location = new GeoPoint(result.point.lat,result.point.lng)
         }
       })
     }
