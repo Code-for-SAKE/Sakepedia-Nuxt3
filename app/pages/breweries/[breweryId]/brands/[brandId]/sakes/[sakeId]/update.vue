@@ -5,7 +5,7 @@ import type { FormSubmitEvent } from "#ui/types"
 const { t } = useI18n()
 const route = useRoute()
 
-const { getItem: getBrewery } = useBrewery()
+const { getItem: getBrewery, getList: getBreweriesList, getBrandList } = useBrewery()
 const { getItem: getBrand } = useBrand()
 const { getItem, setItem } = useSake()
 const localePath = useLocalePath()
@@ -31,6 +31,44 @@ const schema = object({
 type Schema = InferType<typeof schema>
 
 const state = reactive<Sake>(sake.data)
+const newBrewery = ref<string>("")
+const newBrand = ref<string>("")
+
+const breweries = await getBreweriesList({
+  searchText: "",
+  before: undefined,
+  limit: 3000,
+}).then((breweries) => {
+  return breweries.list.map((brewery) => {
+    return {
+      path: brewery.path,
+      label: brewery.data.name,
+    }
+  })
+})
+
+const brands = ref<{ path: string; label: string }[]>([])
+async function onChangeBrewery(brewery: string | undefined | null) {
+  console.log("brewery", brewery)
+  if (!brewery) {
+    brands.value = []
+    return
+  }
+
+  brands.value = await getBrandList({
+    breweryId: String(brewery).replace("breweries/", ""),
+    searchText: "",
+    before: undefined,
+    limit: 100,
+  }).then((brands) => {
+    return brands.list.map((brand) => {
+      return {
+        path: brand.path,
+        label: brand.data.name,
+      }
+    })
+  })
+}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
@@ -51,6 +89,12 @@ if (route.params.breweryId) {
     brandName.value = brand.data.name
   }
 }
+
+if (!Array.isArray(state.type)) {
+  state.type = [state.type]
+}
+
+// onChangeBrewery(state.brewery?.path)
 </script>
 
 <template>
@@ -63,15 +107,42 @@ if (route.params.breweryId) {
       </UFormGroup>
       <UFormGroup :label="$t('brewery')" name="brewery">
         {{ breweryName }}
+        <USelectMenu
+          v-if="!breweryName"
+          v-model="newBrewery"
+          :options="breweries"
+          option-attribute="label"
+          value-attribute="path"
+          searchable
+          @change="onChangeBrewery(newBrewery)"
+        />
       </UFormGroup>
       <UFormGroup :label="$t('brand')" name="brand">
         {{ brandName }}
+        <USelectMenu
+          v-if="!brandName"
+          v-model="newBrand"
+          :options="brands"
+          option-attribute="label"
+          value-attribute="path"
+          searchable
+        />
       </UFormGroup>
       <UFormGroup :label="$t('type')" name="type">
-        <TagSelect v-model="state.type" :options="sakeTypes" placeholder="" />
+        <TagSelect
+          v-if="Array.isArray(state.type)"
+          v-model="state.type"
+          :options="sakeTypes"
+          placeholder=""
+        />
       </UFormGroup>
       <UFormGroup :label="$t('pairing')" name="pairing">
-        <TagSelect v-model="state.mariages" :options="appetizers" placeholder="" />
+        <TagSelect
+          v-if="Array.isArray(state.mariages)"
+          v-model="state.mariages"
+          :options="appetizers"
+          placeholder=""
+        />
       </UFormGroup>
       <UFormGroup :label="$t('explanation')" name="explanation">
         <UInput v-model="state.description" />
