@@ -7,7 +7,7 @@ const route = useRoute()
 
 const { getItem: getBrewery, getList: getBreweriesList, getBrandList } = useBrewery()
 const { getItem: getBrand } = useBrand()
-const { getItem, setItem } = useSake()
+const { getItem, setItem, moveItem } = useSake()
 const localePath = useLocalePath()
 const toast = useToast()
 
@@ -72,9 +72,20 @@ async function onChangeBrewery(brewery: string | undefined | null) {
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
-  await setItem(sake.path, event.data)
-  toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
-  await navigateTo(localePath("/" + sake.path))
+
+  if (newBrewery.value) {
+    await moveItem(sake.path, newBrewery.value, newBrand.value, event.data)
+    toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
+    await navigateTo(localePath("/" + newBrand.value))
+  } else if (newBrand.value) {
+    await moveItem(sake.path, `breweries/${route.params.breweryId}`, newBrand.value, event.data)
+    toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
+    await navigateTo(localePath("/" + newBrand.value))
+  } else {
+    await setItem(sake.path, event.data)
+    toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
+    await navigateTo(localePath("/" + sake.path))
+  }
 }
 
 if (route.params.breweryId) {
