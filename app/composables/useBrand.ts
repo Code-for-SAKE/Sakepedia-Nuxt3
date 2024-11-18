@@ -17,7 +17,7 @@ const { converter: converterSake } = useSake()
 
 export type Brand = {
   name: string
-  logo: string
+  logo: string | null | undefined
   description: string
   brewery: DocumentReference<DocumentData, DocumentData> | null
 }
@@ -104,6 +104,18 @@ export const useBrand = () => {
     })
   }
 
+  const moveItem = async (brandPath: string, breweryPath: string, params: Brand) => {
+    const _params = params
+    if (typeof breweryPath === "string") {
+      const path = breweryPath
+      _params.brewery = await getReference(path)
+    }
+
+    await addItemFirestore(`${breweryPath}/brands`, params)
+    //削除
+    await deleteItem(brandPath)
+  }
+
   return {
     getList,
     getItem,
@@ -114,5 +126,6 @@ export const useBrand = () => {
     deleteItem,
     converter,
     getSakeList,
+    moveItem,
   }
 }

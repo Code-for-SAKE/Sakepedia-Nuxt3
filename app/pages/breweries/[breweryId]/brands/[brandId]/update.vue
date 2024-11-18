@@ -5,30 +5,53 @@ import type { FormSubmitEvent } from "#ui/types"
 const { t } = useI18n()
 const route = useRoute()
 
-const { getItem: getBrewery } = useBrewery()
-const { getItem, setItem } = useBrand()
+const { getItem: getBrewery, getList: getBreweriesList } = useBrewery()
+const { getItem, setItem, moveItem } = useBrand()
 const localePath = useLocalePath()
 const toast = useToast()
 
 const brand = await getItem(`/breweries/${route.params.breweryId}/brands/${route.params.brandId}`)
+
+const breweries = await getBreweriesList({
+  searchText: "",
+  before: undefined,
+  limit: 3000,
+}).then((breweries) => {
+  return breweries.list.map((brewery) => {
+    return {
+      path: brewery.path,
+      label: brewery.data.name,
+    }
+  })
+})
+
 const breweryName = ref<string>("")
 
 const schema = object({
   name: string().required("名前は必須です"),
   brewery: object().required("酒蔵は必須です"),
   description: string().nullable(),
+  logo: string().nullable(),
 })
 
 type Schema = InferType<typeof schema>
 
 const state = reactive<Brand>(brand.data)
+const newBrewery = ref<string>("")
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with event.data
   console.log(event.data)
-  await setItem(brand.path, event.data)
-  toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
-  await navigateTo(localePath("/" + brand.path))
+
+  if (newBrewery.value) {
+    await moveItem(brand.path, newBrewery.value, event.data)
+    toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
+    await navigateTo(localePath("/" + newBrewery.value))
+  } else {
+    await setItem(brand.path, event.data)
+    toast.add({ title: t("updated"), timeout: 2000, icon: "i-heroicons-check-circle" })
+    await navigateTo(localePath("/" + brand.path))
+  }
 }
 
 if (route.params.breweryId) {
@@ -48,6 +71,14 @@ if (route.params.breweryId) {
       </UFormGroup>
       <UFormGroup :label="$t('brewery')" name="brewery">
         {{ breweryName }}
+        <USelectMenu
+          v-if="!breweryName"
+          v-model="newBrewery"
+          :options="breweries"
+          option-attribute="label"
+          value-attribute="path"
+          searchable
+        />
       </UFormGroup>
       <UFormGroup :label="$t('logo')" name="logo">
         <UInput v-model="state.logo" />

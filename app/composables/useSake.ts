@@ -1,5 +1,14 @@
 import type { DocumentData, DocumentReference, DocumentSnapshot } from "firebase/firestore"
-import { collectionGroup, query, where, orderBy, collection, documentId, doc, getDoc } from "firebase/firestore"
+import {
+  collectionGroup,
+  query,
+  where,
+  orderBy,
+  collection,
+  documentId,
+  doc,
+  getDoc,
+} from "firebase/firestore"
 import type { Data } from "./useFirestore"
 
 const {
@@ -61,9 +70,10 @@ export const useSake = () => {
     console.log("SakeParams", params)
     if (typeof params.limit !== "number" || params.limit < 0)
       throw new Error("express-paginate: `limit` is not a number >= 0")
-    const coll = (params.breweryId && params.brandId)
-      ? collection(db, `breweries/${params.breweryId}/brands/${params.brandId}/${collectionName}`)
-      : collectionGroup(db, collectionName)
+    const coll =
+      params.breweryId && params.brandId
+        ? collection(db, `breweries/${params.breweryId}/brands/${params.brandId}/${collectionName}`)
+        : collectionGroup(db, collectionName)
     // let snapshot;
     let q = query(coll, orderBy("name"))
     // snapshot = await getCountFromServer(query(coll));
@@ -90,6 +100,19 @@ export const useSake = () => {
     )
   }
 
+  const moveItem = async (
+    sakePath: string,
+    breweryPath: string,
+    brandPath: string,
+    params: Sake,
+  ) => {
+    const _params = params
+
+    await addItemFirestore(`${brandPath}/sakes`, _params)
+
+    await deleteItem(sakePath)
+  }
+
   return {
     getList,
     getItem,
@@ -99,5 +122,6 @@ export const useSake = () => {
     setItem,
     deleteItem,
     converter,
+    moveItem,
   }
 }
