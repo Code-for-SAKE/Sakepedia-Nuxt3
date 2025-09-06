@@ -45,6 +45,7 @@ export type Params<T> = {
 export type Results<T> = {
   list: Data<T>[]
   listCount: number
+  endCursor: DocumentSnapshot | undefined
 }
 
 export type Converter<T> = (snapshot: DocumentSnapshot<DocumentData, DocumentData>) => Data<T>
@@ -113,8 +114,10 @@ export const useFirestore = () => {
     console.log("listCount", listCount)
 
     const list: Data<T>[] = []
+    let end = undefined
     querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
       list.push(_converterDateUser(doc, params.converter(doc)))
+      end = doc
     })
     console.log("list.length", list.length)
 
@@ -122,11 +125,13 @@ export const useFirestore = () => {
       return {
         list: list,
         listCount: listCount,
+        endCursor: end
       } as Results<T>
     }
     return {
       list: [],
       listCount: listCount,
+      endCursor: end
     } as Results<T>
   }
 
