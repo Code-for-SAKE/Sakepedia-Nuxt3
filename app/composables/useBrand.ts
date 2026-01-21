@@ -111,9 +111,11 @@ export const useBrand = () => {
       _params.brewery = await getReference(path)
     }
 
-    await addItemFirestore(`${breweryPath}/brands`, params)
+    const res = await addItemFirestore(`${breweryPath}/brands`, params)
     //削除
     await deleteItem(brandPath)
+
+    return res
   }
 
   return {
